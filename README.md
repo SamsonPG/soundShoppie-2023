@@ -50,7 +50,7 @@ Configure the MongoDB connection by updating the MongoDB URI in the configuratio
 
 Start the server by running node server.js or npm start.
 
-Open your web browser and navigate to http://localhost:4000 to access the website.
+Open your web browser and navigate to http://localhost:3000 to access the website.
 
 Conclusion
 As my first independent project, the Headphones Shop Website aims to provide you with an enjoyable and seamless shopping experience. I offer an extensive range of headphones coupled with features such as OTP login, multiple payment options, category-based offers, and more. By utilizing technologies such as MongoDB, Express, Node.js, EJS, and Mongoose, I ensure a secure and efficient platform. Explore the website and discover the perfect pair of headphones that match your style and preferences!
