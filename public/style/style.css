@@ -1345,6 +1345,11 @@ button.switch-month:hover {
 .carousel-item {
   position: relative;
   padding: 0;
+    background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
 }
 .carousel-fade-image {
   width: 100vw;
