@@ -179,7 +179,7 @@ const renderAddProductPage = async (req, res) => {
     const categories = await Category.find({}).lean().exec();
 
     if (req.session.admin) {
-      res.render("admin/add_product", {
+      res.render("admin/add_Product", {
         title: "Add Product",
         categories,
         categoryError: null,
