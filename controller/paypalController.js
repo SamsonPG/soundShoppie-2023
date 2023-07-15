@@ -117,8 +117,8 @@ const payWithPayPal = async (req, res, next) => {
             payment_method: "paypal",
           },
           redirect_urls: {
-            return_url: "http://localhost:4000/success",
-            cancel_url: "http://localhost:4000/cancel",
+            return_url: "http://soundshoppie.de/success",
+            cancel_url: "http://soundshoppie.de/cancel",
           },
           transactions: [
             {
