@@ -1,0 +1,172 @@
+<%- include('../layout/partials/adminHeader') -%>
+<div class="d-flex justify-content-center align-items-center flex-column mt-5">
+  <div class="add-product">
+    <form
+      class="card-body form"
+      id="addProductForm"
+      action="/product/add"
+      method="post"
+      enctype="multipart/form-data"
+      onsubmit="return validateAddProductForm()"
+    >
+      <h3 class="card-title">Add Product</h3>
+      <div class="mb-3">
+        <label for="title" class="card-title">Title</label>
+        <input
+          class="form-control card-title input"
+          type="text"
+          id="title"
+          name="title"
+          autocomplete="off"
+          placeholder="Title"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="categoryId" class="card-title">Category</label>
+        <select
+          id="categoryId"
+          name="categoryId"
+          class="form-control card-title input"
+          required
+        >
+          <% categories.forEach(function(category) { %>
+          <option value="<%= category._id %>"><%= category.name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="card-title">Price</label>
+        <input
+          type="number"
+          id="price"
+          name="price"
+          class="form-control card-title input"
+          autocomplete="off"
+          placeholder="Price"
+          min="10"
+          step="0.01"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="offerprice" class="card-title">Offer Price</label>
+        <input
+          type="number"
+          id="offerprice"
+          name="offerprice"
+          class="form-control card-title input"
+          autocomplete="off"
+          placeholder="Offer Price"
+          min="0"
+          step="0.01"
+        />
+      </div>
+      <div class="form-group">
+        <label for="status" class="card-title">Offer Status</label>
+        <select
+          id="status"
+          name="status"
+          class="form-control card-title input"
+          required
+        >
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="card-title">Description</label>
+        <textarea
+          id="description"
+          name="description"
+          class="form-control card-title input"
+          rows="4"
+          placeholder="Description"
+          required
+        ></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="stock" class="card-title">Stock</label>
+        <input
+          type="number"
+          id="stock"
+          name="stock"
+          class="form-control card-title input"
+          autocomplete="off"
+          placeholder="Stock"
+          min="0"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="images" class="card-title">Images</label>
+        <input
+          type="file"
+          id="images"
+          name="images"
+          class="form-control card-title input"
+          accept="image/*"
+          multiple
+          required
+        />
+      </div>
+      <% if (message) { %>
+      <div id="msgs" class="alert alert-danger text-center">
+        <%= message.message %>
+      </div>
+      <% } %>
+      <button
+        type="submit"
+        class="btn btn-primary card-details-btn border-0"
+        style="width: 100%"
+      >
+        Add Product
+      </button>
+    </form>
+  </div>
+</div>
+<%- include('../layout/partials/adminFooter') -%>
+
+<script>
+  const priceInput = document.getElementById("price");
+  const offerPriceInput = document.getElementById("offerprice");
+
+  function updateOfferPricePlaceholder() {
+    const price = parseFloat(priceInput.value);
+    const maxOfferPrice = price * 0.3;
+    offerPriceInput.placeholder = `Offer Price (0 - ${maxOfferPrice})`;
+  }
+
+  priceInput.addEventListener("input", updateOfferPricePlaceholder);
+
+  function validateAddProductForm() {
+    const price = parseFloat(priceInput.value);
+    const offerPrice = parseFloat(offerPriceInput.value);
+    const stockInput = document.getElementById("stock");
+    let isValid = true;
+
+    if (price < 0) {
+      priceInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      priceInput.classList.remove("is-invalid");
+    }
+
+    if (offerPrice < 0 || offerPrice > price * 0.3) {
+      offerPriceInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      offerPriceInput.classList.remove("is-invalid");
+    }
+
+    if (parseInt(stockInput.value) < 0) {
+      stockInput.classList.add("is-invalid");
+      isValid = false;
+    } else {
+      stockInput.classList.remove("is-invalid");
+    }
+
+    return isValid;
+  }
+</script>

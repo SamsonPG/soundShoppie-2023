@@ -1,0 +1,406 @@
+<%- include('../layout/partials/userHeader') -%> 
+
+
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-sm-8">
+      <div class="d-flex flex-column pt-4">
+        <div>
+          <h5 class="text-uppercase font-weight-bold">
+            Your Love For The Sound
+          </h5>
+        </div>
+        <div class="font-weight-bold"><%= cartLength %> items</div>
+      </div>      
+      <% if (message) { %>
+        <div id="msgs" class="alert alert-info text-center"><%= message %></div>
+      <% } %>
+      
+      <div class="cart-items admin-tables">
+        <% if (cart && cart.products.length > 0) { %>  <h3 class="card-title">Your Cart</h3>
+        <div class="table-responsive">
+          <table id="example" class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col" class="text-center">IMAGE</th>
+                <th scope="col" class="text-center">PRODUCT NAME</th>
+                <th scope="col" class="text-center">PRICE</th>
+                <th scope="col" class="text-center">QUANTITY</th>
+                <th scope="col" class="text-center">TOTAL</th>
+                <th scope="col" class="text-center">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% cart.products.forEach((item) => { %>
+              <tr class="cart-item" data-id="<%= item._id %>">
+                <td class="text-center">
+                  <div class="item-image">
+                    <% if (item && item.product.images &&
+                    item.product.images.length > 0) { %>
+                    <img
+                      src="/uploads/product/<%= item.product.images[0] %>"
+                      alt="Product Image"
+                      height="100px"
+                      width="100px"
+                      fit="cover"
+                    />
+                    <% } else { %>
+                    <img
+                      src="/uploads/product/defaultCart.png"
+                      alt="Default Image"
+                      height="100px"
+                      width="100px"
+                      fit="cover"
+                    />
+                    <% } %>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <div class="item-details">
+                    <h6 class="item-title">
+                      <%= item.product.title || "Product Not Found" %>
+                    </h6>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <% if (item.finalprice > 0){%>
+                  <p class="item-price">₹<%= item.finalprice || "NaN" %></p>  
+                   <del>₹<%= item.product.price || "NaN" %></del>
+                   <%} else {%> <p class="item-price">₹<%= item.product.price || "NaN" %></p>  <%}%>
+                </td>
+                <td class="text-center">
+                  <div class="item-quantity d-flex">
+                    <span class="mr-2">Qty: </span>
+                    <button
+                      class="decrement-btn btn btn-sm btn-danger"
+                      data-id="<%= item._id %>"
+                    >
+                      -
+                    </button>
+                    <span class="quantity-value mr-2 ml-2"
+                      ><%= item.quantity || "Not Available" %></span
+                    >
+                    <button
+                      class="increment-btn btn btn-sm btn-success"
+                      data-id="<%= item._id %>"
+                    >
+                      +
+                    </button>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <% if (item.finalprice > 0){%>
+                    <p class="item-total">₹<%= (item.finalprice && item.quantity) ?
+                      item.finalprice * item.quantity : "NaN" %></p>  
+                     <del>₹<%= (item.product.price && item.quantity) ?
+                      item.product.price * item.quantity : "NaN" %></del>
+                     <%} else {%> 
+                      <p class="item-total">   ₹<%= (item.product.price && item.quantity) ?
+                      item.product.price * item.quantity : "NaN" %></p>  
+                      <%}%>
+                 
+                
+                </td>
+                <td class="text-center">
+                  <button
+                    class="delete-btn btn btn-sm btn-danger"
+                    data-id="<%= item._id %>"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="total-amount d-flex justify-content-center align-items-center"
+        ></div>
+        <div
+          class="total-amount d-flex justify-content-center align-items-center admin-tables"
+          style="background: #ffffff"
+        >
+          <h5 class="p-1">
+            <i class="fa-solid fa-sack-dollar"></i> Total Amount: ₹<%=
+            totalAmount %>
+          </h5>
+
+          <h4 class="p-1">
+            <i class="fa-solid fa-sack-dollar"></i> Payable Net Total: ₹<%=
+            deductedTotalAmount %>
+          </h4>
+        </div>
+      </div>      <div class="admin-tables">
+       
+
+        <% if (cart.coupon.code) { %>
+          <p>Coupon already applied...</p>
+        <% } else { %>
+      
+          <% if (!eligibleCoupons || eligibleCoupons.length === 0 ) { %>
+            <p>Add a little more to the cart to unlock more coupons...</p>
+          <% } else { %>
+            <h4 class="card-title">Available Coupons for Your Order</h4>
+            <p>*Copy the coupon code to the Redeem box and apply the coupon.</p>
+            <div class="scroll-container">
+              <div class="row">
+                <% eligibleCoupons.forEach(function(eligibleCoupon) { %>
+                  <div class="col-md-4">
+                    <div class="coupon-box" style="background-color: <%= eligibleCoupon.color %>;">
+                      <% if (eligibleCoupon.coupon) { %>
+                        <div class="coupon-box-inner">
+                          <span class="coupon-amount">Coupon Code:</span>
+                          <h5 class="coupon-code"><%= eligibleCoupon.coupon.code %></h5>
+                          <span class="coupon-amount">Discount: <b>₹ <%= eligibleCoupon.coupon.discount %></b></span>
+                        </div>
+                      <% } else { %>
+                        <p>No coupon available</p>
+                      <% } %>
+                    </div>
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          <% } %>
+          <% } %>
+        
+       
+      </div>
+     
+    </div>
+
+    <div class="col-sm-4 mt-5 p-2">
+      <% if (user.addresses && user.addresses.length > 0) { %>
+      <div class="apply-coupon admin-tables mt-5"><h3 class="card-title">Wallet & Coupons</h3>
+        <h6 class=" m-3">
+          <i class="fa-solid fa-wallet"></i> From Wallet: ₹<span id="cart-total"
+            ><%= walletAmount %></span
+          >
+        </h6>
+        <h6 class="m-3">
+          *Total Wallet: ₹<span id="cart-total"><%= wallet.balance %></span>
+        </h6> <% if (wallet.balance >0) { %> <h6 class="m-3">
+          *new Wallet Balance: ₹<span><%= newWalletBalance %></span>
+        </h6><% } %>
+        <h6 class="m-3">
+          <i class="fa-sharp fa-solid fa-tags"></i> Apply Coupon:
+        </h6>
+      
+        <form id="apply-coupon-form" action="/apply-coupon" method="post">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter coupon code"
+              id="coupon-input"
+              name="couponCode"
+            />
+            <div class="input-group-append">
+              <button class="apply-coupon-btn btn btn-primary" type="submit">
+                Redeem
+              </button>
+            </div>
+          </div>
+        </form>
+        
+        <script>
+          document.getElementById("apply-coupon-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+        
+            var couponCode = document.getElementById("coupon-input").value; // Get the value entered in the input field
+        
+            // Perform client-side validation of the coupon code
+            if (!couponCode) {
+              // Display an error message or perform any desired action for an empty coupon code
+                return;
+            }
+        
+            if (couponCode.length < 3 || couponCode.length > 5) {
+              // Display an alert or perform any desired action for an invalid coupon length
+              alert("Invalid coupon code length. Coupon code must be between 3 and 5 characters.");
+              return;
+            }
+        
+            // The form will be submitted with the entered coupon code
+            this.submit();
+          });
+        </script>
+        <% if (cart.coupon.code) { %>
+         <h6 class="m-3">
+          Appleid Coupon: <span id="cart-total"><%= cart.coupon.code %></span>
+        </h6><h6 class="m-3">
+          Discount: ₹<span id="cart-total"><%= cart.coupon.discount %></span>
+        </h6>
+        <% } %>
+      
+      </div>
+     
+      <div class="admin-tables">
+        <form action="/user/checkOut/<%= user._id %>" method="GET"><h3 >Proceed to Checkout</h3> 
+          <h6 class="p-1">
+          <i class="fa-solid fa-sack-dollar"></i> Payable Net Total: ₹<%=
+          deductedTotalAmount %>
+        </h6>
+          <button
+            type="submit"
+            class="btn btn-primary border-0 m-3"
+            style="
+              display: inline-block;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              background-color: #c9bc43;
+              color: #fff;
+              padding: 10px;
+              border-radius: 50px;
+              text-decoration: none;
+              text-align: center;
+              transition: background-color 0.3s ease;
+            "
+          >
+            Checkout
+          </button>
+        </form>
+      </div>
+
+      <% } else { %>
+      <div class="apply-coupon admin-tables mt-5"><h3 class="card-title">Wallet & Coupons</h3>
+        <h5 class="m-3">Apply Coupon:</h5>
+      
+        <form id="apply-coupon-form" action="/apply-coupon" method="post">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter coupon code"
+              id="coupon-input"
+              name="couponCode"
+            />
+            <div class="input-group-append">
+              <button class="apply-coupon-btn btn btn-primary" type="submit">
+                Redeem
+              </button>
+            </div>
+          </div>
+        </form>
+        <% if (cart.coupon.code) { %>
+          <h6 class="m-3">
+           Appleid Coupon: <span id="cart-total"><%= cart.coupon.code %></span>
+         </h6><h6 class="m-3">
+           Discount: ₹<span id="cart-total"><%= cart.coupon.discount %></span>
+         </h6>
+         <% } %>
+       
+        
+      </div>
+      <div class="admin-tables">
+        <form action="/user/address/<%= user._id %>" method="GET">
+          <button
+            type="submit"
+            class="btn btn-primary border-0 m-3"
+            style="
+              display: inline-block;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              background-color: #c9bc43;
+              color: #fff;
+              padding: 10px;
+              border-radius: 50px;
+              text-decoration: none;
+              text-align: center;
+              transition: background-color 0.3s ease;
+            "
+          >
+            Add Address
+          </button>
+        </form>
+        <% } %>     
+  
+      </div>
+    </div>
+
+    <script>
+      // Increment quantity
+      document.querySelectorAll(".increment-btn").forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          const itemId = event.target.dataset.id;
+          // Redirect the user to the server endpoint to increment the quantity
+          window.location.href = `/cart/increment/${itemId}`;
+        });
+      });
+
+      // Decrement quantity
+      document.querySelectorAll(".decrement-btn").forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          const itemId = event.target.dataset.id;
+          const quantityElement = event.target.nextElementSibling;
+          const currentQuantity = parseInt(quantityElement.textContent);
+
+          if (currentQuantity === 1) {
+            if (
+              !window.confirm(
+                "Are you sure you want to delete this item from the cart?"
+              )
+            ) {
+              return; // User canceled the deletion, do nothing
+            }
+          }
+
+          // Redirect the user to the server endpoint to decrement the quantity
+          window.location.href = `/cart/decrement/${itemId}`;
+        });
+      });
+
+      // Delete product
+      document.querySelectorAll(".delete-btn").forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          const itemId = event.target.dataset.id;
+          // Show an alert to confirm before deleting the product
+          if (
+            !window.confirm(
+              "Are you sure you want to delete this item from the cart?"
+            )
+          ) {
+            return; // User canceled the deletion, do nothing
+          }
+          // Redirect the user to the server endpoint to delete the product from the cart
+          window.location.href = `/cart/delete/${itemId}`;
+        });
+      });
+
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
+
+    <script>
+      jQuery(document).ready(function ($) {
+        // Your DataTables initialization code here
+        $("#example").DataTable();
+      });
+      $(document).ready(function () {
+        $("example").DataTable({
+          order: [0, "desc"],
+        });
+      });
+    </script>
+  </div>
+  </div>
+
+<% } else { %>
+<div>
+  <h5>No items in the cart.</h5>
+</div></div></div></div></div> 
+
+
+
+
+
+
+
+
+
+
+
+<% } %> <%- include('../layout/partials/userFooter') -%>

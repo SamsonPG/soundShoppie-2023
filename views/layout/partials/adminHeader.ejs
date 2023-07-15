@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />   <style>
+      /* CSS for the spinner */
+      .spinner-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 9999;
+      }
+
+      /* CSS for the image */
+      .spinner-image {
+        width: 100px;
+      }
+    </style> <link href="/public/style/style.css" rel="stylesheet" />
+    <link href="/public/script/script.js" rel="JavaScript"/>   <!-- bootstrap 5 css -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    /><!-- Bootstrap CSS -->
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous"
+      />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+      />
+
+      <title><%= locals.title?title:'soundShoppie' %></title>
+    </li><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  </head>
+ <!-- Loading spinner -->
+ <div id="loading-spinner" class="spinner-container">
+  <img
+    class="spinner-image"
+    src="/public/images/SOUNDSHOPPIE LOGO BLACK.png"
+    alt="soundShoppie Loading..."
+  />
+</div>
+<script>
+  // Remove the spinner element when the page has finished loading
+  window.addEventListener("load", function () {
+    var spinner = document.getElementById("loading-spinner");
+    spinner.parentNode.removeChild(spinner);
+  });
+</script>
+<script>
+  function next() {
+    window.history.forward();
+  }
+
+  function previous() {
+    window.history.back();
+  }
+</script>
+    <header>
+
+      
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color: #c9bc43">
+        <div class="container">
+          <button type="button" class="btn btn-warning" onClick="previous()" id="backward"
+            style="background-color: #c9bc43; border: none; font-size: 20px">
+            &#10094;
+          </button>
+          <!-- Logo -->
+          <a href="#!" class="navbar-brand">
+            <img src="/public/images/SOUNDSHOPPIE LOGO BLACK.png" height="35" alt="Logo">
+          </a>
+      
+          <!-- Navbar toggler -->
+          <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <!-- Navbar links -->
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <!-- Left elements -->
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/admin">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/users">Users</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/category">Category</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/products">Products</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/orders">Orders</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/sales-report">Sales</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/coupons">Coupons</a>
+              </li>     
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/carousel_table">Carousel</a>
+              </li>
+            </ul>
+      
+            <!-- Right elements -->
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="22" alt="User">
+                  Admin
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+               
+                   <a class="dropdown-item" href="/">Home</a>
+               
+                  <a class="dropdown-item" href="/adminlogout">Log Out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <button type="button" class="btn btn-warning" onclick="next()" id="forward"
+            style="background-color: #c9bc43; border: none; font-size: 20px">
+            &#10095;
+          </button>
+        </div>
+      </nav>
+      
+      <script>
+        // Check the screen width on page load and collapse the navbar on mobile screens
+        window.addEventListener("load", function() {
+          if (window.innerWidth < 768) {
+            var navbarToggler = document.querySelector(".navbar-toggler");
+            navbarToggler.classList.add("collapsed");
+            navbarToggler.setAttribute("aria-expanded", "false");
+      
+            var navbarCollapse = document.querySelector(".navbar-collapse");
+            navbarCollapse.classList.remove("show");
+          }
+        });
+      </script>
+      
+
+    </header>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+
+</body>
+</html><link rel="stylesheet" href="/public/style/sidebar.css" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.1/nouislider.min.css"
+/><script src="https://unpkg.com/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<body>
+  <!-- Side-Nav -->
+
+
+<div class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column" id="sidebar">
+  <div class="scroll-plane" style="background-color:#4ca1af;">
+    <ul class="nav flex-column text-white align-items-start ml-4">
+      <li class="btn nav-link mt-5 py-5 mb-1" id="close-btn">
+        <button class="btn btn-primary" style="border: none; background-color: transparent;">
+          <i class="fa-solid fa-user-secret fa-2xl" style="background-color:rgb(255, 255, 255);" aria-hidden="true"></i> A d m i n
+        </button>
+      </li>
+      <li>
+        <h2 class="card-title text-white">Dashboard</h2>
+      </li>
+      <li>
+        <div class="flex-grow-1">
+          <h4 class="card-title text-white">
+            <a class="nav-link active" aria-current="page" href="/admin">Home</a>
+          </h4>
+        </div>
+      </li>
+      <li>
+        <div class="flex-grow-1">
+          <h4 class="card-title text-white">
+            <a class="nav-link active" href="/admin/users" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="usersCollapse" >Users</a>
+          </h4>
+      
+        </div>
+      </li>
+      <li>
+        <div class="flex-grow-1">
+          <h4 class="card-title text-white">
+            <a class="nav-link active" href="/admin/category" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="categoryCollapse" onclick="navigateTo('#categoryCollapse')">Category</a>
+          </h4>
+          <div class="collapse" id="categoryCollapse">
+            <ul>
+              <li><a class="nav-link" href="/category/add">Add Categories</a></li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="flex-grow-1">
+          <h4 class="card-title text-white">
+            <a class="nav-link active" href="/admin/products" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="productsCollapse" onclick="navigateTo('#productsCollapse')">Products</a>
+          </h4>
+          <div class="collapse" id="productsCollapse">
+            <ul>
+              <li><a class="nav-link" href="/product/add">Add Product</a></li>
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="flex-grow-1">
+          <h4 class="card-title text-white">
+            <a class="nav-link active" href="/admin/orders" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="ordersCollapse" onclick="navigateTo('#ordersCollapse')">Orders</a>
+          </h4>
+          <div class="collapse" id="ordersCollapse">
+            <ul>
+
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="flex-grow-1">
+          <h4 class="card-title text-white">
+            <a class="nav-link active" href="/admin/sales-report" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="salesCollapse" onclick="navigateTo('#salesCollapse')">Sales</a>
+          </h4>
+          <div class="collapse" id="salesCollapse">
+            <ul>
+
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="flex-grow-1">
+          <h4 class="card-title text-white">
+            <a class="nav-link active" href="/admin/coupons" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="couponsCollapse" onclick="navigateTo('#couponsCollapse')">Coupons</a>
+          </h4>
+          <div class="collapse" id="couponsCollapse">
+            <ul>
+              <li><a class="nav-link" href="/coupon/add">Add Coupon</a></li>
+            </ul>
+          </div>
+        </div>
+      </li>      <li>
+        <div class="flex-grow-1">
+          <h4 class="card-title text-white">
+            <a class="nav-link active" href="/admin/carousel_table" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="carouselCollapse" onclick="navigateTo('#carouselCollapse')">Carousel</a>
+          </h4>
+          <div class="collapse" id="carouselCollapse">
+            <ul>
+              <li><a class="nav-link" href="/carousel/add">Add Carousel</a></li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="m-5"></div>
+  </div>
+</div>
+
+
+<script>
+  function navigateTo(targetId) {
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      const isCollapsed = targetElement.classList.contains('show');
+      if (isCollapsed) {
+        targetElement.classList.remove('show');
+      } else {
+        targetElement.classList.add('show');
+      }
+    }
+  }
+
+  function highlightActiveMenuItem() {
+    const currentPath = window.location.pathname;
+    const menuItems = document.querySelectorAll(".nav-link");
+    let isActiveMenuItem = false;
+
+    menuItems.forEach((menuItem) => {
+      const menuItemPath = menuItem.getAttribute("href");
+      if (currentPath === menuItemPath) {
+        menuItem.parentElement.classList.add("active");
+        isActiveMenuItem = true;
+
+        const parentSubMenu = menuItem.closest(".collapse");
+        if (parentSubMenu) {
+          parentSubMenu.classList.add("show");
+        }
+      }
+    });
+
+    if (!isActiveMenuItem && menuItems.length > 0) {
+      const lastMenuItem = menuItems[menuItems.length - 1];
+      lastMenuItem.parentElement.classList.add("active");
+    }
+  }
+
+  highlightActiveMenuItem();
+</script>
+
+
+  </div>
+
+  <!-- Main Wrapper -->
+  <div class="p-1 my-container active-cont">
+    <!-- Top Nav -->
+    <nav class="navbar navbar-fixed-top navbar-default px-5 mb-4">
+      <a class="btn border-0" id="menu-btn"><i class="fa-solid fa-bars"></i></a>
+    </nav>
+    <!--End Top Nav -->
+
+    <div id="app"class="ml-5">

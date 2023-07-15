@@ -1,0 +1,717 @@
+<%- include('../layout/partials/userHeader') -%><head>
+  <style>
+    .accordion .card {
+      border: none;
+      border-radius: 50px;
+      /* margin-bottom: 20px; */
+      overflow: hidden;
+    }
+
+    .accordion .card-header {
+      /* margin-bottom: 5px; */
+      margin: 0;
+      border-radius: 50px;
+    }
+
+    .accordion .card-body {
+      border: none;
+      /* margin-top: 20px;
+          margin-bottom: 20px; */
+      margin: 10px;
+      border-radius: 5px;
+      background-color: #f7f7f7;
+      /* padding: 10px;
+          padding: 30px; */
+    }
+  </style>
+</head>
+<div class="container">
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="text-center">
+      <h3 class="card-title mt-5">Place Your Order</h3>
+    </div>
+  </div>
+
+  <div class="row"><% let paymentOption; %>
+
+    <div class="col-md-8">
+      <div class="container bg-white rounded-top" id="zero-pad">
+        <div class="row d-flex justify-content-center">
+          <div class="checkOut pt-3">
+            <div class="checkout-section">
+              <div class="cart-items admin-tables">
+                <h3 class="card-title">Cart Items</h3>
+                <% if (cart && cart.products.length > 0) { %>
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-center">IMAGE</th>
+                        <th scope="col" class="text-center">PRODUCT NAME</th>
+                        <th scope="col" class="text-center">PRICE</th>
+                        <th scope="col" class="text-center">QUANTITY</th>
+                        <th scope="col" class="text-center">TOTAL</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% cart.products.forEach((item) => { %>
+                      <tr class="cart-item" data-id="<%= item._id %>">
+                        <td class="text-center">
+                          <div class="item-image">
+                            <% if (item && item.product.images &&
+                            item.product.images.length > 0) { %>
+                            <img
+                              src="/uploads/product/<%= item.product.images[0] %>"
+                              alt="Product Image"
+                              height="100px"
+                              width="100px"
+                              fit="cover"
+                            />
+                            <% } else { %>
+                            <img
+                              src="/uploads/product/defaultCart.png"
+                              alt="Default
+                            Image"
+                              height="100px"
+                              width="100px"
+                              fit="cover"
+                            />
+                            <% } %>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <div class="item-details">
+                            <h6 class="item-title">
+                              <%= item.product.title || "Product Not Found" %>
+                            </h6>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <% if (item.finalprice > 0){%>
+                            <p class="item-price">₹<%= item.finalprice || "NaN" %></p>  
+                             <del>₹<%= item.product.price || "NaN" %></del>
+                             <%} else {%> <p class="item-price">₹<%= item.product.price || "NaN" %></p>  <%}%>
+                       
+                        </td>
+                        <td class="text-center">
+                          <div class="item-quantity d-flex">
+                            <span class="mr-2">Qty: </span>
+                            <span class="quantity-value mr-2 ml-2"
+                              ><%= item.quantity || "Not Available" %></span
+                            >
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <% if (item.finalprice > 0){%>
+                            <p class="item-total">₹<%= (item.finalprice && item.quantity) ?
+                              item.finalprice * item.quantity : "NaN" %></p>  
+                             <del>₹<%= (item.product.price && item.quantity) ?
+                              item.product.price * item.quantity : "NaN" %></del>
+                             <%} else {%> 
+                              <p class="item-total">   ₹<%= (item.product.price && item.quantity) ?
+                              item.product.price * item.quantity : "NaN" %></p>  
+                              <%}%>
+                         
+                        </td>
+                      </tr>
+                      <% }) %>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="total-amount d-flex justify-content-center align-items-center" style="background: #ffffff">
+                  <div class="admin-tables" >
+                    <h5 class="p-1" name="totalAmount">
+                      <i class="fa-solid fa-sack-dollar"></i> Total Amount: ₹<%= totalAmount %>
+                    </h5>
+                
+                    <h4 class="p-1" name="deductedTotalAmount">
+                      <i class="fa-solid fa-sack-dollar"></i> Payable Net Total: ₹<%= deductedTotalAmount %>
+                    </h4>
+                  </div>
+                
+                  <div class="d-inline-block m-2" >
+                    <p class="p-1" name="walletAmount"id="walletDiv">
+                      <i class="fa-solid fa-sack-dollar"></i> From Wallet: ₹<%= walletAmount %>
+                      <% if (wallet.balance > 0) { %>
+                      <p class="p-1"id="walletDiv2">
+                        * <i class="fa-solid fa-sack-dollar"></i> new Wallet Balance: ₹<span><%= newWalletBalance %></span>
+                      </p>
+                      <% } %>
+                    </p>
+                  </div>
+                </div>
+                <% } else { %>
+                <h5>No items in the cart.</h5>
+                <% } %>
+              </div>
+              <% if (cart && cart.products.length > 0) { %>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <div
+                    class="container bg-white rounded-top d-flex flex-column h-100"
+                  >
+                    <div class="address-list">
+                      <div class="table-responsive admin-tables flex-grow-1">
+                        <div>
+                          <h3>User Details</h3>
+                        </div>
+                        <table class="table table-hover">
+                          <tbody>
+                            <tr>
+                              <td class="text-right">Name:</td>
+                              <td class="text-left"><%= user.name %></td>
+                            </tr>
+                            <tr>
+                              <td class="text-right">Email:</td>
+                              <td class="text-left"><%= user.email %></td>
+                            </tr>
+                            <tr>
+                              <td class="text-right">Phone:</td>
+                              <td class="text-left"><%= user.mobile %></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div
+                    class="container bg-white rounded-top d-flex flex-column h-100"
+                  >
+                    <div class="address-list">
+                      <div class="table-responsive admin-tables flex-grow-1">
+                        <% if (user.addresses && user.addresses.length > 0) { %>
+                        <div>
+                          <h3>Addresses</h3>
+                        </div>
+                        <table class="table table-hover">
+                          <tbody>
+                            <% user.addresses.forEach((address, index) => { %>
+                            <tr>
+                              <td>
+                                <div class="address-item">
+                                  <div class="address-item-header">
+                                    <input
+                                      type="radio"
+                                      id="address<%= index %>"
+                                      name="address"
+                                      value="<%= index %>"<%= index === 0 ? 'checked' : '' %>
+                                      required/>
+                                    <label for="address<%= index %>">
+                                      Address <%= index + 1 %>
+                                    </label>
+                                  </div>
+                                  <div class="address-item-details">
+                                    <p>
+                                      <%= address.houseName %>, <%=
+                                      address.street %>, <%= address.village %>,
+                                      <%= address.district %>, <%= address.state
+                                      %>, <%= address.pincode %>
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <% }) %>
+                          </tbody>
+                        </table>
+                        <form
+                          action="/user/address/<%= user._id %>"
+                          method="GET"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-primary border-0 m-3"
+                            style="
+                              display: inline-block;
+                              margin-top: 10px;
+                              margin-bottom: 10px;
+                              background-color: #c9bc43;
+                              color: #fff;
+                              padding: 10px;
+                              border-radius: 50px;
+                              text-decoration: none;
+                              text-align: center;
+                              transition: background-color 0.3s ease;
+                            "
+                          >
+                            Edit Address
+                          </button>
+                        </form>
+                        <% } else { %>
+                        <h5>No Address Found.</h5>
+                        <form
+                          action="/user/address/<%= user._id %>"
+                          method="GET"
+                        >
+                          <button
+                            type="submit"
+                            class="btn btn-primary border-0 m-3"
+                            style="
+                              display: inline-block;
+                              margin-top: 10px;
+                              margin-bottom: 10px;
+                              background-color: #c9bc43;
+                              color: #fff;
+                              padding: 10px;
+                              border-radius: 50px;
+                              text-decoration: none;
+                              text-align: center;
+                              transition: background-color 0.3s ease;
+                            "
+                          >
+                            Add Address
+                          </button>
+                        </form>
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <% if (cart && cart.products.length > 0) { %>
+        <div class="row mt-5">
+          <div class="col-lg-6">
+            <div class="container bg-white rounded-top">
+              <div class="col-lg-10 col-12 pt-3"></div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="container bg-white rounded-top"></div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+    <% if (cart && cart.products.length > 0) { %> 
+    <div class="col-md-4 mt-3">
+      <% if (wallet.balance > 0) { %>
+      <div class="container admin-tables d-flex align-items-center justify-content-center">
+        <div class="radio-buttons">
+          <h3 class="card-title mb-3">Wallet Options</h3>
+          <label>
+            <input type="radio" name="paymentOption" value="withWallet" onchange="changeColor(this)" required />
+            Payment With Wallet
+          </label>
+          <label>
+            <input type="radio" name="paymentOption" value="withoutWallet" onchange="changeColor(this)" required/>
+            Payment Without Wallet
+          </label>
+        </div>
+        <div id="color-changing-div" class="d-flex align-items-center justify-content-center m-1" style="width: 50px; height: 50px; border-radius: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+          <i class="fa-solid fa-wallet fa-xl" style="color: #ffffff;"></i>
+        </div>
+      </div><p>
+           
+        *Remember Your wallet will cover 50% of the order, if there is enough Balance
+      </p><%}%>
+    
+      <div class="container bg-white rounded-top" id="zero-pad">
+        <div class="add-product-payment">
+          <% if (user.addresses && user.addresses.length > 0) { %>
+          <!-- Payment Method - Cash on Delivery -->
+          <form
+            class="card-body form"
+            id="paymentForm"
+            action="/user/placeOrder/<%= user._id %>"
+            method="POST"
+          >
+            <input
+              type="hidden"
+              name="selectedAddressIndex"
+              id="selectedAddressIndexCOD"
+            />
+            <input type="hidden" name="userId" value="<%= user._id %>" />
+            <input type="hidden" name="paymentMethod" value="COD" />
+            <input
+              type="hidden"
+              name="totalAmount"
+              value="<%= totalAmount %>"
+            />
+            <input
+              type="hidden"
+              name="walletAmount"
+              value="<%= walletAmount %>"
+            />
+            <input
+              type="hidden"
+              name="deductedTotalAmount"
+              value="<%= deductedTotalAmount %>"
+            />
+            <input
+              type="hidden"
+              name="newWalletBalance"
+              value="<%= newWalletBalance %>"
+            />
+            <input type="hidden" name="paymentOption" id="hiddenPaymentOption" value="<%= paymentOption || 'withoutWallet' %>" />
+
+            <h3 class="card-title mb-3">Payment Options</h3>
+
+            <div class="accordion" id="paymentAccordion">
+              <div class="card">
+                <div class="card-header" id="cashHeading">
+                  <h2 class="mb-0">
+                    <button
+                      class="btn btn-link"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#cashCollapse"
+                      aria-expanded="false"
+                      aria-controls="cashCollapse"
+                    >
+                      <img
+                        src="/public/images/cash-on-delivery.png"
+                        style="height: 30px; width: 60px"
+                        alt="PayPal Logo"
+                        class="payment-logo"
+                      />
+                    </button>
+                  </h2>
+                </div>
+                <div
+                  id="cashCollapse"
+                  class="collapse show"
+                  aria-labelledby="cashHeading"
+                  data-parent="#paymentAccordion"
+                >
+                  <div class="card-body">
+                    <!-- Cash on Delivery details -->
+                    <p class="card-title">You have chosen Cash on Delivery.</p>
+                    <p class="card-title">
+                      Please keep the cash ready for delivery.
+                    </p>
+                    <button
+                      type="submit"
+                      class="btn btn-primary card-details-btn border-0"
+                      style="width: 100%"
+                   
+                    >
+                      Place Order
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Payment Method - PayPal -->
+          <form
+            class="card-body form"
+            id="paymentFormPayPal"
+            action="/user/order/paypal/pay/<%= user._id %>"
+            method="POST"
+          >
+            <input
+              type="hidden"
+              name="selectedAddressIndex"
+              id="selectedAddressIndexPayPal"
+            />
+            <input type="hidden" name="userId" value="<%= user._id %>" />
+            <input type="hidden" name="paymentMethod" value="PayPal" />
+            <input
+              type="hidden"
+              name="totalAmount"
+              value="<%= totalAmount %>"
+            />
+            <input
+              type="hidden"
+              name="walletAmount"
+              value="<%= walletAmount %>"
+            />
+            <input
+              type="hidden"
+              name="deductedTotalAmount"
+              value="<%= deductedTotalAmount %>"
+            />
+            <input
+              type="hidden"
+              name="newWalletBalance"
+              value="<%= newWalletBalance %>"
+            />
+            <input type="hidden" name="paymentOption" id="hiddenPaymentOption" value="<%= paymentOption || 'withoutWallet' %>" />
+            <div class="accordion" id="paymentAccordionPayPal">
+              <div class="card">
+                <div class="card-header" id="paypalHeading">
+                  <h2 class="mb-0">
+                    <button
+                      class="btn btn-link collapsed"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#paypalCollapse"
+                      aria-expanded="false"
+                      aria-controls="paypalCollapse"
+                    >
+                      <img
+                        src="/public/images/paypal-logo.png"
+                        style="height: 30px; width: 60px"
+                        alt="PayPal Logo"
+                        class="payment-logo"
+                      />
+                    </button>
+                  </h2>
+                </div>
+                <div
+                  id="paypalCollapse"
+                  class="collapse"
+                  aria-labelledby="paypalHeading"
+                  data-parent="#paymentAccordionPayPal"
+                >
+                  <div class="card-body">
+                    <!-- PayPal details -->
+                    <p class="card-title">
+                      Please complete the payment using PayPal:
+                    </p>
+                    <img
+                      src="/public/images/paypal-logo.png"
+                      style="width: 80px"
+                      alt="PayPal Logo"
+                      class="payment-logo"
+                    />
+                    <button
+                      type="submit"
+                      class="btn btn-primary card-details-btn border-0"
+                      style="width: 100%"
+                 
+                    >
+                      Make Payment with PayPal
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Payment Method - Razorpay -->
+          <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+          <!-- Payment Method - Card Details -->
+          <form
+            class="card-body form"
+            id="paymentFormRazorpay"
+            action="/user/order/razorpay/pay/<%= user._id %>"
+            method="POST"
+          >
+            <input type="hidden" name="paymentMethod" value="Razorpay" />
+            <input
+              type="hidden"
+              name="selectedAddressIndex"
+              id="selectedAddressRazorPay"
+            />
+            <input type="hidden" name="userId" value="<%= user._id %>" />
+            <input
+              type="hidden"
+              name="totalAmount"
+              value="<%= totalAmount %>"
+            />
+            <input
+              type="hidden"
+              name="walletAmount"
+              value="<%= walletAmount %>"
+            />
+            <input
+              type="hidden"
+              name="deductedTotalAmount"
+              value="<%= deductedTotalAmount %>"
+            />
+            <input
+              type="hidden"
+              name="newWalletBalance"
+              value="<%= newWalletBalance %>"
+            />    
+            <input type="hidden" name="paymentOption" id="hiddenPaymentOption" value="<%= paymentOption || 'withoutWallet' %>" />
+            <div class="accordion" id="paymentAccordionCard">
+              <div class="card">
+                <div class="card-header" id="cardHeading">
+                  <h2 class="mb-0">
+                    <button
+                      class="btn btn-link collapsed"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#cardCollapse"
+                      aria-expanded="false"
+                      aria-controls="cardCollapse"
+                    >
+                      <img
+                        src="/public/images/razorpay-icon.png"
+                        style="height: 20px; width: 60px"
+                        alt="Razorpay Logo"
+                        class="payment-logo"
+                      />
+                    </button>
+                  </h2>
+                </div>
+                <div
+                  id="cardCollapse"
+                  class="collapse"
+                  aria-labelledby="cardHeading"
+                  data-parent="#paymentAccordionCard"
+                >
+                  <div class="card-body">
+                    <!-- Card details -->
+                    <div class="mb-3">
+                      <p class="card-title">
+                        Please complete the payment using Razorpay:
+                      </p>
+                      <img
+                        src="/public/images/razorpay-icon.png"
+                        style="width: 80px"
+                        alt="PayPal Logo"
+                        class="payment-logo"
+                      />
+                      <div id="razorpay-container"></div>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn btn-primary card-details-btn border-0"
+                      style="width: 100%"
+                      onclick="submitRazorpayForm()"
+                    >
+                      Make Payment with Razorpay
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <% } %> <% if (locals.msg) { %>
+          <div id="msgs" class="alert alert-danger text-center"><%= msg %></div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <% }%>
+  </div>
+  
+<script>
+  const forms = document.querySelectorAll(".card-body.form");
+
+  forms.forEach((form) => {
+    form.addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get the selected radio button value
+      const selectedAddressIndex = document.querySelector(
+        'input[name="address"]:checked'
+      );
+
+      // Check if an address is selected
+      if (!selectedAddressIndex) {
+        // Show alert if no address is selected
+        alert("Please select an address.");
+        return;
+      }
+
+      // Get the corresponding hidden input field in the form
+      const selectedAddressIndexInput = this.querySelector(
+        'input[name="selectedAddressIndex"]'
+      );
+
+      // Assign the value to the hidden input field in the form
+      selectedAddressIndexInput.value = selectedAddressIndex.value;
+
+      // Check if the form is the exceptional case (paymentFormRazorpay)
+      if (form.id === "paymentFormRazorpay") {
+        submitRazorpayForm();
+      } else {
+        // Submit the form
+        this.submit();
+      }
+    });
+  });
+</script>
+
+ 
+  <script>
+    function submitRazorpayForm() {
+      const amountInPaise = "<%= totalAmount %>" * 100;
+  
+      // Get the selected radio button value
+      const selectedAddressIndex = document.querySelector(
+        'input[name="address"]:checked'
+      );
+  
+      // Check if an address is selected
+      if (!selectedAddressIndex) {
+        // Show alert if no address is selected
+        alert("Please select an address.");
+        return;
+      }
+  
+      fetch("/user/order/razorpay/pay/<%= user._id %>", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: "<%= user._id %>",
+          selectedAddressIndex: selectedAddressIndex.value,
+          paymentMethod: "Razorpay",
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const options = {
+            key: "rzp_test_v88GXrWhIaosUt",
+            amount: amountInPaise,
+            currency: data.currency,
+            name: "soundShoppie",
+            description: "Payment for your order",
+            order_id: data.orderId,
+            handler: function (response) {
+              // Handle the response after successful payment
+              
+              // Redirect to the appropriate route based on payment status
+        
+              if (response.razorpay_payment_id) {
+                const paymentStatus = "success";
+  
+                // Redirect to the success page with the payment status as a query parameter
+                window.location.href = `/success?paymentStatus=${paymentStatus}`;
+              } else {
+                window.location.href = "/failed";
+              }
+            },
+            prefill: {
+              name: "<%= user.name %>",
+              email: "<%= user.email %>",
+              contact: "<%= user.mobile %>",
+            },
+          };
+  
+          const rzp = new Razorpay(options);
+          rzp.open();
+        })
+        .catch((error) => {
+        });
+    }
+  </script>
+  
+</div>
+<script>
+  function changeColor(radio) {
+    var colorChangingDiv = document.getElementById('color-changing-div');
+    var walletDiv = document.getElementById('walletDiv');
+    var walletDiv2 = document.getElementById('walletDiv2');
+    var totalAmountDiv = document.querySelector('[name="totalAmount"]');
+    var deductedTotalAmountDiv = document.querySelector('[name="deductedTotalAmount"]');
+    var hiddenPaymentOption = document.getElementById('hiddenPaymentOption');
+    hiddenPaymentOption.value = radio.value;
+    
+    if (radio.value === 'withWallet') {
+      colorChangingDiv.style.backgroundColor = 'green';
+      walletDiv.style.display = 'block';walletDiv2.style.display = 'block';
+      totalAmountDiv.style.display = 'block';deductedTotalAmountDiv.style.display = 'block';
+    } else if (radio.value === 'withoutWallet') {
+      colorChangingDiv.style.backgroundColor = 'red';
+      walletDiv.style.display = 'none';walletDiv2.style.display = 'none';
+      deductedTotalAmountDiv.style.display = 'none';
+    }
+  }
+</script>
+
+<%- include('../layout/partials/userFooter') -%>

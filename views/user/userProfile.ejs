@@ -1,0 +1,165 @@
+<%- include('../layout/partials/userHeader') -%>
+<div class="container"><div class="row m-5">
+  <div class="widget-container">
+    <div class="col-sm">
+      <!-- Left Column -->
+      <!-- User Profile Section -->
+
+      <div class="card-body form">
+        <h3 class="card-title" style="color: white">
+          User Profile : <i><%= user.name %></i>
+        </h3>
+        <% if(message){ %>
+        <div id="msgs" class="alert text-center"><%= message %></div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm mt-5">
+    <!-- Middle Column -->
+    <!-- Update User Info Section -->
+
+    <div class="add-product-profile"style="
+    background-color:
+     
+      #e2d36b;
+    
+  ">
+      <div class="card-body form">
+        <div class="mb-3">
+          <div class="profile-picture-preview cover-image">
+            <% if (user.image) { %>
+            <img
+              src="/uploads/user/<%= user.image %>"
+              alt="Profile Picture"
+              class="profile-picture rounded-circle"
+              height="250px"
+              width="250px" 
+              fit="cover"
+            />
+            <% } else { %>
+            <div class="default-profile-picture rounded-circle">
+              <i class="fas fa-user"></i>
+            </div>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="add-product-profile-user p-3" style="
+        background-color: white;
+        
+      ">
+          <h3 class="card-title">User Details</h3>
+          <div class="mb-3">
+            <label for="name" class="card-title">Name:</label>
+            <p><%= user.name %></p>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="card-title">Email:</label>
+            <p><%= user.email %></p>
+          </div>
+          <div class="mb-3">
+            <label for="mobile" class="card-title">Mobile Number:</label>
+            <p><%= user.mobile %></p>
+          </div>
+        </div>
+
+        <% if(locals.msg){ %>
+        <div id="msgs" class="alert alert-danger text-center"><%= msg %></div>
+        <% } %>
+      </div>
+      <div class="add-product-profile-user p-3"style="
+    
+    background-color: #ecd36b;
+  
+  ">       
+        <div class="row">
+        <div class="col-sm-6"> 
+          <form action="/user/editProfile/<%= user._id %>" method="GET">
+            <button
+              type="submit"
+              class="btn btn-primary border-0 m-3 card-details-btn"
+             
+            >
+              Edit Profile
+            </button>
+          </form>
+        </div>
+        <div class="col-sm-6">
+          <form action="/user/oders/<%= user._id %>" method="GET">
+            <button
+              type="submit"
+              class="btn btn-primary border-0 m-3 card-details-btn"
+              
+            >
+              View Orders
+            </button>
+          </form>
+        </div>
+      </div>
+   
+        </div>
+       
+   
+      </div>
+    </div>
+    <div class="col-sm mt-5">
+      <!-- Right Column -->
+      <!-- Address Section -->
+      <div class="add-product-profile"style="
+      background-color:
+       
+      #e2d36b;
+      
+    ">
+        <div class="card-body form">
+          <h3 class="card-title">Address List</h3>
+          <% user.addresses.forEach((address) => { %>
+          <div class="col-sm">
+            <div class="address-table"style="
+            background-color: #ffffff;
+            
+          ">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <th scope="row">House Name:</th>
+                    <td><%= address.houseName %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Street:</th>
+                    <td><%= address.street %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Village:</th>
+                    <td><%= address.village %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">District:</th>
+                    <td><%= address.district %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">State:</th>
+                    <td><%= address.state %></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Pincode:</th>
+                    <td><%= address.pincode %></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center m-5">
+    <div class="col-12 col-md-8 d-flex"></div>
+  </div>
+</div></div>
+
+<%- include('../layout/partials/userFooter') -%>

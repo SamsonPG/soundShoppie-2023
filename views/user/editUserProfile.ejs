@@ -1,0 +1,565 @@
+<%- include('../layout/partials/userHeader') -%>
+<div class="container">
+  <div class="row m-5">
+    <% if(locals.message){ %>
+    <div id="msgs" class="alert alert-danger text-center"><%= message %></div>
+    <% } %>
+    <div class="col-sm-6">
+      <!-- Left Column -->
+      <!-- User Profile Section -->
+      <div class="add-product-profile">
+        <form
+          class="card-body form"
+          id="updateUserInfoForm"
+          action="/update-user-info/<%= user._id %>"
+          method="post"
+          onsubmit="return validateSignUpForm()"
+        >
+          <input type="hidden" name="userId" value="<%= user._id %>" />
+          <h3 class="card-title">Update User Information</h3>
+          <div class="mb-3">
+            <label for="name" class="card-title">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="form-control card-title input"
+              value="<%= user.name %>"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="card-title">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control card-title input"
+              value="<%= user.email %>"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="mobile" class="card-title">Mobile Number</label>
+            <input
+              type="text"
+              id="mobile"
+              name="mobile"
+              class="form-control card-title input"
+              value="<%= user.mobile %>"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary card-details-btn border-0"
+            style="width: 100%"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+      <div class="add-product-profile">
+        <form
+          class="card-body form"
+          id="image"
+          action="/update-profile-picture/<%= user._id %>"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <div class="card-body form">
+            <h3 class="card-title">Update User Profile</h3>
+            <div class="mb-3">
+              <div class="profile-picture-preview">
+                <% if (user.image) { %>
+                <img
+                  src="/uploads/user/<%= user.image
+                %>"
+                  alt="Profile Picture"
+                  class="profile-picture rounded-circle"
+                  height="250px"
+                  width="250px"
+                  fit="cover"
+                />
+                <% } else { %>
+                <div class="default-profile-picture">
+                  <i class="fas fa-user"></i>
+                </div>
+                <% } %>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <input
+                type="file"
+                id="image"
+                name="image"
+                accept="image/*"
+                class="form-control card-title input"
+                required
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary card-details-btn border-0"
+            style="width: 100%"
+          >
+            Upload
+          </button>
+        </form>
+      </div>
+      <div class="add-product-profile">
+        <form
+          class="card-body form"
+          id="changePasswordForm"
+          action="/change-password/<%= user._id %>"
+          method="post"
+          onsubmit="return validateSignUpForm()"
+        >
+          <input type="hidden" name="userId" value="<%= user._id %>" />
+          <h3 class="card-title">Change Password</h3>
+          <div class="mb-3">
+            <label for="oldPassword" class="card-title">Old Password</label>
+            <input
+              type="password"
+              id="oldPassword"
+              name="oldPassword"
+              class="form-control card-title input"
+              autocomplete="off"
+              placeholder="Old Password"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="newPassword" class="card-title">New Password</label>
+            <input
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              class="form-control card-title input"
+              autocomplete="off"
+              placeholder="New Password"
+              required
+            />
+          </div>
+          <% if(locals.msg){ %>
+          <div id="msgs" class="alert alert-danger text-center"><%= msg %></div>
+          <% } %>
+          <button
+            type="submit"
+            class="btn btn-primary card-details-btn border-0"
+            style="width: 100%"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <!-- Middle Column -->
+      <!-- Update User Info Section -->
+
+      <div class="add-product-profile">
+        <form
+          class="card-body"
+          id="addressForm"
+          action="/user/profile/address/<%= user._id %>"
+          method="post"
+          onsubmit="return validateAddressForm()"
+        >
+          <input type="hidden" name="addressIndex" value="0" />
+          <h3 class="card-title">Add Address</h3>
+          <div class="mb-3">
+            <input type="hidden" name="userId" value="<%= user._id %>" />
+            <label>Primary Address</label><br />
+            <label for="houseName" class="card-title">House Name</label>
+            <input
+              type="text"
+              id="houseName"
+              name="houseName"
+              class="form-control card-title input"
+              autocomplete="off"
+              placeholder="House Name"
+              value="<%= user.addresses && user.addresses.length > 0 ? user.addresses[0].houseName : '' %>"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="street" class="card-title">Street</label>
+            <input
+              type="text"
+              id="street"
+              name="street"
+              class="form-control card-title input"
+              autocomplete="off"
+              placeholder="Street"
+              value="<%= user.addresses && user.addresses.length > 0 ? user.addresses[0].street : '' %>"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="village" class="card-title">Village</label>
+            <input
+              type="text"
+              id="village"
+              name="village"
+              class="form-control card-title input"
+              autocomplete="off"
+              placeholder="Village"
+              value="<%= user.addresses && user.addresses.length > 0 ? user.addresses[0].village : '' %>"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="district" class="card-title">District</label>
+            <input
+              type="text"
+              id="district"
+              name="district"
+              class="form-control card-title input"
+              autocomplete="off"
+              placeholder="District"
+              value="<%= user.addresses && user.addresses.length > 0 ? user.addresses[0].district : '' %>"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="state" class="card-title">State</label>
+            <input
+              type="text"
+              id="state"
+              name="state"
+              class="form-control card-title input"
+              autocomplete="off"
+              placeholder="State"
+              value="<%= user.addresses && user.addresses.length > 0 ? user.addresses[0].state : '' %>"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="pincode" class="card-title">Pincode</label>
+            <input
+              type="text"
+              id="pincode"
+              name="pincode"
+              class="form-control card-title input"
+              autocomplete="off"
+              placeholder="Pincode"
+              value="<%= user.addresses && user.addresses.length > 0 ? user.addresses[0].pincode : '' %>"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary card-details-btn border-0"
+            style="width: 100%"
+          >
+            Submit
+          </button>
+        </form>
+
+        <div class="card-body hidden" id="secondAddressForm"></div>
+        <div class="text-center m-5">
+          <button
+            id="addAddressButton"
+            class="btn btn-primary border-0"
+            style="
+              background-color: #c9bc43;
+              color: #fff;
+              border-radius: 50px;
+              text-align: center;
+              width: 73%;
+              transition: background-color 0.3s ease;
+            "
+            onclick="toggleSecondForm()"
+          >
+            Add Another Address
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="add-product-profile"
+      style="
+        background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+      "
+    >
+      <div>
+        <div class="m-5">
+          <h4>Today's Inspirational Quote</h4>
+          <p id="quote" style="font-style: italic"><%= quote %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../layout/partials/userFooter') -%>
+<script>
+  function validateSignUpForm() {
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var mobile = document.getElementById("mobile").value;
+    var oldPassword = document.getElementById("oldPassword").value;
+    var newPassword = document.getElementById("newPassword").value;
+
+    // Validate name
+    if (name.trim() === "") {
+      alert("Please enter your name");
+      return false;
+    }
+
+    // Validate email
+    if (email.trim() === "") {
+      alert("Please enter your email");
+      return false;
+    }
+
+    // Validate mobile number
+    if (mobile.trim() === "") {
+      alert("Please enter your mobile number");
+      return false;
+    } else if (!/^\d{10}$/.test(mobile)) {
+      alert("Please enter a valid 10-digit mobile number");
+      return false;
+    }
+
+    // Validate password length
+    if (newPassword.trim().length < 8) {
+      alert("Password must be at least 8 characters long");
+      return false;
+    }
+
+    return true;
+  }
+
+  function validateAddressForm() {
+    var houseName = document.getElementById("houseName").value;
+    var street = document.getElementById("street").value;
+    var village = document.getElementById("village").value;
+    var district = document.getElementById("district").value;
+    var state = document.getElementById("state").value;
+    var pincode = document.getElementById("pincode").value;
+
+    // Validate house name
+    if (houseName.trim() === "") {
+      alert("Please enter your house name");
+      return false;
+    }
+
+    // Validate street
+    if (street.trim() === "") {
+      alert("Please enter your street");
+      return false;
+    }
+
+    // Validate village
+    if (village.trim() === "") {
+      alert("Please enter your village");
+      return false;
+    }
+
+    // Validate district
+    if (district.trim() === "") {
+      alert("Please enter your district");
+      return false;
+    }
+
+    // Validate state
+    if (state.trim() === "") {
+      alert("Please enter your state");
+      return false;
+    }
+
+    // Validate pincode
+    if (pincode.trim() === "") {
+      alert("Please enter your pincode");
+      return false;
+    } else if (!/^\d{6}$/.test(pincode)) {
+      alert("Please enter a valid 6-digit pincode");
+      return false;
+    }
+
+    return true;
+  }
+
+  function validateAddressForm2() {
+    var houseName = document.getElementById("houseName2").value;
+    var street = document.getElementById("street2").value;
+    var village = document.getElementById("village2").value;
+    var district = document.getElementById("district2").value;
+    var state = document.getElementById("state2").value;
+    var pincode = document.getElementById("pincode2").value;
+
+    // Validate house name
+    if (houseName.trim() === "") {
+      alert("Please enter your house name");
+      return false;
+    }
+
+    // Validate street
+    if (street.trim() === "") {
+      alert("Please enter your street");
+      return false;
+    }
+
+    // Validate village
+    if (village.trim() === "") {
+      alert("Please enter your village");
+      return false;
+    }
+
+    // Validate district
+    if (district.trim() === "") {
+      alert("Please enter your district");
+      return false;
+    }
+
+    // Validate state
+    if (state.trim() === "") {
+      alert("Please enter your state");
+      return false;
+    }
+
+    // Validate pincode
+    if (pincode.trim() === "") {
+      alert("Please enter your pincode");
+      return false;
+    } else if (!/^\d{6}$/.test(pincode)) {
+      alert("Please enter a valid 6-digit pincode");
+      return false;
+    }
+
+    return true;
+  }
+
+  function toggleSecondForm() {
+    var secondForm = document.getElementById("secondAddressForm");
+    var addButton = document.getElementById("addAddressButton");
+    secondForm.classList.toggle("hidden");
+    addButton.disabled = true;
+
+    if (!secondForm.classList.contains("hidden")) {
+      var newForm = createSecondForm();
+      secondForm.appendChild(newForm);
+    }
+  }
+
+  function createSecondForm() {
+    const form = document.createElement("form");
+    form.id = "addressForm2";
+    form.action = "/user/profile/address/<%= user._id %>";
+    form.method = "post";
+    form.onsubmit = "return validateAddressForm2()";
+    form.innerHTML = `
+        <div class="mb-3">
+          <input type="hidden" name="addressIndex" value="1" />
+
+        </div>
+        <div class="mb-3">
+          <input type="hidden" name="userId" value="<%= user._id %>" />
+          <label for="houseName2" class="card-title">House Name</label>
+          <input
+            type="text"
+            id="houseName2"
+            name="houseName"
+            class="form-control card-title input"
+            autocomplete="off"
+            placeholder="House Name"
+            value="<%= user.addresses && user.addresses.length > 1 ? user.addresses[1].houseName : '' %>"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="street2" class="card-title">Street</label>
+          <input
+            type="text"
+            id="street2"
+            name="street"
+            class="form-control card-title input"
+            autocomplete="off"
+            placeholder="Street"
+            value="<%= user.addresses && user.addresses.length > 1 ? user.addresses[1].street : '' %>"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="village2" class="card-title">Village</label>
+          <input
+            type="text"
+            id="village2"
+            name="village"
+            class="form-control card-title input"
+            autocomplete="off"
+            placeholder="Village"
+            value="<%= user.addresses && user.addresses.length > 1 ? user.addresses[1].village : '' %>"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="district2" class="card-title">District</label>
+          <input
+            type="text"
+            id="district2"
+            name="district"
+            class="form-control card-title input"
+            autocomplete="off"
+            placeholder="District"
+            value="<%= user.addresses && user.addresses.length > 1 ? user.addresses[1].district : '' %>"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="state2" class="card-title">State</label>
+          <input
+            type="text"
+            id="state2"
+            name="state"
+            class="form-control card-title input"
+            autocomplete="off"
+            placeholder="State"
+            value="<%= user.addresses && user.addresses.length > 1 ? user.addresses[1].state : '' %>"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="pincode2" class="card-title">Pincode</label>
+          <input
+            type="text"
+            id="pincode2"
+            name="pincode"
+            class="form-control card-title input"
+            autocomplete="off"
+            placeholder="Pincode"
+            value="<%= user.addresses && user.addresses.length > 1 ? user.addresses[1].pincode : '' %>"
+            required
+          />
+        </div>   <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="selectedAddress"
+              id="address2"
+              value="address2"
+              <% if (user.selectedAddress === 'address2') { %>
+                checked
+              <% } %>
+            />
+            <label class="form-check-label" for="address2">
+              Delete Additional Address?
+            </label>
+          </div>
+        <button
+          type="submit"
+          class="btn btn-primary card-details-btn border-0"
+          style="width: 100%"
+        >
+          Submit
+        </button>
+      `;
+
+    return form;
+  }
+</script>

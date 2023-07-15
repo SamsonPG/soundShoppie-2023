@@ -1,0 +1,276 @@
+<%-include('../layout/partials/userHeader')-%>
+<style>
+  .image-container {
+    position: relative;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .overlay-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+</style>
+<section class="cursoul">
+  <div
+    id="carouselExampleSlidesOnly"
+    class="carousel slide"
+    data-ride="carousel"
+  >
+    <div class="carousel-inner">
+      <% if (carousel.images && carousel.images.length > 0) { %> <%
+      carousel.images.forEach((image, index) => { %>
+      <div
+        class="carousel-item <%= index === 0 ? 'active' : '' %>"
+        data-bs-interval="3000"
+      >
+        <div class="carousel-image-wrapper">
+          <img
+            class="d-block w-100 carousel-fade-image"
+            src="/uploads/carousel/<%= image %>"
+            alt="Slide <%= index + 1 %>"
+          />
+        </div>
+      </div>
+      <% }) %> <% } %>
+      <div class="carousel-caption">
+        <!-- Logo -->
+        <a class="carousel-brand mb-5" href="/">
+          <img
+            class="mb-5 shadowed-image"
+            src="/public/images/SOUNDSHOPPIE LOGO.png"
+            height="140"
+            alt="Logo"
+          />
+        </a>
+      </div>
+      <div class="carousel-caption2"></div>
+      <a href="#welcometoSoundShoppie" class="downArrow">
+        <i class="fa-solid fa-soap" style="font-size: xx-large"></i>
+      </a>
+    </div>
+  </div>
+  <p class="running-text">
+    <span class="train-running2"><%= carousel.subHeading %></span>
+  </p>
+</section>
+
+<section id="welcometoSoundShoppie">
+  <div class="mt-5 pt-5"></div>
+  <h1
+    class="text-center fw-bold m-5"
+    style="font-family: 'Open Sans', sans-serif; font-weight: 800"
+  >
+    <span>Welcome to soundShoppie</span>
+  </h1>
+  <div class="container">
+    <div class="col-md-12 pt-5 pb-2 ourTeam-hedding text-center">
+      <p>
+        Welcome to soundShoppie... an audio lovers first destination. we started
+        our journey with a <strong>shared love for headphones</strong> and the
+        desire to share this passion with others. They strongly believe that
+        great sound is one of life's purest pleasures and that quality audio
+        devices by extension lead to a better life.
+      </p>
+    </div>
+  </div>
+  <div class="container">
+    <div
+      class="d-flex flex-column flex-md-row justify-content-between align-items-center py-4"
+    >
+      <h2 class="text-center mb-4 mb-md-0">Our Products</h2>
+      <div class="boxContainer">
+        <div class="box box1"></div>
+        <div class="box box2"></div>
+        <div class="box box3"></div>
+        <div class="box box4"></div>
+        <div class="box box5"></div>
+      </div>
+      <a href="/viewproducts" class="view-more-btn">VIEW MORE</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <!-- Start of Card Deck Layout -->
+    <div class="card-deck d-flex justify-content-center align-items-center">
+      <% products.forEach((product, index) => { %>
+      <div class="product-card m-2">
+        <div></div>
+        <div class="image-container">
+          <div>
+            <% if (product.category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (category.offerpercentage > 0
+            && category.status === "active") { %>
+            <span class="badge rounded-pill badge-notification bg-danger">
+              <div>
+                <div class="m-1"><%= category.offerpercentage %> %</div>
+                <div class="m-1">off</div>
+              </div></span
+            >
+            <% } %> <% } %>
+          </div>
+          <img
+            class="card-img-top"
+            src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>"
+            alt="Product Image"
+          />
+
+          <% if (product.stock == 0) { %>
+          <div class="overlay">
+            <p class="overlay-text">Out of Stock</p>
+          </div>
+          <% } %>
+        </div>
+        <div class="card-body">
+          <% if(product.title) { %> <% const productName = product.title.length
+          > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
+          <h5 class="card-title"><%= productName %></h5>
+          <% } %>
+
+          <div class="card-price">
+            <% if (product.category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (category) { %> <% const
+            categoryName = category.name; %> <% if (categoryName.length > 10) {
+            %>
+            <span class="category-name truncate"><%= categoryName %></span>
+            <% } else { %> <%= categoryName %> <% } %> <% } else { %>
+            <span>Category not found</span>
+            <% } %> <% } %>
+          </div>
+
+          <div class="card-rating">
+            <% for (let i = 0; i < 5; i++) { %> <% if (i < product.rating) { %>
+            <span class="fa fa-star"></span>
+            <% } else { %>
+            <span class="fa fa-star-o"></span>
+            <% } %> <% } %>
+          </div>
+          <div>
+            <% if (product.stock>0) { %> <% if (product.category) { %> <% const
+            category = categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (category.offerpercentage > 0
+            && category.status === "active" && product.offerprice > 0 &&
+            product.status === "active") { %>
+            <div class="card-price">
+              ₹<%= product.price - (product.price * (category.offerpercentage /
+              100)) - product.offerprice %>
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+            <% } %> <% } %> <% if (product.category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (category.offerpercentage > 0
+            && category.status === "active" && product.status === "inactive") {
+            %>
+            <div class="card-price">
+              ₹<%= product.price - (product.price * (category.offerpercentage /
+              100)) %>
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+
+            <% } %> <% } %> <% if (product.category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (product.offerprice > 0 &&
+            product.status === "active" && category.status === "inactive") { %>
+            <div class="card-price">
+              ₹<%= product.price - product.offerprice %>
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+
+            <% } %> <% } %> <% if (product.category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (category.status ===
+            "inactive" && product.status === "inactive") { %>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+
+            <% } %> <% } %> <% } %>
+          </div>
+          <div>
+            <% if (product.category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <%if(product.stock === 0 ){%>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+            <% } %><%if(product.offerprice === 0 && product.status ===
+            "active"){%>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+            <% } %><%if( category.offerpercentage===0 && category.status ===
+            "active"){%>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+            <% } %><% } %>
+          </div>
+
+          <a href="/productDetails/<%= product._id %>" class="card-details-btn"
+            >Product Details</a
+          >
+        </div>
+      </div>
+      <% }); %>
+    </div>
+
+    <!-- End of Card Deck Layout -->
+  </div>
+</section>
+<section>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center mt-5">
+      <li
+        class="page-item <% if (page === 1 || totalPages === 1) { %>disabled<% } %>"
+      >
+        <a class="page-link" href="?page=<%= page - 1 %>">Previous</a>
+      </li>
+      <% for (let i = 1; i <= totalPages; i++) { %>
+      <li class="page-item <% if (page === i) { %>active<% } %>">
+        <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+      </li>
+      <% } %>
+      <li
+        class="page-item <% if (page === totalPages || totalPages === 1) { %>disabled<% } %>"
+      >
+        <a class="page-link" href="?page=<%= page + 1 %>">Next</a>
+      </li>
+    </ul>
+  </nav>
+  <script>
+    $(document).ready(function () {
+      $("a.downArrow").on("click", function (event) {
+        if (this.hash !== "") {
+          event.preventDefault();
+          const target = $(this.hash);
+          $("html, body").animate(
+            {
+              scrollTop: target.offset().top,
+            },
+            800
+          ); // Adjust the animation speed as needed
+        }
+      });
+    });
+  </script>
+</section>
+<div class="container d-flex justify-content-center">
+  <h1>
+    <span class="train-running1"><%= carousel.heading %></span>
+  </h1>
+</div>
+<%-include('../layout/partials/userFooter')-%>

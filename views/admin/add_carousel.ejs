@@ -1,0 +1,77 @@
+<%- include('../layout/partials/adminHeader') -%>
+<div class="d-flex justify-content-center align-items-center flex-column mt-5">
+  <div class="add-product">
+    <form
+      class="card-body form"
+      id="createCarouselForm"
+      action="/admin/carousel/add"
+      method="post"
+      enctype="multipart/form-data"
+      onsubmit="return validateAddProductForm()"
+    >
+      <h3 class="card-title">Create Carousel</h3>
+      <div class="mb-3">
+        <label for="heading" class="card-title">Heading</label>
+        <input
+          type="text"
+          id="heading"
+          name="heading"
+          class="form-control card-title input"
+          autocomplete="off"
+          placeholder="Enter carousel heading"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="subHeading" class="card-title">Sub Heading</label>
+        <input
+          type="text"
+          id="subHeading"
+          name="subHeading"
+          class="form-control card-title input"
+          autocomplete="off"
+          placeholder="Enter carousel sub heading"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="carouselStatus" class="card-title">Carousel Status</label>
+        <select
+          id="carouselstatus"
+          name="carouselstatus"
+          class="form-control card-title input"
+          required
+        >
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="images" class="card-title">Images</label>
+        <input
+          type="file"
+          id="images"
+          name="images"
+          class="form-control card-title input"
+          accept="image/*"
+          multiple
+          required
+        />
+      </div>
+      <% if (message) { %>
+      <div id="msgs" class="alert alert-danger text-center">
+        <%= message.message %>
+      </div>
+      <% } %>
+      <button
+        type="submit"
+        class="btn btn-primary card-details-btn border-0"
+        style="width: 100%"
+      >
+        Create Carousel
+      </button>
+    </form>
+  </div>
+</div>
+<%- include('../layout/partials/adminFooter') -%>

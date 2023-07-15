@@ -1,0 +1,245 @@
+<%- include('../layout/partials/adminHeader') -%>
+<div class="container">
+  <style>
+    .address-cell {
+      max-height: 100px; /* Set the desired maximum height for the address section */
+      overflow-y: auto;
+    }
+  </style>
+  <div id="app" class="admin-tables">
+    <div
+      class="d-flex justify-content-center align-items-center flex-column mt-5 userlist"
+    >
+      <p class="h3 text-black">User List</p>
+
+      <% if (message) { %>
+      <div
+        class="alert alert-dismissible fade show alert-<%= message.type %>"
+        role="alert"
+      >
+        <button
+          class="btn-close"
+          type="button"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+        <strong><%= message.message %></strong>
+      </div>
+      <% } %>
+
+      <!-- User table -->
+      <div class="col-lg-12 col-xs-12">
+        <div class="table-responsive userform">
+          <% if (users && users.length > 0) { %>
+          <div class="table-responsive userform">
+            <div class="table-responsive">
+              <table id="example" class="table table-hover text-center">
+                <!-- Table header -->
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Details</th>
+                    <th>Address</th>
+                    <th>Block/Unblock</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <!-- Table body -->
+                <tbody>
+                  <% users.forEach((row, index) => { %>
+                  <tr class="align-middle">
+                    <td><%= index + 1 %></td>
+                    <td>
+                      <% if (row.image) { %>
+                      <img
+                        src="/uploads/user/<%= row.image %>"
+                        height="22"
+                        width="22"
+                        alt="User Image"
+                        class="thumbnail"
+                        loading="lazy"
+                      />
+                      <% } else { %>
+                      <img
+                        src="/public/images/default-avatar.jpeg"
+                        height="22"
+                        width="22"
+                        alt="Default Avatar"
+                        class="thumbnail"
+                        loading="lazy"
+                      />
+                      <% } %>
+                    </td>
+                    <td>
+                      <strong><i class="fa-solid fa-signature"></i> :</strong>
+                      <%= row.name %><br /><strong
+                        ><i class="fa-solid fa-envelope"></i> :</strong
+                      >
+                      <%= row.email %><br /><strong>
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        :</strong
+                      >
+                      <%= row.mobile %>
+                    </td>
+
+                    <td>
+                      <div class="address-cell scroll-container">
+                        <% if (row.addresses && row.addresses.length > 0) { %>
+                        <% for (let i = 0; i < Math.min(3,
+                        row.addresses.length); i++) { %>
+                        <p>
+                          <strong
+                            ><i class="fa-solid fa-location-dot"></i> <%= i + 1
+                            %>:</strong
+                          >
+                          <%= row.addresses[i].houseName %>, <%=
+                          row.addresses[i].street %>, <%=
+                          row.addresses[i].village %>, <%=
+                          row.addresses[i].district %>, <%=
+                          row.addresses[i].state %>, <%= row.addresses[i].pin %>
+                        </p>
+                        <% } %> <% if (row.addresses.length > 3) { %>
+                        <p class="text-muted">
+                          + <%= row.addresses.length - 3 %> more address(es)
+                        </p>
+                        <% } %> <% } else { %>
+                        <p>N/A</p>
+                        <% } %>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="button-group">
+                        <% if (row.access === 'blocked') { %>
+                        <form
+                          action="/admin/unblock/<%= row._id %>"
+                          method="POST"
+                        >
+                          <span class="p-2 blocked-text">Blocked</span> <br />
+                          <button type="submit" class="btn btn-success">
+                            Unblock
+                          </button>
+                        </form>
+
+                        <% } else { %>
+                        <form
+                          action="/admin/block/<%= row._id %>"
+                          method="POST"
+                        >
+                          <span class="unblocked-text">Unblocked</span> <br />
+                          <button type="submit" class="btn btn-danger">
+                            Block
+                          </button>
+                        </form>
+
+                        <% } %>
+                      </div>
+                    </td>
+                    <td>
+                      <a
+                        href="/delete/<%= row._id %>"
+                        class="text-danger"
+                        onclick="return confirm('Are you sure you want to delete this <%= row.name %> user?');"
+                        ><i class="fas fa-trash fa-lg mx-1"></i
+                      ></a>
+                    </td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+            <% } else { %>
+            <p class="h5 text-center mt-5">No users found in the database!</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <button
+        id="downloadPdf"
+        class="btn btn-primary border-0 m-3"
+        style="
+          display: inline-block;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          background-color: #c9bc43;
+          color: #fff;
+          padding: 10px;
+          border-radius: 50px;
+          text-decoration: none;
+          text-align: center;
+          transition: background-color 0.3s ease;
+        "
+      >
+        download PDF
+      </button>
+      <div id="pdfHeader" style="display: none">
+        <h6 class="pdf-header">
+          <img
+            src="/public/images/SOUNDSHOPPIE LOGO.png"
+            height="50"
+            alt="Logo"
+          />Users List
+        </h6>
+      </div>
+    </div>
+    <div
+      class="d-flex justify-content-center align-items-center flex-column mt-5"
+    >
+      <p class="h3 text-black">Admin Details</p>
+
+      <!-- Admin table -->
+      <div class="col-lg-12 col-xs-12">
+        <div class="table-responsive userform">
+          <% if (admin && admin.length > 0) { %>
+          <table class="table table-striped text-center my-3">
+            <!-- Table header -->
+            <thead>
+              <tr class="table-dark">
+                <th scope="col">ID</th>
+                <th scope="col">E-Mail</th>
+                <th scope="col">Password</th>
+              </tr>
+            </thead>
+            <!-- Table body -->
+            <tbody>
+              <% admin.forEach((row, index) => { %>
+              <tr class="align-middle text-white table-dark">
+                <td><%= index + 1 %></td>
+                <td><%= row.email %></td>
+                <td><%= row.password %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <% } else { %>
+          <p class="h5 text-white text-center mt-5">
+            No admin found in the database!
+          </p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      // Display success message after blocking/unblocking a user
+      const successMsg = document.querySelector(".alert-success");
+      if (successMsg) {
+        setTimeout(() => {
+          successMsg.style.display = "none";
+        }, 3000);
+      }
+
+      // Display error message after blocking/unblocking a user
+      const errorMsg = document.querySelector(".alert-danger");
+      if (errorMsg) {
+        setTimeout(() => {
+          errorMsg.style.display = "none";
+        }, 3000);
+      }
+    </script>
+  </div>
+</div>
+<%- include('../layout/partials/adminFooter') -%>

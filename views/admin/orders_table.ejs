@@ -1,0 +1,260 @@
+<%- include('../layout/partials/adminHeader') -%>
+<div class="container"><style>
+  .table-wrapper-scroll-y {
+    max-height: 100px;
+    overflow-y: auto;
+  }
+</style>
+<div id="app" class="admin-tables">
+  <div class="d-flex justify-content-center align-items-center flex-column mt-5">
+    <p class="h3 text-black">Order List</p>
+  </div>
+
+  <!-- Order table -->
+  <div class="col-lg-12 col-xs-12">
+    <div class="table-responsive userform">
+      <% if (message) { %>
+        <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+          <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+          <strong><%= message.message %></strong>
+        </div>
+      <% } %>
+      <% if (orders && orders.length > 0) { %>
+        <div class="table-responsive">
+        <table id="example"class="table table-hover  text-center">
+          <!-- Table header --> 
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Order Date</th>
+              <th>User</th>
+              <th>Products</th>
+              <th>Total Price</th>
+              <th>Order Status</th>
+              <th>Dates</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <!-- Table body -->
+          <tbody>
+            <% orders.forEach((order, index) => { %>
+              <tr class="align-middle">
+                <td><%= index + 1 %></td>
+                <td><%= order.createdAt.toDateString() %></td>
+                <td><%= order.userName %></td>
+                <td>
+                  <div class="scroll-container">
+                    <% order.cart.products.forEach((product) => { %>
+                      <div>
+                        <% if (product.product.images && product.product.images.length > 0) { %>
+                          <img src="/uploads/product/<%= product.product.images[0] %>" height="22" width="22" alt="Product Image" class="thumbnail" loading="lazy" />
+                        <% } else { %>
+                          <img src="/public/images/default-product.jpg" height="22" width="22" alt="Default Product" class="thumbnail" loading="lazy" />
+                        <% } %>
+                        <%= product.product.title.substring(0, 16) %>
+                      </div>
+                      <div>
+                        Qty: <%= product.quantity %>
+                      </div>
+                      <div>
+                        <i class="fa-solid fa-coins"></i> ₹<%= product.product.price.toFixed(2) %>
+                      </div>
+                    <% }) %>
+                  </div>
+                </td>
+                <td><i class="fa-solid fa-sack-dollar"></i> ₹<%= order.cart.totalAmount !== undefined ? order.cart.totalAmount.toFixed(2) : 'N/A' %><br/><%= order.paymentMethod %><br/><%= order.paymentStatus %></td>
+                <td>  <%= order.reason %><br/>
+                  <button
+                  class="btn btn-primary border-0"
+                  style="<% if (order.orderStatus === 'Processing') { %>background-color: orange;<% } else if (order.orderStatus === 'Shipped') { %>background-color: blue;<% } else if (order.orderStatus === 'Delivered') { %>background-color: green;<% } else if (order.orderStatus === 'Cancel') { %>background-color: red;<% } else if (order.orderStatus === 'Delayed') { %>background-color: gray;<% } else if (order.orderStatus === 'Return' || order.orderStatus === 'Return Approved' || order.orderStatus === 'Return Cancelled') { %>background-color: black;<% } %>"
+                  "
+                >
+                  <% if (order.orderStatus === 'Processing') { %>Processing<% }
+                  else if (order.orderStatus === 'Shipped') { %>Shipped<% } else
+                  if (order.orderStatus === 'Delivered') { %>Delivered<% } else
+                  if (order.orderStatus === 'Cancel') { %>Cancel<% } else if
+                  (order.orderStatus === 'Delayed') { %>Delayed<% } else if
+                  (order.orderStatus === 'Return') { %>Return Requested<% } else
+                  if(order.orderStatus === 'Return Approved') { %>Return
+                  Approved<% } else
+                  if(order.orderStatus === 'Return Cancelled') { %>Return
+                  Cancelled<% } %>
+                </button>
+                <select class="form-select order-status-select" name="orderStatus" data-order-id="<%= order._id %>" <% if (order.orderStatus === 'Cancel' || order.orderStatus === 'Return'|| order.orderStatus === 'Return Approved'|| order.orderStatus === 'Return Cancelled' || order.orderStatus === 'Delivered') { %>disabled<% } %>>
+
+                    <option value="Processing" <%= order.orderStatus === 'Processing' ? 'selected' : '' %>>Processing</option>
+                    <option value="Shipped" <%= order.orderStatus === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                    <option value="Delivered" <%= order.orderStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                    <option value="Cancel" <%= order.orderStatus === 'Cancel' ? 'selected' : '' %>>Cancel</option>
+                
+                    <option value="Delayed" <%= order.orderStatus === 'Delayed' ? 'selected' : '' %>>Delayed</option>
+                  </select>
+                </td>
+       
+          <td>
+  <% if (order.shippedTimestamp) { %><i class="fa-solid fa-truck-fast"></i>
+    <%= order.shippedTimestamp.toDateString() %><br/> <%= order.shippedTimestamp.toLocaleTimeString() %><br/>
+    <% if (order.deliveredTimestamp) { %><i class="fa-solid fa-box"></i>
+      <%= order.deliveredTimestamp.toDateString() %> <br/><%= order.deliveredTimestamp.toLocaleTimeString() %>
+    <% } %>
+  <% } else { %>
+    N/A
+  <% } %>
+</td>
+
+              
+                <td><% if (order.orderStatus === 'Return') { %><button
+                    class="btn btn-primary border-0 return-Confirm-Button" data-id="<%= order._id %>">Confirm Return</button><% } %>
+                  <a href="/admin/order/view/<%= order._id %>" class="text-success">
+                    <i class="fa-solid fa-eye"></i>
+                  </a>
+                  <a href="/admin/order/delete/<%= order._id %>" class="text-danger" onclick="return confirm('Are you sure you want to delete this order?');">
+                    <i class="fas fa-trash fa-lg mx-1"></i>
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table></div>
+      <% } else { %>
+        <p class="h5 text-center mt-5">No orders found in the database!</p>
+      <% } %>
+    </div>
+  </div> <div class="container ">
+    <button
+    id="downloadPdf"
+    class="btn btn-primary border-0 m-3"
+    style="
+      display: inline-block;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      background-color: #c9bc43;
+      color: #fff;
+      padding: 10px;
+      border-radius: 50px;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.3s ease;
+    "
+    >
+    download PDF
+    </button></div> 
+</div>   
+
+<script>
+  document.querySelectorAll(".return-Confirm-Button").forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      const orderId = event.target.dataset.id;
+      const confirmation = confirm("Are you sure you want to approve or cancel the return for this order?");
+      if (confirmation) {
+        const status = event.target.innerHTML === "Confirm Return" ? "Return Approved" : "Return Cancelled";
+        updateOrderStatus(orderId, status, null, null)
+          .then((response) => {
+            if (response.ok) {
+              alert("Order status updated successfully");
+              window.location.reload();
+            } else {
+              alert("Failed to update order status");
+            }
+          })
+          .catch((error) => {
+             alert("An error occurred while updating the order status");
+          });
+      } else {
+        const declineConfirmation = confirm("Are you sure you want to decline the return for this order?");
+        if (declineConfirmation) {
+          const status = "Return Cancelled";
+          updateOrderStatus(orderId, status, null, null)
+            .then((response) => {
+              if (response.ok) {
+                alert("Order status updated successfully");
+                window.location.reload();
+              } else {
+                alert("Failed to update order status");
+              }
+            })
+            .catch((error) => {
+             alert("An error occurred while updating the order status");
+            });
+        }
+      }
+    });
+  });
+  
+  function updateOrderStatus(orderId, orderStatus, shippedDateTime, deliveredDateTime) {
+    return fetch(`/admin/order/update/${orderId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        orderStatus: orderStatus,
+        shippedDateTime: shippedDateTime,
+        deliveredDateTime: deliveredDateTime,
+      }),
+    });
+  }
+  
+  function handleOrderStatusChange(event) {
+    const select = event.target;
+    const orderId = select.dataset.orderId;
+    const orderStatus = select.value;
+    const shippedDateInput = select.parentElement.nextElementSibling.querySelector('.shipped-date-input') || null;
+    const shippedTimeInput = select.parentElement.nextElementSibling.querySelector('.shipped-time-input') || null;
+    const deliveredDateInput = select.parentElement.nextElementSibling.querySelector('.delivered-date-input') || null;
+    const deliveredTimeInput = select.parentElement.nextElementSibling.querySelector('.delivered-time-input') || null;
+    const shippedDateTime = shippedDateInput && shippedTimeInput ? `${shippedDateInput.value}T${shippedTimeInput.value}` : null;
+    const deliveredDateTime = deliveredDateInput && deliveredTimeInput ? `${deliveredDateInput.value}T${deliveredTimeInput.value}` : null;
+  
+   
+    const currentDate = new Date().toISOString().split('T')[0];
+    const isShippedOrDelivered = orderStatus === 'Shipped' || orderStatus === 'Delivered';
+    const isDeliveredDateTimeValid = !deliveredDateTime || deliveredDateTime >= shippedDateTime;
+  
+    if (isShippedOrDelivered && shippedDateTime > currentDate) {
+      alert("Shipped date cannot be in the future");
+      return;
+    }
+  
+    if (orderStatus === 'Delivered' && shippedDateTime && !isDeliveredDateTimeValid) {
+      alert("Delivered date cannot be before the shipped date");
+      return;
+    }
+  
+    let shippedTimestamp = null;
+    let deliveredTimestamp = null;
+  
+    if (orderStatus === 'Shipped') {
+      shippedTimestamp = new Date(shippedDateTime);
+    } else if (orderStatus === 'Delivered') {
+      shippedTimestamp = new Date(shippedDateTime);
+      deliveredTimestamp = new Date(deliveredDateTime);
+    }
+  
+    updateOrderStatus(orderId, orderStatus, shippedTimestamp, deliveredTimestamp)
+      .then((response) => {
+        if (response.ok) {
+          alert("Order status updated successfully");
+          window.location.reload();
+        } else {
+          alert("Failed to update order status");
+        }
+      })
+      .catch((error) => {
+        alert("An error occurred while updating the order status");
+      });
+  }
+  
+  const orderStatusSelects = document.querySelectorAll(".order-status-select");
+  orderStatusSelects.forEach((select) => {
+    select.addEventListener("change", handleOrderStatusChange);
+  });
+  </script></div>
+ <div id="pdfHeader" style="display: none">
+  <h5 class="pdf-header"><img
+        src="/public/images/SOUNDSHOPPIE LOGO.png"
+        height="50"
+        alt="Logo"
+      />Orders List</h5>
+</div>
+<%- include('../layout/partials/adminFooter') -%>

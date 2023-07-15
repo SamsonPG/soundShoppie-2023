@@ -1,0 +1,66 @@
+<%-include('../layout/partials/adminHeader')-%>
+<div class="d-flex justify-content-center align-items-center flex-column mt-5">
+  <div class="add-product">
+    <form class="card-body form" id="updateCouponForm" action="/coupon/update/<%= coupon._id %>" method="post" onsubmit="return validateUpdateCouponForm()">
+      <h3 class="card-title">Update Coupon</h3>
+      <div class="mb-3">
+        <label for="code" class="card-title">Code</label>
+        <input type="text" id="code" name="code" class="form-control card-title input" autocomplete="off" placeholder="Enter coupon code" required value="<%= coupon.code %>">
+      </div>
+      <div class="mb-3">
+        <label for="startingDate" class="card-title">Starting Date</label>
+        <input type="date" id="startingDate" name="startingDate" class="form-control card-title input" value="<%= coupon.startingDate ? coupon.startingDate.toISOString().split('T')[0] : '' %>" min="<%= (new Date()).toISOString().split('T')[0] %>">
+        <label for="startingDate" class="card-title">Current Starting Date: <%= coupon.startingDate ? coupon.startingDate.toISOString().split('T')[0] : '' %></label>
+      </div>
+      <div class="mb-3">
+        <label for="expiryDate" class="card-title">Expiry Date</label>
+        <input type="date" id="expiryDate" name="expiryDate" class="form-control card-title input" value="<%= coupon.expiryDate ? coupon.expiryDate.toISOString().split('T')[0] : '' %>" min="<%= (new Date()).toISOString().split('T')[0] %>">
+        <label for="expiryDate" class="card-title">Current Expiry Date: <%= coupon.expiryDate ? coupon.expiryDate.toISOString().split('T')[0] : '' %></label>
+      </div>
+      <div class="mb-3">
+        <label for="discount" class="card-title">Discount ₹</label>
+        <input type="number" id="discount" name="discount" class="form-control card-title input" placeholder="Max ₹ 3000 discount" min="0"max="3000" required value="<%= coupon.discount %>">
+      </div>
+      <div class="mb-3">
+        <label for="status" class="card-title">Status</label>
+        <select id="status" name="status" class="form-control card-title input" required>
+          <option value="active" <% if (coupon.status === 'active') { %>selected<% } %>>Active</option>
+          <option value="inactive" <% if (coupon.status === 'inactive') { %>selected<% } %>>Inactive</option>
+        </select>
+      </div>
+      <% if(message){ %>
+      <div id="msgs" class="alert alert-danger text-center">
+        <%= message.message %>
+      </div>
+      <% } %>
+      <button type="submit" class="btn btn-primary card-details-btn border-0" style="width: 100%">Update Coupon</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function validateUpdateCouponForm() {
+    const discountInput = document.getElementById('discount');
+    const startingDateInput = document.getElementById('startingDate');
+    const expiryDateInput = document.getElementById('expiryDate');
+    let isValid = true;
+
+    if (parseInt(discountInput.value) < 0) {
+      discountInput.classList.add('is-invalid');
+      isValid = false;
+    } else {
+      discountInput.classList.remove('is-invalid');
+    }
+
+    if (expiryDateInput.value < startingDateInput.value) {
+      expiryDateInput.classList.add('is-invalid');
+      isValid = false;
+    } else {
+      expiryDateInput.classList.remove('is-invalid');
+    }
+
+    return isValid;
+  }
+</script>
+
+<%-include('../layout/partials/adminFooter')-%>

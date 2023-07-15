@@ -1,0 +1,281 @@
+<%- include('../layout/partials/userHeader') -%>
+<style>
+  .table-wrapper-scroll-y {
+    max-height: 100px;
+    overflow-y: auto;
+  }
+</style>
+<div class="container"><div id="app" class="admin-tables">
+  <div
+    class="d-flex justify-content-center align-items-center flex-column mt-5"
+  >
+    <p class="h3 text-black">Order List</p>
+  
+  </div>
+  <div
+  class="d-flex justify-content-center align-items-end flex-column"
+>
+  
+  <h5 class="m-3">   <i class="fa-solid fa-wallet"></i> Wallet Amount: ₹<span id="cart-total"><% if(wallet) {%><%= wallet.balance %><%} else { %>0<%}%></span>
+  </h5>
+</div>
+  <!-- Order table -->
+  <div class="col-lg-12 col-xs-12">
+    <div class="table-responsive userform">
+      <% if (message) { %>
+      <div
+        class="alert alert-dismissible fade show alert-<%= message.type %>"
+        role="alert"
+      >
+        <button
+          class="btn-close"
+          type="button"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+        <strong><%= message.message %></strong>
+      </div>
+      <% } %> <% if (orders && orders.length > 0) { %>
+      <div class="table-responsive">
+        <table id="example" class="table table-hover text-center">
+          <!-- Table header --> 
+          <thead>
+            <tr>
+              <th>Order Date</th>
+
+              <th>Products</th>
+              <th>Total Price</th>
+              <th>Order Status</th>
+              
+              <th>Date</th>
+
+           
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <!-- Table body -->
+          <tbody>
+            <% orders.forEach((order, index) => { %>
+            <tr class="align-middle">
+              <td><%= order.createdAt.toDateString() %></td>
+
+              <td>
+                <div class="table-wrapper-scroll-y scroll-container">
+                  <% order.cart.products.forEach((product) => { %>
+                  <div>
+                    <% if (product.product.images &&
+                    product.product.images.length > 0) { %>
+                    <img
+                      src="/uploads/product/<%= product.product.images[0] %>"
+                      height="22"
+                      width="22"
+                      alt="Product Image"
+                      class="thumbnail"
+                      loading="lazy"
+                    />
+                    <% } else { %>
+                    <img
+                      src="/public/images/default-product.jpg"
+                      height="22"
+                      width="22"
+                      alt="Default Product"
+                      class="thumbnail"
+                      loading="lazy"
+                    />
+                    <% } %> <% if (product.product && product.product.title) {
+                    %> <%= product.product.title.substring(0, 16) %> <% } %>
+                  </div>
+                  <div>Qty: <%= product.quantity %></div>
+                  <div>
+                    <% if (product.product && product.product.price) { %><i class="fa-solid fa-coins"></i>
+                       ₹<%= product.product.price.toFixed(2) %>
+                    <% } %>
+                  </div>
+                  <% }) %>
+                </div>
+              </td>
+              <td><i class="fa-solid fa-money-bill"></i> Payed Amount : ₹<%= order.cart.deductedTotalAmount !== undefined ?
+                order.cart.deductedTotalAmount.toFixed(2) : 'N/A' %><br/>
+                <i class="fa-solid fa-sack-dollar"></i> ₹<%= order.cart.totalAmount !== undefined ?
+                order.cart.totalAmount.toFixed(2) : 'N/A' %><br/>    <i class="fa-solid fa-wallet"></i> ₹<%= order.cart.walletAmount !== undefined ?
+                order.cart.walletAmount.toFixed(2) : 'N/A' %><br/><i class="fa-solid fa-ticket"></i> ₹<%= order.cart.coupon && order.cart.coupon.discount !== undefined ?
+                order.cart.coupon.discount : 'N/A' %>
+                <br/><%= order.paymentMethod %>
+              </td>
+              <td><%= order.reason %><br/>
+            
+                <button
+                  class="btn btn-primary border-0"
+                  style="<% if (order.orderStatus === 'Processing') { %>background-color: orange;<% } else if (order.orderStatus === 'Shipped') { %>background-color: blue;<% } else if (order.orderStatus === 'Delivered') { %>background-color: green;<% } else if (order.orderStatus === 'Cancel') { %>background-color: red;<% } else if (order.orderStatus === 'Delayed') { %>background-color: gray;<% } else if (order.orderStatus === 'Return' || order.orderStatus === 'Return Approved' || order.orderStatus === 'Return Cancelled') { %>background-color: black;<% } %>"
+                  "
+                >
+                <% if (order.orderStatus === 'Processing') { %>Processing<% }
+                else if (order.orderStatus === 'Shipped') { %>Shipped<% } else
+                if (order.orderStatus === 'Delivered') { %>Delivered<% } else
+                if (order.orderStatus === 'Cancel') { %>Cancel<% } else if
+                (order.orderStatus === 'Delayed') { %>Delayed<% } else if
+                (order.orderStatus === 'Return') { %>Return Requested<% } else
+                if(order.orderStatus === 'Return Approved') { %>Return
+                Approved<% } else
+                if(order.orderStatus === 'Return Cancelled') { %>Return
+                Cancelled<% } %>
+                </button>
+              </td>
+            
+              <td>
+                <% if (order.shippedTimestamp) { %> <i class="fa-solid fa-truck-fast"></i>
+                <%= order.shippedTimestamp.toDateString() %>  <br /><%=
+                order.shippedTimestamp.toLocaleTimeString() %> <% } %><br />
+                <% if (order.deliveredTimestamp) { %><i class="fa-solid fa-box"></i>
+                <%= order.deliveredTimestamp.toDateString() %><br /><%=
+                order.deliveredTimestamp.toLocaleTimeString() %> <% } else { %>
+                N/A <% } %>
+              </td>
+
+            
+              <td>
+                <% if (order.orderStatus === 'Processing' || order.orderStatus
+                === 'Shipped' || order.orderStatus === 'Delayed') { %>
+                <button
+                  type="button"
+                  class="btn btn-primary border-0 m-3"
+                  value="Cancel"
+                  onclick="sendStatusCancel('<%= order._id %>','Cancel')"
+                >
+                  Cancel
+                </button>
+                <% } else if (order.orderStatus === 'Delivered' && (!['Return', 'Return Approved', 'Return Cancelled'].includes(order.orderStatus) || order.deliveredTimestamp)) { %>
+                  <% const deliveredDate = new Date(order.deliveredTimestamp); %>
+                  <% const currentDate = new Date(); %>
+                  <% const differenceInDays = Math.floor((currentDate - deliveredDate) / (1000 * 60 * 60 * 24)); %>
+                  <% if (differenceInDays <= 3) { %>
+                    <button
+                      type="button"
+                      class="btn btn-primary border-0 m-3"
+                      id="returnButton"
+                      value="Return"
+                      onclick="sendStatusReturn('<%= order._id %>','Return')"
+                    >
+                      Return
+                    </button>
+   
+                <% } else { %> <% } %> <% } %>
+                <a
+                  href="/user/order/view/<%= order._id %>"
+                  class="text-success"
+                >
+                  <i class="fa-solid fa-eye"></i>
+                </a>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <% } else { %>
+      <p class="h5 text-center mt-5">No orders found in the database!</p>
+      <% } %>
+    </div>
+  </div> 
+  <button
+  id="downloadPdf"
+  class="btn btn-primary border-0 m-3"
+  style="
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #c9bc43;
+    color: #fff;
+    padding: 10px;
+    border-radius: 50px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  "
+  >
+  downloadPdf
+  </button>
+</div></div>   
+<div id="pdfHeader" style="display: none">
+  <h5 class="pdf-header"><img
+        src="/public/images/SOUNDSHOPPIE LOGO.png"
+        height="50"
+        alt="Logo"
+      />Orders List</h5>
+</div>
+<script>
+  function sendStatusCancel(orderId, orderStatus) {
+    if (confirm("Are you sure you want to cancel this order?")) {
+      return fetch(`/user/order/update/${orderId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderStatus: orderStatus,
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to update order");
+          }
+          return response.json();
+        })
+        .then((responseData) => {
+         location.reload(); // Reload the window
+        })
+        .catch((error) => {
+        });
+    }
+  }
+  
+  function sendStatusReturn(orderId, orderStatus) {
+    const returnReason = prompt("Please enter the return reason:");
+    if (returnReason) {
+      return fetch(`/user/order/update/${orderId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderStatus: orderStatus,
+          returnReason: returnReason,
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to update order");
+          }
+          return response.json();
+        })
+        .then((responseData) => {
+         location.reload(); // Reload the window
+        })
+        .catch((error) => {
+        });
+    }
+  }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.js"></script> <!-- Include html2pdf library -->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
+
+<script>
+  jQuery(document).ready(function ($) {
+    $("#example").DataTable({
+      order: [[0, "desc"]],
+      columnDefs: [
+        {
+          targets: [0],
+          type: "date",
+        },
+      ],
+    });
+  });
+</script>
+
+<%- include('../layout/partials/userFooter') -%>

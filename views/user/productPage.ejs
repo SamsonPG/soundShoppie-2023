@@ -1,0 +1,669 @@
+<%- include('../layout/partials/userHeader') -%>      
+<html>
+<!-- custom css -->
+<link rel="stylesheet" href="/public/style/sidebar.css" /> 
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.1/nouislider.min.css"
+/>
+<style>
+ .multi-range-slider {
+      width: 200px;
+      height: 8px;
+      margin-left: 10px;
+      margin-right: 10px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }  
+    
+</style>
+<style>
+  .image-container {
+    position: relative;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .overlay-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+</style>
+<script>
+  const scrollContainer = document.querySelector('.scroll-container2');
+  const scrollContent = scrollContainer.querySelector('.scroll-content');
+  let isScrollPaused = false;
+
+  // Pause the animation when hovering over the scroll container or on touch
+  scrollContainer.addEventListener('mouseenter', pauseScrollAnimation);
+  scrollContainer.addEventListener('mouseleave', resumeScrollAnimation);
+  scrollContainer.addEventListener('touchstart', pauseScrollAnimation);
+  scrollContainer.addEventListener('touchend', resumeScrollAnimation);
+
+  // Function to pause the scroll animation
+  function pauseScrollAnimation() {
+    isScrollPaused = true;
+    scrollContent.style.animationPlayState = 'paused';
+  }
+
+  // Function to resume the scroll animation
+  function resumeScrollAnimation() {
+    isScrollPaused = false;
+    scrollContent.style.animationPlayState = 'running';
+  }
+
+  // Check if the animation should be paused on scroll
+  window.addEventListener('scroll', function() {
+    if (isScrollPaused) {
+      scrollContent.style.animationPlayState = 'paused';
+    }
+  });
+</script>
+</head><body>
+<!-- Side-Nav -->
+
+
+
+ <div
+class="side-navbar active-nav d-flex justify-content-between flex-wrap flex-column"
+id="sidebar"
+>
+<div class="scroll-plane">
+  <ul class="nav flex-column text-dark w-100 ml-3">
+    <li href="#" class="nav-link mt-5 py-5 mb-1" id="close-btn">
+      <button style="border: none; background-color: transparent">
+        <i class="fa fa-window-close" aria-hidden="true"></i>
+      </button>
+      <h2 class="card-title text-white">Filters</h2>
+    </li>
+    <li>
+      <div class="category-list text-white mb-4">
+        <h4 class="ml-5">Categories</h4> <div class="add-product-sort-range">   <ul>  
+          <li>
+            <a href="/viewproducts" class="text-white">View All Products</a>
+          </li>
+        </ul>
+        <ul>
+          <% categories.forEach((category, index) => { %>
+          <li>
+            <a
+              class="text-white"
+              href="/categoryDetails/<%= category._id %>?name=<%= category.name %>"
+            >
+              <%= category.name %>
+            </a>
+          </li>
+          <% }); %>
+        </ul></div>
+       <li>
+          <h4 class="text-white ml-5">Price Range</h4>
+            
+          <div class="multi-range-slider" id="slider"></div>
+          <div id="priceRangeLabel" class="text-white">Price Range: 0 - 100</div>
+          
+          <form action="/products/sortby/priceRange" method="GET">
+            <input type="hidden" name="minPrice" id="minPriceInput" value="0" />
+            <input type="hidden" name="maxPrice" id="maxPriceInput" value="30000" />
+            
+            <div class="add-product-sort-range">
+              <button type="submit" name="sortBy" class="card-details-btn border-0 me-2" value="low-to-high">Sort Low to High</button>
+              <button type="submit" name="sortBy" class="card-details-btn border-0 me-2" value="high-to-low">Sort High to Low</button>
+            </div>
+          </form>
+        </li>
+        
+      </div>
+    </li>
+
+  </ul>
+</div>
+</div> 
+
+<!-- Main Wrapper -->
+<div class="p-1 my-container active-cont">
+<!-- Top Nav -->
+<nav class="navbar navbar-fixed-top navbar-default px-5 mb-4">
+<a class="btn border-0" id="menu-btn"><i class="fa-solid fa-bars"></i></a>
+</nav>
+<!--End Top Nav -->    
+<% let finalprice = 0; %>
+<div class="container mt-5 mb-5 product-page">
+  <div class="">
+    <div class="row g-0">
+      <div class="col-md-6 border-end">
+        <div class="d-flex flex-column justify-content-center">
+        
+    
+          <div class="main_image hover-zoom ">
+            <img class="main_image_photo"
+            src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>"
+              id="main_product_image"
+              width="350"
+            />
+            <div class="magnify-lens"></div>
+          </div>
+          
+          
+          <div class="thumbnail_images">
+            <ul id="thumbnail">
+              <% if (product.images && product.images.length > 0) { %>
+                <% product.images.forEach((image, index) => { %>
+                  <li>
+                    <img
+                      onclick="changeImage(this)"
+                      src="/uploads/product/<%= image %>"
+                      width="70"
+                    />
+                  </li>
+                <% }); %>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 right-side">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="card-title"><%= product.title %></h3>
+            <div class="card-price">
+              <% if (product.category) { %>
+                <% const category = categories.find(cat => cat._id.toString() === product.category.toString()); %>
+                <% if (category) { %>
+                  <%= category.name %>
+                <% } else { %>
+                  <span>Category not found</span>
+                <% } %>
+              <% } %>
+            </div>  <% if(locals.user ) { %> 
+            <span class="heart"> <a href="/add-to-wishlist/<%= product._id %>  " ><i class="fa-solid fa-heart"></i></a>
+            </span> <% } else { %> <span class="heart"> <a href="/login." ><i class="fa-solid fa-heart"></i></a> </span>    <% } %>
+             </div><div>
+              <% if (product.category) { %> <% const category =
+              categories.find(cat => cat._id.toString() ===
+              product.category.toString()); %> <% if (category.offerpercentage > 0
+              && category.status === "active") { %>
+              <span class="badge rounded-pill badge-notification bg-danger ">
+                <div>
+                  <div class="m-1"><%= category.offerpercentage %> %</div>
+                  <div class="m-1">off</div>
+                </div></span
+              >
+              <% } %> <% } %>
+              </div>
+          <div class="mt-2 pr-3 content">
+           <%= product.description %>
+          </div><div><br></div><div> <% if (product.stock > 0) { %> Hurry up, only <%= product.stock %> left <% } else { %> Sorry, Out of Stock. Check after some time<% } %> </div>
+          <div><br></div>   
+           <div>
+            <% if (product.stock>0) { %> <% if (product.category) { %> <% const
+            category = categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (category.offerpercentage > 0
+            && category.status === "active" && product.offerprice > 0 &&
+            product.status === "active") { %>
+            <div class="card-price">   <h3>  ₹<%= product.price - (product.price * (category.offerpercentage /
+              100)) - product.offerprice %></h3><% finalprice = product.price - (product.price * (category.offerpercentage /
+              100)) - product.offerprice %>
+            
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+            <% } %> <% } %> <% if (product.category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (category.offerpercentage > 0
+            && category.status === "active" && product.status === "inactive") {
+            %>
+            <div class="card-price">   <h3> ₹<%= product.price - (product.price * (category.offerpercentage /
+              100)) %></h3><% finalprice = product.price - (product.price * (category.offerpercentage /
+              100)) %>
+             
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+
+            <% } %> <% } %> <% if (product.category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (product.offerprice > 0 &&
+            product.status === "active" && category.status === "inactive") { %>
+            <div class="card-price">   <h3>   ₹<%= product.price - product.offerprice %></h3>
+              <% finalprice = product.price - product.offerprice %>
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+
+            <% } %> <% } %> <% if (product.category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (category.status ===
+            "inactive" && product.status === "inactive") { %>
+            <div class="card-price">   <h3>₹<%= product.price %></h3>
+            <div class="p-3"></div>
+
+            <% } %> <% } %> <% } %>
+          </div>
+          <div>
+            <% if (product.category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <%if(product.stock === 0 ){%>
+            <div class="card-price">   <h3>₹<%= product.price %></h3></div>
+            <div class="p-3"></div>
+            <% } %><%if(product.offerprice === 0 && product.status ===
+            "active"){%>
+            <div class="card-price">   <h3>₹<%= product.price %></h3></div>
+            <div class="p-3"></div>
+            <% } %><%if( category.offerpercentage===0 && category.status ===
+            "active"){%>
+            <div class="card-price">   <h3>₹<%= product.price %></h3></div>
+            <div class="p-3"></div>
+            <% } %><% } %>
+          </div>
+
+         
+          <div class="buttons d-flex flex-row mt-5 gap-3">
+           
+            <% if (product.stock > 0) { %> 
+            <% if(locals.user ) { %> 
+              <button onclick="location.href='/user/buyNow/<%= product._id %>'" class="card-details-btn">Buy Now</button>
+            <% } else { %>
+              <a href="/login." class="card-details-btn" >Buy Now</a>
+              <% } %> 
+            <% if(locals.user ) { %> 
+              <button onclick="location.href='/add-to-cart/<%= product._id %>'" class="card-details-btn">Add to Basket</button>
+            <% } else { %>
+              <a href="/login." class="card-details-btn" >Add to Basket</a>
+              <% } %> 
+              <% } else { %>   
+                <% if(locals.user ) { %> 
+                <button class="card-details-btn" disabled>Buy Now</button>
+              <% } else { %>
+                <a  class="card-details-btn" disabled>Buy Now</a>
+                <% } %> 
+              <% if(locals.user ) { %> 
+                <button class="card-details-btn" disabled>Add to Basket</button>
+              <% } else { %>
+                <a  class="card-details-btn" disabled>Add to Basket</a>
+                <% } %> 
+                <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="container">
+  <h2 class="text-start mb-4 mb-md-0 m-5">Other Products</h2>
+  <!-- Start of Card Deck Layout -->
+  <div class="scroll-container2">
+  <div class="scroll-content">
+    <% if (products) {
+      products.forEach(function(product) { %><% if (product.view=== "unblocked") { %>
+        <div class="product-card m-2">
+          <div class="image-container">   
+            <div>
+              <% if (product.category) { %> <% const category =
+              categories.find(cat => cat._id.toString() ===
+              product.category.toString()); %> <% if (category.offerpercentage > 0
+              && category.status === "active") { %>
+              <span class="badge rounded-pill badge-notification bg-danger ">
+                <div>
+                  <div class="m-1"><%= category.offerpercentage %> %</div>
+                  <div class="m-1">off</div>
+                </div></span
+              >
+              <% } %> <% } %>
+              </div>
+            <img
+              class="card-img-top"
+              src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>"
+              alt="Product Image"
+            />
+            <% if (product.stock === 0) { %>
+              <div class="overlay">
+                <p class="overlay-text">Out of Stock</p>
+              </div>
+            <% } %>
+          </div>
+          <div class="card-body">
+            <% if (product.title) {
+              const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title;
+            %>
+              <h5 class="card-title"><%= productName %></h5>
+            <% } %>
+            <div class="card-price">
+              <% if (product.category) {
+                const category = categories.find(function(cat) { return cat._id.toString() === product.category.toString(); });
+                if (category) { %>
+                  <%= category.name %>
+                <% } else { %>
+                  <span>Category not found</span>
+                <% }
+              } %>
+            </div>
+          
+            <div>
+              <% if (product.stock>0) { %> <% if (product.category) { %> <% const
+              category = categories.find(cat => cat._id.toString() ===
+              product.category.toString()); %> <% if (category.offerpercentage > 0
+              && category.status === "active" && product.offerprice > 0 &&
+              product.status === "active") { %>
+              <div class="card-price">
+                ₹<%= product.price - (product.price * (category.offerpercentage /
+                100)) - product.offerprice %>
+              </div>
+              <del>₹<%= product.price %></del>
+              <div class="p-1"></div>
+              <% } %> <% } %> <% if (product.category) { %> <% const category =
+              categories.find(cat => cat._id.toString() ===
+              product.category.toString()); %> <% if (category.offerpercentage > 0
+              && category.status === "active" && product.status === "inactive") {
+              %>
+              <div class="card-price">
+                ₹<%= product.price - (product.price * (category.offerpercentage /
+                100)) %>
+              </div>
+              <del>₹<%= product.price %></del>
+              <div class="p-1"></div>
+  
+              <% } %> <% } %> <% if (product.category) { %> <% const category =
+              categories.find(cat => cat._id.toString() ===
+              product.category.toString()); %> <% if (product.offerprice > 0 &&
+              product.status === "active" && category.status === "inactive") { %>
+              <div class="card-price">
+                ₹<%= product.price - product.offerprice %>
+              </div>
+              <del>₹<%= product.price %></del>
+              <div class="p-1"></div>
+  
+              <% } %> <% } %> <% if (product.category) { %> <% const category =
+              categories.find(cat => cat._id.toString() ===
+              product.category.toString()); %> <% if (category.status ===
+              "inactive" && product.status === "inactive") { %>
+              <div class="card-price">₹<%= product.price %></div>
+              <div class="p-3"></div>
+  
+              <% } %> <% } %> <% } %>
+            </div>
+            <div>
+              <% if (product.category) { %> <% const category =
+              categories.find(cat => cat._id.toString() ===
+              product.category.toString()); %> <%if(product.stock === 0 ){%>
+              <div class="card-price">₹<%= product.price %></div>
+              <div class="p-3"></div>
+              <% } %><%if(product.offerprice === 0 && product.status ===
+              "active"){%>
+              <div class="card-price">₹<%= product.price %></div>
+              <div class="p-3"></div>
+              <% } %><%if( category.offerpercentage===0 && category.status ===
+              "active"){%>
+              <div class="card-price">₹<%= product.price %></div>
+              <div class="p-3"></div>
+              <% } %><% } %>
+            </div>
+  
+            <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
+          </div>
+        </div>   <% } %>
+    <% });%>
+   <% } %>
+  </div>
+</div>
+</div>
+
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+crossorigin="anonymous"
+></script>
+<!-- custom js -->
+
+<script>
+  var menu_btn = document.querySelector("#menu-btn");
+  var close_btn = document.querySelector("#close-btn");
+  var sidebar = document.querySelector("#sidebar");
+  var container = document.querySelector(".my-container");
+
+  var startX = 0; // Initial touch position
+
+  menu_btn.addEventListener("click", toggleSidebar);
+  close_btn.addEventListener("click", toggleSidebar);
+
+  function toggleSidebar() {
+    sidebar.classList.toggle("active-nav");
+    container.classList.toggle("active-cont");
+  }
+
+  // Check the screen width on page load and hide the sidebar on mobile screens
+  window.addEventListener("load", function() {
+    if (window.innerWidth < 1000) {
+      sidebar.classList.remove("active-nav");
+      container.classList.remove("active-cont");
+    }
+  });
+
+  // Listen for touch start event to track initial touch position
+  window.addEventListener("touchstart", function(e) {
+    startX = e.touches[0].clientX;
+  });
+
+  // Listen for touch end event to determine swipe direction and toggle sidebar
+  window.addEventListener("touchend", function(e) {
+    var currentX = e.changedTouches[0].clientX;
+    var diffX = currentX - startX;
+
+    if (diffX > 50) {
+      // Swipe from left to right (open sidebar)
+      sidebar.classList.add("active-nav");
+      container.classList.add("active-cont");
+    } else if (diffX < -50) {
+      // Swipe from right to left (close sidebar)
+      sidebar.classList.remove("active-nav");
+      container.classList.remove("active-cont");
+    }
+  });
+
+  // Listen for window resize and hide/show the sidebar based on screen width
+  window.addEventListener("resize", function() {
+    if (window.innerWidth < 1000) {
+      sidebar.classList.remove("active-nav");
+      container.classList.remove("active-cont");
+    } else {
+      // Check if the sidebar was expanded before hiding it on resize
+      if (sidebar.classList.contains("active-nav")) {
+        sidebar.classList.add("active-nav");
+        container.classList.add("active-cont");
+      }
+    }
+  });
+</script>
+
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script>function changeImage(element) {
+
+  var main_prodcut_image = document.getElementById('main_product_image');
+  main_prodcut_image.src = element.src;
+  
+
+} </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.1/nouislider.min.js"></script>
+
+<script>
+  // Auto-init multi-range slider
+  function initMultiRangeSlider() {
+    const sliderElement = document.getElementById("slider");
+    const minPriceInput = document.getElementById("minPriceInput");
+    const maxPriceInput = document.getElementById("maxPriceInput");
+
+    // Set initial values
+    const min = 0;
+    const max = 30000;
+
+    // Create the slider
+    const slider = noUiSlider.create(sliderElement, {
+      start: [min, max],
+      connect: true,
+      range: {
+        min: min,
+        max: max,
+      },
+    });
+
+    // Listen for slider value changes
+    slider.on("update", function (values) {
+      minPriceInput.value = values[0];
+      maxPriceInput.value = values[1];
+      updatePriceRangeLabel(values[0], values[1]);
+    });
+  }
+
+  // Initialize multi-range slider
+  initMultiRangeSlider();
+
+  // Function to update the price range label
+  function updatePriceRangeLabel(minPrice, maxPrice) {
+    const priceRangeLabel = document.getElementById("priceRangeLabel");
+    priceRangeLabel.textContent = `Price Range: ${minPrice} - ${maxPrice}`;
+  }
+</script>
+    <script>
+      function changeImage(element) {
+        var selectedImage = $(element);
+        var mainImage = $("#main_product_image");
+        var originalPreview = $(".original-preview");
+    
+        // Get the source of the selected image
+        var selectedImageSrc = selectedImage.attr("src");
+    
+        // Update the main image
+        mainImage.attr("src", selectedImageSrc);
+    
+        // Update the original preview image
+        originalPreview.attr("src", selectedImageSrc).css("display", "block");
+      }
+    
+      $(document).ready(function () {
+        var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        );
+    
+        // Enable zoom functionality
+        $(".hover-zoom").each(function () {
+          var container = $(this);
+          var image = container.find("img");
+          var originalPreview = container.find(".original-preview");
+    
+          // Create original image preview
+          var originalImage = $("<img>")
+            .addClass("original-preview")
+            .attr("src", image.attr("src"))
+            .css({
+              width: "100px",
+              height: "100px",
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              borderRadius: "5px",
+              boxShadow: "0 0 5px rgba(0, 0, 0, 0.5)",
+              objectFit: "cover",
+              display: "block",
+            })
+            .appendTo(container);
+    
+          // Reset zoom
+          function resetZoom() {
+            image.css({ transform: "scale(1)" });
+            originalPreview.hide();
+            container.find(".magnify-lens").css({ display: "none" });
+          }
+    
+          // Handle touch events for mobile and tablet devices
+          if (isMobile) {
+            var touchStartX, touchStartY, initialScale = 1;
+            container.on("touchstart", function (e) {
+              var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+              touchStartX = touch.pageX;
+              touchStartY = touch.pageY;
+              initialScale = parseFloat(image.css('transform').split(',')[3]);
+            });
+    
+            container.on("touchmove", function (e) {
+              var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+              var touchMoveX = touch.pageX;
+              var touchMoveY = touch.pageY;
+              var deltaX = touchMoveX - touchStartX;
+              var deltaY = touchMoveY - touchStartY;
+    
+              // Apply zoom
+              var scale = Math.abs(deltaX) > Math.abs(deltaY) ? 1 + deltaX * 0.01 : 1 + deltaY * 0.01;
+              image.css({ transform: "scale(" + (initialScale * scale) + ")" });
+    
+              // Show original image preview while zoomed in
+              originalPreview.show();
+              container.find(".magnify-lens").css({ display: "block" });
+              e.preventDefault();
+            });
+    
+            container.on("touchend", function () {
+              resetZoom();
+            });
+    
+            container.on("touchcancel", function () {
+              resetZoom();
+            });
+          } else {
+            // Handle mouse events for desktop devices
+            container.on("mouseenter", function () {
+              container.on("mousemove", function (e) {
+                var containerOffset = container.offset();
+                var containerWidth = container.outerWidth();
+                var containerHeight = container.outerHeight();
+                var mouseX = e.pageX - containerOffset.left;
+                var mouseY = e.pageY - containerOffset.top;
+    
+                // Calculate zoom position
+                var zoomX = (mouseX / containerWidth) * 100;
+                var zoomY = (mouseY / containerHeight) * 100;
+    
+                // Apply zoom and pan
+                var offsetX = (containerWidth / 2 - mouseX) * 2;
+                var offsetY = (containerHeight / 2 - mouseY) * 2;
+                image.css({
+                  transformOrigin: "center",
+                  transform: "scale(2) translate(" + offsetX + "px, " + offsetY + "px)",
+                });
+    
+                // Move the circle with the cursor
+                container.find(".magnify-lens").css({
+                  left: mouseX - 50, // Adjust the offset as per the size of the circle
+                  top: mouseY - 50, // Adjust the offset as per the size of the circle
+                  display: "block",
+                });
+    
+                // Show original image preview while zoomed in
+                originalPreview.show();
+              });
+            });
+    
+            container.on("mouseleave", function () {
+              resetZoom();
+              container.off("mousemove");
+              container.find(".magnify-lens").css({ display: "none" });
+            });
+          }
+        });
+      });
+    </script>
+    
+    
+    
+<%- include('../layout/partials/userFooter') -%>

@@ -1,0 +1,509 @@
+
+    <div style="position: relative; z-index: 0; background-color: white;">
+      <img src="/public/images/banner-qcebii.jpg" class="img-fluid mx-auto d-block mt-5 pt-5" style="position: relative; z-index: 0;"alt="bose-banner" >   
+      <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+    
+      
+      <div class="container mt-5 mb-5" style="position: relative; z-index: 0;">
+        <h2>Our Brands</h2>
+         <section class="customer-logos slider">
+            <div class="slide"><img src="/public/images/audiotechinica.png"></div>
+            <div class="slide"><img src="/public/images/bose.png"></div>
+            <div class="slide"><img src="/public/images/Klipsch_logo.png"></div>
+            <div class="slide"><img src="/public/images/sennheiser.png"></div>
+            <div class="slide"><img src="/public/images/sonos.png"></div>
+            <div class="slide"><img src="/public/images/yamaha.png"></div>
+            <div class="slide"><img src="/public/images/sony.png"></div>
+         </section>
+      </div>
+
+<script>$(document).ready(function(){
+  $('.customer-logos').slick({
+      slidesToShow: 6,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 1500,
+      arrows: false,
+      dots: false,
+      pauseOnHover: false,
+      responsive: [{
+          breakpoint: 768,
+          settings: {
+              slidesToShow: 4
+          }
+      }, {
+          breakpoint: 520,
+          settings: {
+              slidesToShow: 3
+          }
+      }]
+  });
+});</script>
+
+
+<script>
+  function validateSignUpForm() {
+    var name = document.getElementById("name").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value.trim();
+    var mobile = document.getElementById("mobile").value.trim();
+    
+    // Validation for name field
+    if (name == "") {
+      alert("Name must be filled out");
+      return false;
+    }
+  
+    // Validate name
+    var nameRegex = /^[A-Za-z\s]+$/;
+    if (!nameRegex.test(name)) {
+      alert("Name should only contain letters and spaces.");
+      return false;
+    }
+  
+    // Validation for email field
+    if (email == "") {
+      alert("Email must be filled");
+      return false;
+    } else {
+      // regex for email validation
+      var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  
+      if (!emailRegex.test(email)) {
+        alert("Invalid email address");
+        return false;
+      }
+    }
+  
+    // Validation for password field
+    if (password == "") {
+      alert("Password must be filled out");
+      return false;
+    } else if (password.length < 8) {
+      alert("Password must be at least 8 characters long");
+      return false;
+    }
+     // Validation for confirm Password
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return false;
+    }
+    // Validation for mobile field
+    if (mobile == "") {
+      alert("Mobile must be filled out");
+      return false;
+    } else {
+      // regex for mobile validation
+      var mobileRegex = /^\d{10}$/;
+  
+      if (!mobileRegex.test(mobile)) {
+        alert("Invalid mobile number");
+        return false;
+      }
+    }
+  
+    // Form is valid, no error message
+    return true;
+  }
+  </script>
+
+
+      <footer class="text-center text-white fixed-bottom" style="background-color: #c9bc43; position: relative; z-index: 0;">
+      <!-- Grid container -->
+      <div class="container pt-4">
+        <!-- Section: Social media -->
+        <section class="mb-4">
+          <!-- Facebook -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-dark m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+    
+          <!-- Twitter -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-dark m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-twitter"></i
+          ></a>
+    
+          <!-- Google -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-dark m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-google"></i
+          ></a>
+    
+          <!-- Instagram -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-dark m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-instagram"></i
+          ></a>
+    
+          <!-- Linkedin -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-dark m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-linkedin"></i
+          ></a>
+          <!-- Github -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-dark m-1"
+            href="#!"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-github"></i
+          ></a>
+        </section>
+        <!-- Section: Social media -->
+      </div>
+      <!-- Grid container -->
+    
+      <!-- Copyright --> 
+     
+      <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2023 Copyright: <a href="#!" class="ms-md-2">
+          <img
+            src="/public/images/SOUNDSHOPPIE LOGO BLACK.png"
+            height="35"
+          />
+        </a>
+        <div><p>Designed & Developed by Samson P G</p></div>
+      </div>
+      <!-- Copyright -->
+    </footer>
+      
+    </div>
+
+  <button
+  type="button"
+  class="btn btn-dark btn-floating btn-lg"
+  id="btn-back-to-top"style="bottom: 50px;"
+>
+  <i class="fas fa-arrow-up text-white"></i>
+</button>
+
+<button
+  type="button"
+  class="btn btn-warning"
+  onClick="previous()"
+  id="backward"
+  style="background-color: #a79a31; border: none; font-size: 10px; position: fixed; left: 10px; bottom: 0px; transform: translateY(-50%); z-index: 200;opacity: 100%;"
+>
+  &#10094;
+</button>
+
+<button
+  type="button"
+  class="btn btn-warning"
+  onclick="next()"
+  id="forward"
+  style="background-color:#a79a31; border: none; font-size: 10px; position: fixed; right: 10px; bottom: 0px; transform: translateY(-50%); z-index: 200; opacity: 100%;"
+>
+  &#10095;
+</button>
+
+<script>
+  // Scroll to top button
+  let mybutton = document.getElementById("btn-back-to-top");
+  window.onscroll = function () {
+    scrollFunction();
+  };
+  function scrollFunction() {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+  mybutton.addEventListener("click", backToTop);
+  function backToTop() {
+    scrollToTop(document.documentElement, 0, 600);
+  }
+  function scrollToTop(element, to, duration) {
+    if (duration <= 0) return;
+    const difference = to - element.scrollTop;
+    const perTick = (difference / duration) * 10;
+    setTimeout(function () {
+      element.scrollTop = element.scrollTop + perTick;
+      if (element.scrollTop === to) return;
+      scrollToTop(element, to, duration - 10);
+    }, 10);
+  }
+
+  // Previous and next buttons
+  function previous() {
+    window.history.back();
+  }
+  function next() {
+    window.history.forward();
+  }
+</script>
+
+<!-- Explanation -->
+
+  
+      
+      <script>
+  setTimeout(function() {
+    document.querySelector('#msgs').remove();
+  }, 2000); // remove the message after 5 seconds (5000 milliseconds)
+</script>  
+
+<script>
+  document
+    .getElementById("downloadPdf")
+    .addEventListener("click", printAndExport, false);
+
+  function printAndExport() {
+    generatePDF();
+  }
+
+  function generatePDF() {
+    const element = document.getElementById("example");
+    const pdfHeader = document.getElementById("pdfHeader").innerHTML;
+    
+  // Append the pdfHeader to the table before generating the PDF
+  element.getElementsByTagName("thead")[0].innerHTML = pdfHeader + element.getElementsByTagName("thead")[0].innerHTML;
+
+html2pdf()
+      .set({
+        pagebreak: { mode: "avoid-all" },
+        page: "a4",
+      })
+      .from(element)
+      .toPdf()
+      .output("datauristring")
+      .then(function (pdfDataUri) {
+        // Open the PDF in a new window or tab
+        var pdfWindow = window.open();
+        pdfWindow.document.write(
+          "<html><head><title>View PDF</title></head><body style='margin: 0;'><embed width='100%' height='100%' src='" +
+            pdfDataUri +
+            "' type='application/pdf'></body></html>"
+        );
+        pdfWindow.document.close();
+        // Restore the original table header
+      element.getElementsByTagName("thead")[0].innerHTML = pdfHeader;
+  
+      });
+  }
+</script>
+<script>
+  document
+    .getElementById("downloadPdfinvoice")
+    .addEventListener("click", printAndExportinvoice, false);
+
+  function printAndExportinvoice() {
+    generatePDFinvoice();
+  }
+
+  function generatePDFinvoice() {
+    const element = document.getElementById("example");
+   
+ 
+html2pdf()
+      .set({
+        pagebreak: { mode: "avoid-all" },
+        page: "a4",
+      })
+      .from(element)
+      .toPdf()
+      .output("datauristring")
+      .then(function (pdfDataUri) {
+        // Open the PDF in a new window or tab
+        var pdfWindow = window.open();
+        pdfWindow.document.write(
+          "<html><head><title>View PDF</title></head><body style='margin: 0;'><embed width='100%' height='100%' src='" +
+            pdfDataUri +
+            "' type='application/pdf'></body></html>"
+        );
+        pdfWindow.document.close();
+    
+      });
+  }
+</script>
+
+<script>
+  // Function to disable the back button
+  function disableBackButton() {
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = function () {
+      window.history.pushState(null, "", window.location.href);
+    };
+  }
+
+  // Attach event listener to the submit button
+  document.addEventListener("DOMContentLoaded", function () {
+    var submitButton = document.querySelector("button[type='submit']");
+    if (submitButton) {
+      submitButton.addEventListener("click", function () {
+        disableBackButton();
+      });
+    }
+  });
+
+</script>
+
+  <script>// Open the modal and display search results
+    function openModal() {
+      $('#searchResultsModal').css('display', 'block');
+    }
+    
+    // Close the modal
+    function closeModal() {
+      $('#searchResultsModal').css('display', 'none');
+    }
+    
+    // Handle search form submission
+    $('#searchForm').submit(function(event) {
+      event.preventDefault();
+      const searchQuery = $('#searchInput').val();
+      searchProducts(searchQuery);
+    });
+    
+    // Perform search request and display results
+    function searchProducts(query) {
+      $.get('/search', { q: query })
+        .done(function(products) {
+          displayResults(products);
+          openModal(); // Open the modal after displaying results
+        })
+        .fail(function(error) {
+         });
+    }
+    
+    // Display search results in the container
+    function displayResults(products) {
+      const resultsContainer = $('#searchResults');
+      resultsContainer.empty();
+    
+      if (products.length === 0) {
+        resultsContainer.append('<p>No products found.</p>');
+      } else {
+        const resultList = $('<ul></ul>');
+        products.forEach(function(product) {
+          const listItem = $('<li></li>');
+          const image = $('<img>').attr('alt', product.title);
+    
+          // Set image source
+          if (product.images && product.images.length > 0) {
+            image.attr('src', '/uploads/product/' + product.images[0]);
+          } else {
+            image.attr('src', '/uploads/product/defaultCart.png');
+          }
+    
+          // Set image size
+          image.css({
+            width: '100px',
+            height: '100px'
+          });
+    
+          listItem.css({
+            'list-style-type': 'none', // Remove the list-style-type (dot style)
+            'padding': '0' // Remove the padding
+          });
+    
+          listItem.append(image);
+          listItem.append($('<span></span>').text(product.title));
+    
+          // Add hover effect to the list item
+          listItem.hover(
+            function() {
+               $(this).css({
+                 'background-color': '#f2f2f2',
+             
+                'border': '2px solid #ddd'
+              });
+            },
+            function() {
+              $(this).css({
+                'background-color': 'transparent',
+                'border': 'none'
+              });
+            }
+          );
+    
+          // Add click event listener
+          listItem.click(function() {
+            window.location.href = '/productDetails/' + product._id; // Replace '/productDetails/' with the actual product details URL
+          });
+    
+          resultList.append(listItem);
+        });
+        resultsContainer.append(resultList);
+      }
+    }
+    
+    // Close the modal when the close button is clicked
+    $('.close').click(function() {
+      closeModal();
+    });
+    
+    // Close the modal when the user clicks outside the modal content
+    $(window).click(function(event) {
+      if (event.target == $('#searchResultsModal')[0]) {
+        closeModal();
+      }
+    });
+    // Handle search form submission
+$('#searchForm').submit(function(event) {
+  event.preventDefault();
+  const searchQuery = $('#searchInput').val();
+  searchProducts(searchQuery);
+  $('#searchForm')[0].reset(); // Reset the form
+});
+</script>
+
+<script>
+  function highlightActiveMenuItem() {
+    // Get the current URL path
+    const currentPath = window.location.pathname;
+
+    // Get all the menu items
+    const menuItems = document.querySelectorAll(".nav-link");
+
+    // Check if any menu item is already marked as active
+    let isActiveMenuItem = false;
+
+    // Loop through the menu items and check if their href attribute matches the current URL path
+    menuItems.forEach((menuItem) => {
+      const menuItemPath = menuItem.getAttribute("href");
+      if (currentPath === menuItemPath) {
+        // Add the "active" class to the matching menu item
+        menuItem.parentElement.classList.add("active");
+        isActiveMenuItem = true;
+      }
+    });
+
+    // If no active menu item found, mark the last menu item as active
+    if (!isActiveMenuItem && menuItems.length > 0) {
+      const lastMenuItem = menuItems[menuItems.length - 1];
+      lastMenuItem.parentElement.classList.add("active");
+    }
+  }
+
+  // Call the function to highlight the active menu item on page load
+  highlightActiveMenuItem();
+</script>
+
+</body>
+
+</html>

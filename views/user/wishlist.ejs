@@ -1,0 +1,155 @@
+<%- include('../layout/partials/userHeader') -%>
+<style>
+  .image-container {
+    position: relative;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .overlay-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .wishlist-item img {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+  }
+
+  .card-details-btn-wishlist {
+    width: 120px;
+  }
+
+  .wishlist-items tr td {
+    padding: 0.3rem 0.5rem; /* Adjust the padding values as needed */
+  }
+
+  .wishlist-items tr td h6,
+  .wishlist-items tr td p {
+    font-size: 14px; /* Adjust the font size as needed */
+  }
+</style>
+<div class="container mt-5">
+  <div class="d-flex flex-column pt-4">
+    <div>
+      <h5 class="text-uppercase font-weight-bold">Your Dreams For The Sound</h5>
+    </div>
+    <div class="font-weight-bold"><%= wishlistLength %> items</div>
+  </div>
+  <% if (message) { %>
+  <div id="msgs" class="alert alert-info text-center"><%= message %></div>
+  <% } %>
+
+  <div class="wishlist-items admin-tables-wishlist">
+    <% if (wishlist && wishlist.products.length > 0) { %>
+    <h3 class="card-title">Your Wishlist</h3>
+    <div class="table-responsive">
+      <table id="example" class="table">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center">IMAGE</th>
+            <th scope="col" class="text-center">PRODUCT NAME</th>
+            <th scope="col" class="text-center">ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% wishlist.products.forEach((item,index) => { %>
+          <tr class="wishlist-item" data-id="<%= index %>">
+            <td class="text-center"><div class="d-flex justify-content-center align-items-center">      <a
+              href="/productDetails/<%= item.product._id %>"
+              class="card-details-btn"
+              >
+              <div class="image-container">
+                <% if (item && item.product.images && item.product.images.length > 0) { %>
+                <img
+                  src="/uploads/product/<%= item.product.images[0] %>"
+                  alt="Product Image"
+                />
+                <% } else { %>
+                <img
+                  src="/uploads/product/default-wishlist.png"
+                  alt="Default Image"
+                />
+                <% } %> <% if (item.product.stock === 0) { %>
+                <div class="overlay">
+                  <p class="overlay-text">Out of Stock</p>
+                </div>
+                <% } %>
+              </div></a> </div>
+        
+            </td>
+            <td class="text-center">
+              <div class=" mt-5">
+                <h6 class="item-title">
+                  <%= item.product.title || "Product Not Found" %>
+                </h6>
+                <br />
+                <p class="item-price">₹<%= item.product.price || "NaN" %></p>
+              </div>
+              <div class="buttons "> 
+                <% if (item.product.stock > 0) { %>
+                <% if (locals.user) { %>
+                <div class="container m-0">
+                  <button onclick="location.href='/user/buyNow/<%= item.product._id %>'" class="border-0 m-1 card-details-btn-wishlist">Buy Now</button>
+                  <button onclick="location.href='/add-to-cart/<%= item.product._id %>'" class="border-0 m-1 card-details-btn-wishlist">Add to Basket</button>
+                </div>
+                <% } %>
+                <% } else { %>
+                <% if (locals.user) { %>
+                <div class="container m-0">
+                  <button class="border-0 m-1 card-details-btn-wishlist" disabled>Buy Now</button>
+                  <button class="border-0 m-1 card-details-btn-wishlist" disabled>Add to Basket</button>
+                </div>
+                <% } %>
+                <% } %>
+              </div>
+            </td>
+
+            <td class="text-center">
+              <button class="delete-btn btn btn-sm btn-danger"  data-index="<%= index %>">
+                <i class="fas fa-trash fa-lg mx-1"></i>
+              </button>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+  <% } else { %>
+  <div>
+    <h5>No items in the wishlist.</h5>
+  </div>
+  <% } %>
+</div>
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script>
+ // Delete product
+document.querySelectorAll(".delete-btn").forEach((btn) => {
+  btn.addEventListener("click", (event) => {
+    const index = event.target.dataset.index;
+    // Show an alert to confirm before deleting the product
+    if (!window.confirm("Are you sure you want to delete this item from the wishlist?")) {
+      return; // User canceled the deletion, do nothing
+    }
+    // Redirect the user to the server endpoint to delete the product from the wishlist
+    window.location.href = `/delete-wishlist-item/${index}`;
+  });
+});
+</script>
+<%- include('../layout/partials/userFooter') -%>

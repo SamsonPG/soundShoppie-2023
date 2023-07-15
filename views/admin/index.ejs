@@ -1,0 +1,330 @@
+<%-include('../layout/partials/adminHeader')-%>
+
+<script src="/public/script/calender.js"></script>
+
+<div class="main-content container-fluid">
+  <section class="section">
+    <div class="page-title mt-5">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h3>Admin Dashboard</h3>
+        </div>
+        <div class="col-lg-6 text-lg-end">
+          <div class="widget-container">
+            <div class="widget-content">
+              <div class="widget-clock">
+                <h2 id="clock" class="clock"></h2>
+              </div>
+              <div class="widget-date">
+                <h4 id="date" class="date"></h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="container d-flex p-3 justify-content-between flex-wrap">
+        <div class="col-12 col-md-4">
+          <div class="card card-statistic" style="background-color: #43c953">
+            <div class="card-body p-0">
+              <div class="d-flex flex-column">
+                <div class="px-3 py-3 d-flex justify-content-between">
+                  <h3 class="card-title">Revenue</h3>
+                  <div class="card-right d-flex align-items-center">
+                    <p><%= revenue.toFixed(2) %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card card-statistic" style="background-color: #c97943">
+            <div class="card-body p-0">
+              <div class="d-flex flex-column">
+                <div class="px-3 py-3 d-flex justify-content-between">
+                  <h3 class="card-title">Orders</h3>
+                  <div class="card-right d-flex align-items-center">
+                    <p><%= deliveredOrderCount %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card card-statistic" style="background-color: #c94374">
+            <div class="card-body p-0">
+              <div class="d-flex flex-column">
+                <div class="px-3 py-3 d-flex justify-content-between">
+                  <h3 class="card-title">Sales Today</h3>
+                  <div class="card-right d-flex align-items-center">
+                    <p><%= totalAmountToday.toFixed(2) %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container d-flex p-3 justify-content-between flex-wrap">
+        <div class="add-product m-2">
+          <button
+            id="dailyOrdersButton"
+            class="btn btn-primary border-0 m-3"
+            style="
+              display: inline-block;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              background-color: #c9bc43;
+              color: #fff;
+              padding: 10px;
+              border-radius: 50px;
+              text-decoration: none;
+              text-align: center;
+              transition: background-color 0.3s ease;
+            "
+          >
+            Daily Orders Chart
+          </button>
+          <canvas id="dailyOrdersChart"></canvas>
+        </div>
+        <div class="add-product m-2">
+          <button
+            id="weeklySalesButton"
+            class="btn btn-primary border-0 m-3"
+            style="
+              display: inline-block;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              background-color: #c9bc43;
+              color: #fff;
+              padding: 10px;
+              border-radius: 50px;
+              text-decoration: none;
+              text-align: center;
+              transition: background-color 0.3s ease;
+            "
+          >
+            Weekly Sales Chart
+          </button>
+          <canvas id="weeklySalesChart"></canvas>
+        </div>
+        <div class="add-product m-2">
+          <button
+            id="orderStatusButton"
+            class="btn btn-primary border-0 m-3"
+            style="
+              display: inline-block;
+              margin-top: 10px;
+              margin-bottom: 10px;
+              background-color: #c9bc43;
+              color: #fff;
+              padding: 10px;
+              border-radius: 50px;
+              text-decoration: none;
+              text-align: center;
+              transition: background-color 0.3s ease;
+            "
+          >
+            Order Status Chart
+          </button>
+          <canvas id="orderStatusChart"></canvas>
+        </div>
+      </div>
+      <div class="container p-3">
+        <div class="row">
+          <div class="col-lg-8">
+            <div
+              class="add-product-quote m-2"
+              style="
+                background-image: linear-gradient(
+                  120deg,
+                  #d4fc79 0%,
+                  #96e6a1 100%
+                );
+              "
+            >
+              <div class="m-5">
+                <h4>Today's Inspirational Quote</h4>
+                <p id="quote" style="font-style: italic"><%= quote %></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="quote-calendar-box">
+              <div class="calendar calendar-first" id="calendar_first">
+                <div class="calendar_header">
+                  <button class="switch-month switch-left">
+                    <i class="fa fa-chevron-left"></i>
+                  </button>
+                  <h2></h2>
+                  <button class="switch-month switch-right">
+                    <i class="fa fa-chevron-right"></i>
+                  </button>
+                </div>
+                <div class="calendar_weekdays"></div>
+                <div class="calendar_content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script type="text/javascript">
+  var clockElement = document.getElementById("clock");
+  var dateElement = document.getElementById("date");
+
+  function clock() {
+    var currentTime = new Date();
+    var hours = currentTime.getHours();
+    var minutes = currentTime.getMinutes();
+    var seconds = currentTime.getSeconds();
+    var amPm = hours >= 12 ? "PM" : "AM";
+
+    // Convert hours to 12-hour format
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    // Add leading zeros to minutes and seconds if necessary
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    // Format the time string
+    var timeString = hours + ":" + minutes + ":" + seconds + " " + amPm;
+
+    clockElement.textContent = timeString;
+
+    // Format the date string
+    var options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    var dateString = currentTime.toLocaleDateString(undefined, options);
+    dateElement.textContent = dateString;
+  }
+
+  setInterval(clock, 1000);
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("dailyOrdersButton").click();
+    document.getElementById("weeklySalesButton").click();
+    document.getElementById("orderStatusButton").click();
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.getElementById("dailyOrdersButton").addEventListener("click", () => {
+    fetch("/admin/graphdata/daily-orders")
+      .then((response) => response.json())
+      .then((data) => {
+        const labels = data.labels;
+        const chartData = data.data;
+
+        // Render the Daily Orders Line Chart
+        const dailyOrdersChartCtx = document
+          .getElementById("dailyOrdersChart")
+          .getContext("2d");
+        new Chart(dailyOrdersChartCtx, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Daily Orders",
+                data: chartData,
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+                precision: 0,
+              },
+            },
+          },
+        });
+      });
+  });
+
+  document.getElementById("weeklySalesButton").addEventListener("click", () => {
+    fetch("/admin/graphdata/weekly-sales")
+      .then((response) => response.json())
+      .then((data) => {
+        const labels = data.labels;
+        const chartData = data.data;
+
+        // Render the Weekly Sales Bar Graph
+        const weeklySalesChartCtx = document
+          .getElementById("weeklySalesChart")
+          .getContext("2d");
+        new Chart(weeklySalesChartCtx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Weekly Sales",
+                data: chartData,
+                backgroundColor: "rgba(75, 192, 192, 0.8)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+                precision: 0,
+              },
+            },
+          },
+        });
+      });
+  });
+
+  document.getElementById("orderStatusButton").addEventListener("click", () => {
+    fetch("/admin/graphdata/order-status")
+      .then((response) => response.json())
+      .then((data) => {
+        const labels = data.labels;
+        const chartData = data.data;
+
+        // Render the Order Status Pie Chart
+        const orderStatusChartCtx = document
+          .getElementById("orderStatusChart")
+          .getContext("2d");
+        new Chart(orderStatusChartCtx, {
+          type: "pie",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                data: chartData,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.8)",
+                  "rgba(54, 162, 235, 0.8)",
+                  "rgba(255, 205, 86, 0.8)",
+                  "rgba(75, 192, 192, 0.8)",
+                ],
+              },
+            ],
+          },
+        });
+      });
+  });
+</script>
+
+<%- include('../layout/partials/adminFooter') -%>

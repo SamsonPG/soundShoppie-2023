@@ -1,0 +1,80 @@
+<%- include('../layout/partials/userHeader') -%>
+<div class="d-flex justify-content-center align-items-center flex-column mt-5">
+  <div
+    class="d-flex justify-content-center align-items-center flex-column mt-5"
+  >
+    <div class="add-product">
+      <form
+        class="card-body form"
+        id="otpForm"
+        action="/verifyOTPSignup"
+        method="post"
+        onsubmit="return validateSignUpForm6()"
+      >
+        <h3 class="card-title mb-2">Enter OTP</h3>
+        <div class="mb-3">
+          <label class="card-title">OTP Sent to:</label>
+          <p class="card-title text-bold" id="mobileNumber">
+            <em><%= mobile %></em>
+          </p>
+        </div>
+        <div class="mb-3">
+          <input
+            type="hidden"
+            id="mobile"
+            name="mobile"
+            value="<%= mobile %>"
+          />
+          <input type="hidden" id="name" name="name" value="<%= name %>" />
+          <input type="hidden" id="email" name="email" value="<%= email %>" />
+          <input
+            type="hidden"
+            id="password"
+            name="password"
+            value="<%= password %>"
+          />
+
+          <label for="otp" class="card-title">Enter OTP</label>
+          <input
+            type="number"
+            id="otp"
+            name="otp"
+            class="form-control card-title input"
+            autocomplete="off"
+            placeholder="Enter OTP"
+            required
+          />
+        </div>
+        <div class="mb-3"></div>
+        <% if (msg) { %>
+        <div id="msgs" class="alert alert-danger text-center"><%= msg %></div>
+        <% } %>
+        <button
+          type="submit"
+          class="btn btn-primary card-details-btn border-0"
+          style="width: 100%"
+        >
+          Login
+        </button>
+        <a class="mt-5" href="/signup"
+          >Problem with Signup? Signup with Classic way</a
+        >
+      </form>
+    </div>
+  </div>
+</div>
+<%- include('../layout/partials/userFooter') -%>
+
+<script>
+  function validateSignUpForm6() {
+    const otpInput = document.getElementById("otp");
+
+    if (otpInput.value === "") {
+      alert("Please enter the OTP.");
+      otpInput.focus();
+      return false;
+    }
+
+    return true;
+  }
+</script>

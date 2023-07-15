@@ -1,0 +1,40 @@
+<%- include('../layout/partials/userHeader') -%>
+
+<div class="d-flex justify-content-center align-items-center flex-column mt-5">
+  <div
+    class="d-flex justify-content-center align-items-center flex-column mt-5"
+  >
+    <div class="add-product">
+      <div class="card-body form">
+        <h3 class="card-title">Order Cancelled!</h3>
+        <div class="text-center m-5">
+          <img
+            src="/public/images/cancelled.png"
+            alt="Green Tick Icon"
+            width="80px"
+            class="tick-icon"
+          />
+        </div>
+        <div class="mt-3 text-center">
+          <p>Hi, <%= locals.user.name %> , Your last order cancelled. Please shop with us...
+            </p>
+            <a
+              href="/userHome"
+              class="btn btn-primary card-details-btn border-0"
+              style="width: 100%"
+              >Go to Home</a
+            >
+            <a
+            href="/user/oders/<%= user._id %>"
+              class="btn btn-primary card-details-btn border-0"
+              style="width: 100%"
+              >View Orders</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../layout/partials/userFooter') -%>

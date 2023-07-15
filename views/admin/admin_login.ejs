@@ -1,0 +1,43 @@
+<%- include('../layout/partials/userHeader') -%>
+<div class="d-flex justify-content-center align-items-center flex-column mt-5">
+  <div class="add-product">
+    <form class="card-body" id="loginForm" action="/adminLogin" method="post">
+      <h3 class="card-title">Admin Login</h3>
+      <div class="mb-3">
+        <label for="email" class="card-title">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control card-title"
+          autocomplete="off"
+          placeholder="Email"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="password" class="card-title">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control card-title"
+          autocomplete="off"
+          placeholder="Password"
+          required
+        />
+      </div>
+      <% if(locals.msg){ %>
+      <div id="msgs" class="alert alert-danger text-center"><%= msg %></div>
+      <% } %>
+      <button
+        type="submit"
+        class="btn btn-primary card-details-btn border-0"
+        style="width: 100%"
+      >
+        Login
+      </button>
+    </form>
+  </div>
+</div>
+<%- include('../layout/partials/userFooter') -%>

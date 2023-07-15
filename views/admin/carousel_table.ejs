@@ -1,0 +1,148 @@
+<%- include('../layout/partials/adminHeader') -%>
+<div class="container">
+  <div id="app" class="admin-tables">
+    <!-- Carousels table -->
+    <div
+      class="d-flex justify-content-center align-items-center flex-column mt-5"
+    >
+      <p class="h3 text-black">Carousels</p>
+    </div>
+    <div class="col-lg-12 col-xs-12">
+      <div class="table-responsive userform">
+        <% if (message) { %>
+        <div
+          class="alert alert-dismissible fade show alert-<%= message.type %>"
+          role="alert"
+        >
+          <button
+            class="btn-close"
+            type="button"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+          <strong><%= message.message %></strong>
+        </div>
+        <% } %>
+        <div class="text-start">
+          <a href="/carousel/add" class="btn btn-primary">Add Carousel</a>
+        </div>
+        <div class="table-responsive">
+          <table id="example" class="table table-hover text-center">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Heading</th>
+                <th>Sub Heading</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% carousels.forEach((carousel, index) => { %>
+              <tr class="align-middle">
+                <td><%= index + 1 %></td>
+                <td>
+                  <% if (carousel.images && carousel.images.length > 0) { %> <%
+                  carousel.images.forEach(image => { %>
+                  <img
+                    src="/uploads/carousel/<%= image %>"
+                    height="22"
+                    width="22"
+                    alt="Product Image"
+                    class="thumbnail"
+                    loading="lazy"
+                  />
+                  <% }); %> <% } else { %>
+                  <img
+                    src="/public/images/default-product.jpg"
+                    height="22"
+                    width="22"
+                    alt="Default Product"
+                    class="thumbnail"
+                    loading="lazy"
+                  />
+                  <% } %>
+                </td>
+                <td><%= carousel.heading %></td>
+                <td><%= carousel.subHeading %></td>
+                <td>
+                  <% if (carousel.carouselstatus === "active") { %>
+                  <span class="badge bg-success">Active</span>
+                  <% } else if (carousel.carouselstatus === "inactive"){ %>
+                  <span class="badge bg-danger">Inactive</span>
+                  <% } %>
+                </td>
+                <td>
+                  <a
+                    href="/carousel/edit/<%= carousel._id %>"
+                    class="text-success"
+                  >
+                    <i class="fas fa-edit fa-lg mx-1"></i>
+                  </a>
+
+                  <a
+                    href="/carousel/delete/<%= carousel._id %>"
+                    class="text-danger"
+                    onclick="return confirm('Are you sure you want to delete this <%= carousel.heading %> carousel?');"
+                    data-bs-target="#deleteCategoryModal-<%= carousel._id %>"
+                  >
+                    <i class="fas fa-trash fa-lg mx-1"></i>
+                  </a>
+                </td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <div class="container">
+            <button
+              id="downloadPdf"
+              class="btn btn-primary border-0 m-3"
+              style="
+                display: inline-block;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                background-color: #c9bc43;
+                color: #fff;
+                padding: 10px;
+                border-radius: 50px;
+                text-decoration: none;
+                text-align: center;
+                transition: background-color 0.3s ease;
+              "
+            >
+              Download PDF
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="pdfHeader" style="display: none">
+  <h5 class="pdf-header">
+    <img
+      src="/public/images/SOUNDSHOPPIE LOGO.png"
+      height="50"
+      alt="Logo"
+    />Carousel List
+  </h5>
+</div>
+<script>
+  // Display success message after blocking/unblocking a user
+  const successMsg = document.querySelector(".alert-success");
+  if (successMsg) {
+    setTimeout(() => {
+      successMsg.style.display = "none";
+    }, 3000);
+  }
+
+  // Display error message after blocking/unblocking a user
+  const errorMsg = document.querySelector(".alert-danger");
+  if (errorMsg) {
+    setTimeout(() => {
+      errorMsg.style.display = "none";
+    }, 3000);
+  }
+</script>
+<%- include('../layout/partials/adminFooter') -%>

@@ -1,0 +1,315 @@
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.js"></script>
+<!-- Include html2pdf library -->
+
+<script>
+  document
+    .getElementById("downloadPdf")
+    .addEventListener("click", printAndExport, false);
+
+  function printAndExport() {
+    generatePDF();
+  }
+
+  function generatePDF() {
+    const element = document.getElementById("example");
+    const pdfHeader = document.getElementById("pdfHeader").innerHTML;
+    
+  // Append the pdfHeader to the table before generating the PDF
+  element.getElementsByTagName("thead")[0].innerHTML = pdfHeader + element.getElementsByTagName("thead")[0].innerHTML;
+
+html2pdf()
+      .set({
+        pagebreak: { mode: "avoid-all" },
+        page: "a4",
+      })
+      .from(element)
+      .toPdf()
+      .output("datauristring")
+      .then(function (pdfDataUri) {
+        // Open the PDF in a new window or tab
+        var pdfWindow = window.open();
+        pdfWindow.document.write(
+          "<html><head><title>View PDF</title></head><body style='margin: 0;'><embed width='100%' height='100%' src='" +
+            pdfDataUri +
+            "' type='application/pdf'></body></html>"
+        );
+        pdfWindow.document.close();
+        // Restore the original table header
+      element.getElementsByTagName("thead")[0].innerHTML = pdfHeader;
+  
+      });
+  }
+</script>
+<script>
+  document
+    .getElementById("downloadPdfinvoice")
+    .addEventListener("click", printAndExportinvoice, false);
+
+  function printAndExportinvoice() {
+    generatePDFinvoice();
+  }
+
+  function generatePDFinvoice() {
+    const element = document.getElementById("example");
+   
+ 
+html2pdf()
+      .set({
+        pagebreak: { mode: "avoid-all" },
+        page: "a4",
+      })
+      .from(element)
+      .toPdf()
+      .output("datauristring")
+      .then(function (pdfDataUri) {
+        // Open the PDF in a new window or tab
+        var pdfWindow = window.open();
+        pdfWindow.document.write(
+          "<html><head><title>View PDF</title></head><body style='margin: 0;'><embed width='100%' height='100%' src='" +
+            pdfDataUri +
+            "' type='application/pdf'></body></html>"
+        );
+        pdfWindow.document.close();
+    
+      });
+  }
+</script>
+
+<script>
+  var menu_btn = document.querySelector("#menu-btn");
+  var close_btn = document.querySelector("#close-btn");
+  var sidebar = document.querySelector("#sidebar");
+  var container = document.querySelector(".my-container");
+
+  var startX = 0; // Initial touch position
+
+  menu_btn.addEventListener("click", toggleSidebar);
+  close_btn.addEventListener("click", toggleSidebar);
+
+  function toggleSidebar() {
+    sidebar.classList.toggle("active-nav");
+    container.classList.toggle("active-cont");
+  }
+
+  // Check the screen width on page load and hide the sidebar on mobile screens
+  window.addEventListener("load", function() {
+    if (window.innerWidth < 1000) {
+      sidebar.classList.remove("active-nav");
+      container.classList.remove("active-cont");
+    }
+  });
+
+  // Listen for touch start event to track initial touch position
+  window.addEventListener("touchstart", function(e) {
+    startX = e.touches[0].clientX;
+  });
+
+  // Listen for touch end event to determine swipe direction and toggle sidebar
+  window.addEventListener("touchend", function(e) {
+    var currentX = e.changedTouches[0].clientX;
+    var diffX = currentX - startX;
+
+    if (diffX > 50) {
+      // Swipe from left to right (open sidebar)
+      sidebar.classList.add("active-nav");
+      container.classList.add("active-cont");
+    } else if (diffX < -50) {
+      // Swipe from right to left (close sidebar)
+      sidebar.classList.remove("active-nav");
+      container.classList.remove("active-cont");
+    }
+  });
+
+  // Listen for window resize and hide/show the sidebar based on screen width
+  window.addEventListener("resize", function() {
+    if (window.innerWidth < 1000) {
+      sidebar.classList.remove("active-nav");
+      container.classList.remove("active-cont");
+    } else {
+      // Check if the sidebar was expanded before hiding it on resize
+      if (sidebar.classList.contains("active-nav")) {
+        sidebar.classList.add("active-nav");
+        container.classList.add("active-cont");
+      }
+    }
+  });
+</script>
+
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.1/nouislider.min.js"></script><div>
+  <footer class="text-center text-white footer fixed-bottom" style="background-color: #c9bc43; position: relative; z-index: 0; ">
+    <div class="container pt-4">
+      <section class="mb-4">
+        <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#" role="button" data-mdb-ripple-color="dark">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#" role="button" data-mdb-ripple-color="dark">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#" role="button" data-mdb-ripple-color="dark">
+          <i class="fab fa-google"></i>
+        </a>
+        <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#" role="button" data-mdb-ripple-color="dark">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#" role="button" data-mdb-ripple-color="dark">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a class="btn btn-link btn-floating btn-lg text-dark m-1" href="#" role="button" data-mdb-ripple-color="dark">
+          <i class="fab fa-github"></i>
+        </a>
+      </section>
+    </div>
+
+    <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      <a href="#" class="ms-md-2">
+        <img src="/public/images/SOUNDSHOPPIE LOGO BLACK.png" height="35" />
+      </a><div><p>Designed & Developed by Samson P G</p></div>
+    </div>
+  </footer>
+</div>
+<!-- Back to top button -->
+
+  <button
+  type="button"
+  class="btn btn-dark btn-floating btn-lg"
+  id="btn-back-to-top"style="bottom: 50px;"
+>
+  <i class="fas fa-arrow-up text-white"></i>
+</button>
+
+<button
+  type="button"
+  class="btn btn-warning"
+  onClick="previous()"
+  id="backward"
+  style="background-color: #a79a31; border: none; font-size: 10px; position: fixed; left: 10px; bottom: 0px; transform: translateY(-50%); z-index: 200;opacity: 100%;"
+>
+  &#10094;
+</button>
+
+<button
+  type="button"
+  class="btn btn-warning"
+  onclick="next()"
+  id="forward"
+  style="background-color:#a79a31; border: none; font-size: 10px; position: fixed; right: 10px; bottom: 0px; transform: translateY(-50%); z-index: 200; opacity: 100%;"
+>
+  &#10095;
+</button>
+
+<script>
+  // Scroll to top button
+  let mybutton = document.getElementById("btn-back-to-top");
+  window.onscroll = function () {
+    scrollFunction();
+  };
+  function scrollFunction() {
+    if (
+      document.body.scrollTop > 20 ||
+      document.documentElement.scrollTop > 20
+    ) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+  mybutton.addEventListener("click", backToTop);
+  function backToTop() {
+    scrollToTop(document.documentElement, 0, 600);
+  }
+  function scrollToTop(element, to, duration) {
+    if (duration <= 0) return;
+    const difference = to - element.scrollTop;
+    const perTick = (difference / duration) * 10;
+    setTimeout(function () {
+      element.scrollTop = element.scrollTop + perTick;
+      if (element.scrollTop === to) return;
+      scrollToTop(element, to, duration - 10);
+    }, 10);
+  }
+
+  // Previous and next buttons
+  function previous() {
+    window.history.back();
+  }
+  function next() {
+    window.history.forward();
+  }
+</script>
+
+<script>
+  $(document).ready(function() {
+    $("table").DataTable({
+      order: [0, 'desc']
+    });
+  });
+</script>
+
+<script>
+  function validateSignUpForm() {
+    var name = document.getElementById("name").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value.trim();
+    var mobile = document.getElementById("mobile").value.trim();
+
+    if (name === "") {
+      alert("Name must be filled out");
+      return false;
+    }
+
+    var nameRegex = /^[A-Za-z\s]+$/;
+    if (!nameRegex.test(name)) {
+      alert("Name should only contain letters and spaces.");
+      return false;
+    }
+
+    if (email === "") {
+      alert("Email must be filled");
+      return false;
+    } else {
+      var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (!emailRegex.test(email)) {
+        alert("Invalid email address");
+        return false;
+      }
+    }
+
+    if (password === "") {
+      alert("Password must be filled out");
+      return false;
+    } else if (password.length < 8) {
+      alert("Password must be at least 8 characters long");
+      return false;
+    }
+
+    if (mobile === "") {
+      alert("Mobile must be filled out");
+      return false;
+    } else {
+      var mobileRegex = /^\d{10}$/;
+      if (!mobileRegex.test(mobile)) {
+        alert("Invalid mobile number");
+        return false;
+      }
+    }
+
+    return true;
+  }
+</script>
+<script>
+  setTimeout(function() {
+    document.querySelector('#msgs').remove();
+  }, 2000); // remove the message after 2 seconds (2000 milliseconds)
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
+
+
+</body>
+
+</html>

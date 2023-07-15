@@ -1,0 +1,70 @@
+<%-include('../layout/partials/adminHeader')-%>
+
+<section>
+  <div class="container mt-5">
+    <div class="row mt-5">
+      <a href="/admin/add-product" class="btnbtn-success ml-auto mt-4"
+        >Add Product</a
+      >
+    </div>
+    <table id="example" class="table table-hover mt-5">
+      <thead>
+        <tr>
+          <th scope="col">No</th>
+          <th scope="col">Title</th>
+          <th scope="col">Category</th>
+          <th scope="col">Actions</th>
+          <th>Images</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% productData.forEach(function(product, index) { %>
+        <tr>
+          <th scope="row"><%= index + 1 %></th>
+          <td><%= product.title %></td>
+          <td><%= product.cat %></td>
+          <td><%= product.des %></td>
+          <td>
+            <img
+              class="card-img-top"
+              src="<%= product.img %>"
+              alt="Card image cap"
+            />
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+  <div class="container">
+    <button
+      id="downloadPdf"
+      class="btn btn-primary border-0 m-3"
+      style="
+        display: inline-block;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        background-color: #c9bc43;
+        color: #fff;
+        padding: 10px;
+        border-radius: 50px;
+        text-decoration: none;
+        text-align: center;
+        transition: background-color 0.3s ease;
+      "
+    >
+      download PDF
+    </button>
+    <div id="pdfHeader" style="display: none">
+      <h5 class="pdf-header">
+        <img
+          src="/public/images/SOUNDSHOPPIE LOGO.png"
+          height="50"
+          alt="Logo"
+        />Products List
+      </h5>
+    </div>
+  </div>
+</section>
+
+<%-include('../layout/partials/adminFooter')-%>
