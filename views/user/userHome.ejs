@@ -58,7 +58,12 @@
         </div>
         <div class="carousel-caption">
           <!-- Logo -->
-
+          <audio id="backgroundMusic" loop>
+            <source
+              src="/public/images/soundShoppiemp3.mp3"
+              type="audio/mpeg"
+            />
+          </audio>
           <a class="carousel-brand mb-5" href="/">
             <img
               class="mb-5 shadowed-image"
@@ -287,4 +292,20 @@
     <span class="train-running1"><%= carousel.heading %></span>
   </h1>
 </div>
+<script>
+  // Function to pause background music
+  function pauseBackgroundMusic() {
+    const backgroundMusic = document.getElementById("backgroundMusic");
+    backgroundMusic.pause();
+  }
+
+  // Add event listeners for mouseover and mouseout
+  const carousel = document.querySelector(".carousel-inner");
+  carousel.addEventListener("mouseover", () => {
+    const backgroundMusic = document.getElementById("backgroundMusic");
+    backgroundMusic.play();
+  });
+
+  carousel.addEventListener("mouseout", pauseBackgroundMusic);
+</script>
 <%-include('../layout/partials/userFooter')-%>
