@@ -185,13 +185,13 @@ id="sidebar"
               <% } %>
             </div>  <% if(locals.user ) { %> 
             <span class="heart"> <a href="/add-to-wishlist/<%= product._id %>  " ><i class="fa-solid fa-heart"style="color: #ff0000;"></i></a>
-            </span> <!-- Add a heart icon with an anchor tag and the onclick event -->
+            </span>
             <span class="heart" onclick="copyCurrentUrl()"> 
               <a>
                 <i class="fa-solid fa-square-share-nodes" style="color: #000000;"></i>
               </a> 
             </span>
-            <% } else { %> <span class="heart"> <a href="/login." ><i class="fa-solid fa-heart" style="color: #ff0000;"></i></a> </span>   <!-- Add a heart icon with an anchor tag and the onclick event -->
+            <% } else { %> <span class="heart"> <a href="/login." ><i class="fa-solid fa-heart" style="color: #ff0000;"></i></a> </span>  
             <span class="heart" onclick="copyCurrentUrl()"> 
               <a >
                 <i class="fa-solid fa-square-share-nodes" style="color: #000000;"></i>

@@ -31,6 +31,7 @@
     <div class="carousel-inner">
       <% if (carousel.images && carousel.images.length > 0) { %> <%
       carousel.images.forEach((image, index) => { %>
+      <div class="carousel-overlay"></div>
       <div
         class="carousel-item <%= index === 0 ? 'active' : '' %>"
         data-bs-interval="3000"
@@ -44,16 +45,29 @@
         </div>
       </div>
       <% }) %> <% } %>
-      <div class="carousel-caption">
-        <!-- Logo -->
-        <a class="carousel-brand mb-5" href="/">
-          <img
-            class="mb-5 shadowed-image"
-            src="/public/images/SOUNDSHOPPIE LOGO.png"
-            height="140"
-            alt="Logo"
-          />
-        </a>
+      <div class="loader-container">
+        <div class="loader">
+          <div class="bar bar1"></div>
+          <div class="bar bar2"></div>
+          <div class="bar bar3"></div>
+          <div class="bar bar4"></div>
+          <div class="bar bar5"></div>
+          <div class="bar bar6"></div>
+          <div class="bar bar7"></div>
+          <div class="bar bar8"></div>
+        </div>
+        <div class="carousel-caption">
+          <!-- Logo -->
+
+          <a class="carousel-brand mb-5" href="/">
+            <img
+              class="mb-5 shadowed-image"
+              src="/public/images/SOUNDSHOPPIE LOGO.png"
+              height="140"
+              alt="Logo"
+            />
+          </a>
+        </div>
       </div>
       <div class="carousel-caption2"></div>
       <a href="#welcometoSoundShoppie" class="downArrow">

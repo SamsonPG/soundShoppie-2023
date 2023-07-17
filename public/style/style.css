@@ -944,8 +944,9 @@ button.switch-month:hover {
 }
 .downArrow {
   position: absolute;
-  bottom: 50px;
+  bottom: 30px;
   left: 50%;
+  top: 90%;
   justify-content: center;
   align-items: center;
   z-index: 100;
@@ -1324,11 +1325,24 @@ button.switch-month:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(
+  /* background: radial-gradient(
     ellipse at center,
     rgba(0, 0, 0, 0) 0%,
     rgba(0, 0, 0, 0.8) 100%
+  ); */
+}
+.carousel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.452) 100%
   );
+  z-index: 1; /* Ensure the overlay is above the images */
 }
 .carousel-caption {
   position: absolute;
@@ -1404,13 +1418,6 @@ button.switch-month:hover {
   /* filter: drop-shadow(0 0px 7px rgba(0, 0, 0, 0.222)); */
   filter: drop-shadow(0 0px 7px rgba(167, 154, 49, 1));
 }
-/* .carousel-caption {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-} */
 
 .carousel-brand-container {
   display: flex;
@@ -1550,4 +1557,77 @@ button.switch-month:hover {
   .navbaruserprofile {
     display: none;
   }
+}
+.loader {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  margin: auto;
+}
+
+.bar {
+  width: 20px;
+  height: 170px;
+  background: hsl(0, 100%, 50%);
+  display: inline-block;
+  transform-origin: bottom center;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  animation: loader8913 1.2s linear infinite;
+}
+
+.bar1 {
+  animation-delay: 0.1s;
+}
+
+.bar2 {
+  animation-delay: 0.2s;
+}
+
+.bar3 {
+  animation-delay: 0.3s;
+}
+
+.bar4 {
+  animation-delay: 0.4s;
+}
+
+.bar5 {
+  animation-delay: 0.5s;
+}
+
+.bar6 {
+  animation-delay: 0.6s;
+}
+
+.bar7 {
+  animation-delay: 0.7s;
+}
+
+.bar8 {
+  animation-delay: 0.8s;
+}
+
+@keyframes loader8913 {
+  0% {
+    transform: scaleY(0.1);
+  }
+
+  50% {
+    transform: scaleY(1);
+    background: yellowgreen;
+  }
+
+  100% {
+    transform: scaleY(0.1);
+    background: transparent;
+  }
+}
+.carousel-caption {
+  /* Adjust the top margin and position to move the logo section forward */
+
+  position: relative;
+  top: 70%; /* Move the section 50% down from the top */
+  transform: translateY(-50%); /* Center the section vertically */
 }
