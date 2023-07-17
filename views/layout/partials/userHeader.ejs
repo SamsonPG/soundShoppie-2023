@@ -154,28 +154,28 @@
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon">
-              <div class="navbaruserprofile">
-                <% if(locals.user && locals.user.image) { %>
-                <img
-                  src="/userimage/<%= locals.user.image %>"
-                  class="navbaruserprofile rounded-circle mt-1"
-                  height="22"
-                  width="22"
-                  alt="User Avatar"
-                  loading="lazy"
-                />
-                <% } else { %>
-                <img
-                  src="/public/images/default-avatar.jpeg"
-                  class="navbaruserprofile rounded-circle mt-1"
-                  height="22"
-                  width="22"
-                  alt="Default Avatar"
-                  loading="lazy"
-                /><% }%>
-              </div>
-            </span>
+            <div class="navbaruserprofile d-flex align-items-center">
+              <% if (locals.user && locals.user.image) { %>
+              <img
+                src="/userimage/<%= locals.user.image %>"
+                class="rounded-circle mt-1"
+                height="22"
+                width="22"
+                alt="User Avatar"
+                loading="lazy"
+              />
+              <% } else { %>
+              <img
+                src="/public/images/default-avatar.jpeg"
+                class="rounded-circle mt-1"
+                height="22"
+                width="22"
+                alt="Default Avatar"
+                loading="lazy"
+              />
+              <% } %>
+              <span class="navbar-toggler-icon ml-2"></span>
+            </div>
           </button>
 
           <!-- Navbar links -->
