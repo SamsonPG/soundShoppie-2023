@@ -311,13 +311,17 @@ html2pdf()
 <script>
   // Handle the beforeunload event
   window.addEventListener('beforeunload', function (event) {
-    // Send a logout request to the server
-    fetch('/adminlogout', {
-      method: 'GET',
-      credentials: 'include', // Include cookies in the request
-    });
+    // Check if the event is triggered by navigation away or closing the tab/window
+    if (event.type === 'beforeunload' || event.type === 'unload') {
+      // Send a logout request to the server
+      fetch('/adminlogout', {
+        method: 'GET',
+        credentials: 'include', // Include cookies in the request
+      });
+    }
   });
 </script>
+
 
 </body>
 
