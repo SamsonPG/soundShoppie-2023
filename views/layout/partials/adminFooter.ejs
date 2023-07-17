@@ -308,7 +308,16 @@ html2pdf()
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 <script src="https://cdn.datatables.net/v/bs5/dt-1.13.4/datatables.min.js"></script>
-
+<script>
+  // Handle the beforeunload event
+  window.addEventListener('beforeunload', function (event) {
+    // Send a logout request to the server
+    fetch('/adminlogout', {
+      method: 'GET',
+      credentials: 'include', // Include cookies in the request
+    });
+  });
+</script>
 
 </body>
 
