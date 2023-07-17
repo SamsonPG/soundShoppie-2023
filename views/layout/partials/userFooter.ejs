@@ -503,7 +503,16 @@ $('#searchForm').submit(function(event) {
   // Call the function to highlight the active menu item on page load
   highlightActiveMenuItem();
 </script>
-
+<script>
+  // Handle the beforeunload event
+  window.addEventListener('beforeunload', function (event) {
+    // Send a logout request to the server
+    fetch('/userlogout', {
+      method: 'GET',
+      credentials: 'include', // Include cookies in the request
+    });
+  });
+</script>
 </body>
 
 </html>

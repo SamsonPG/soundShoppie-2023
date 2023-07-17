@@ -150,6 +150,7 @@ userRouter.get("/userlogout", refreshUserSession, async (req, res) => {
     res.render("error", { error: "An error occurred." });
   }
 });
+
 userRouter.get("/signupMobile", refreshUserSession, (req, res) => {
   if (req.session.user && req.session.user.access !== "blocked") {
     // User session exists, redirect to userHome

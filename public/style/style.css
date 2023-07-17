@@ -1631,3 +1631,29 @@ button.switch-month:hover {
   top: 70%; /* Move the section 50% down from the top */
   transform: translateY(-50%); /* Center the section vertically */
 }
+.add-product-graph {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+
+  margin-bottom: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.add-product--graph .card-body {
+  padding: 30px;
+  align-items: center;
+}
+@media (max-width: 1000px) {
+  .add-product-graph {
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+    margin-bottom: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+}
