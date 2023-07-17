@@ -184,8 +184,19 @@ id="sidebar"
                 <% } %>
               <% } %>
             </div>  <% if(locals.user ) { %> 
-            <span class="heart"> <a href="/add-to-wishlist/<%= product._id %>  " ><i class="fa-solid fa-heart"></i></a>
-            </span> <% } else { %> <span class="heart"> <a href="/login." ><i class="fa-solid fa-heart"></i></a> </span>    <% } %>
+            <span class="heart"> <a href="/add-to-wishlist/<%= product._id %>  " ><i class="fa-solid fa-heart"style="color: #ff0000;"></i></a>
+            </span> <!-- Add a heart icon with an anchor tag and the onclick event -->
+            <span class="heart" onclick="copyCurrentUrl()"> 
+              <a>
+                <i class="fa-solid fa-square-share-nodes" style="color: #000000;"></i>
+              </a> 
+            </span>
+            <% } else { %> <span class="heart"> <a href="/login." ><i class="fa-solid fa-heart" style="color: #ff0000;"></i></a> </span>   <!-- Add a heart icon with an anchor tag and the onclick event -->
+            <span class="heart" onclick="copyCurrentUrl()"> 
+              <a >
+                <i class="fa-solid fa-square-share-nodes" style="color: #000000;"></i>
+              </a> 
+            </span>  <% } %>
              </div><div>
               <% if (product.category) { %> <% const category =
               categories.find(cat => cat._id.toString() ===
@@ -664,6 +675,29 @@ crossorigin="anonymous"
       });
     </script>
     
-    
+    <script>
+      function copyCurrentUrl() {
+        // Get the current URL
+        const currentUrl = window.location.href;
+      
+        // Create a temporary input element to hold the URL
+        const tempInput = document.createElement('input');
+        tempInput.setAttribute('value', currentUrl);
+        document.body.appendChild(tempInput);
+      
+        // Select the URL in the input element
+        tempInput.select();
+      
+        // Copy the selected URL to the clipboard
+        document.execCommand('copy');
+      
+        // Remove the temporary input element
+        document.body.removeChild(tempInput);
+      
+        // Optionally, you can show a notification or alert to indicate that the URL has been copied
+        alert('URL copied to clipboard!');
+      }
+      </script>
+      
     
 <%- include('../layout/partials/userFooter') -%>
