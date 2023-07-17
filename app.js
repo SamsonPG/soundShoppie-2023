@@ -1,6 +1,7 @@
 const express = require("express");
 const nocache = require("nocache");
 const session = require("express-session");
+const router = express.Router();
 const path = require("path");
 const app = express();
 const mongoose = require("mongoose");
@@ -14,7 +15,6 @@ const Category = require("./models/category");
 const bodyParser = require("body-parser");
 const cron = require("node-cron");
 const User = require("./models/users");
-const { generateSitemap } = require("seo-sitemap-generator");
 const {
   clearCartAndMoveToWishlist,
 } = require("./controller/clearCartController");
@@ -116,22 +116,6 @@ app.use(async (req, res, next) => {
   } else {
     next();
   }
-});
-const urls = [
-  "https://soundshoppie.de/",
-  "https://soundshoppie.de/signupMobile",
-  "https://soundshoppie.de/signup",
-  "https://soundshoppie.de/login",
-  "https://soundshoppie.de/landingPage",
-  "https://soundshoppie.de/viewProducts",
-  // Add more URLs as needed
-];
-
-// Route or middleware for serving the sitemap
-app.get("/sitemap.xml", (req, res) => {
-  const sitemap = generateSitemap(urls);
-  res.header("Content-Type", "application/xml");
-  res.send(sitemap);
 });
 
 app.listen(PORT, () => {

@@ -26,7 +26,6 @@
     "node-cron": "^3.0.2",
     "paypal-rest-sdk": "^1.8.1",
     "razorpay": "^2.8.6",
-    "seo-sitemap-generator": "^1.0.0",
     "sharp": "^0.32.1",
     "twilio": "^4.11.1",
     "uuid": "^9.0.0"
