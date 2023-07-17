@@ -1546,3 +1546,8 @@ button.switch-month:hover {
     grid-template-columns: repeat(1, 1fr); /* Display 2 columns */
   }
 }
+@media (min-width: 1000px) {
+  .navbaruserprofile {
+    display: none;
+  }
+}
