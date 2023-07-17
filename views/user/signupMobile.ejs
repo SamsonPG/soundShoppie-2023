@@ -12,9 +12,9 @@
         onsubmit="return validateSignUpForm7()"
       >
         <h3 class="card-title">Sign Up</h3>
-        <a class="hidden-signup ml-5 mt-1 mb-0" href="/signup."
+        <!-- <a class="hidden-signup ml-5 mt-1 mb-0" href="/signup."
           >Classic Sign Up !
-        </a>
+        </a> -->
 
         <div class="mb-3">
           <label for="name" class="card-title">Name</label>
@@ -92,55 +92,60 @@
         <a class="mt-5" href="/login">Already a User? Login</a>
       </form>
     </div>
+    <div class="add-product">
+      <div class="m-3">
+        <a href="/signup.">Have problem with OTP? Classic Sign Up! </a>
+      </div>
+    </div>
+
+    <%- include('../layout/partials/userFooter') -%>
+
+    <script>
+      function validateSignUpForm7() {
+        const nameInput = document.getElementById("name");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const confirmPasswordInput = document.getElementById("confirmPassword");
+        const mobileInput = document.getElementById("mobile");
+
+        if (nameInput.value === "") {
+          alert("Please enter your name.");
+          nameInput.focus();
+          return false;
+        }
+
+        if (emailInput.value === "") {
+          alert("Please enter your email.");
+          emailInput.focus();
+          return false;
+        }
+
+        if (passwordInput.value === "") {
+          alert("Please enter a password.");
+          passwordInput.focus();
+          return false;
+        }
+
+        if (confirmPasswordInput.value === "") {
+          alert("Please confirm your password.");
+          confirmPasswordInput.focus();
+          return false;
+        }
+
+        if (passwordInput.value !== confirmPasswordInput.value) {
+          alert("Passwords do not match.");
+          confirmPasswordInput.focus();
+          return false;
+        }
+
+        if (mobileInput.value === "") {
+          alert("Please enter your mobile number.");
+          mobileInput.focus();
+          return false;
+        }
+
+        return true;
+      }
+    </script>
   </div>
 </div>
-
-<%- include('../layout/partials/userFooter') -%>
-
-<script>
-  function validateSignUpForm7() {
-    const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const confirmPasswordInput = document.getElementById("confirmPassword");
-    const mobileInput = document.getElementById("mobile");
-
-    if (nameInput.value === "") {
-      alert("Please enter your name.");
-      nameInput.focus();
-      return false;
-    }
-
-    if (emailInput.value === "") {
-      alert("Please enter your email.");
-      emailInput.focus();
-      return false;
-    }
-
-    if (passwordInput.value === "") {
-      alert("Please enter a password.");
-      passwordInput.focus();
-      return false;
-    }
-
-    if (confirmPasswordInput.value === "") {
-      alert("Please confirm your password.");
-      confirmPasswordInput.focus();
-      return false;
-    }
-
-    if (passwordInput.value !== confirmPasswordInput.value) {
-      alert("Passwords do not match.");
-      confirmPasswordInput.focus();
-      return false;
-    }
-
-    if (mobileInput.value === "") {
-      alert("Please enter your mobile number.");
-      mobileInput.focus();
-      return false;
-    }
-
-    return true;
-  }
-</script>
