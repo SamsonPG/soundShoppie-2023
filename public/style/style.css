@@ -1546,8 +1546,3 @@ button.switch-month:hover {
     grid-template-columns: repeat(1, 1fr); /* Display 2 columns */
   }
 }
-.truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}

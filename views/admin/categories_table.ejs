@@ -1,4 +1,14 @@
 <%- include('../layout/partials/adminHeader') -%>
+<style>
+  /* Add any additional styling for your table rows and cells */
+  
+  .description-full {
+    display: none;
+    cursor: pointer;
+  }
+  </style>
+  
+  
 <div class="container"><div id="app" class="admin-tables">
   <!-- Categories table -->
   <div
@@ -42,7 +52,20 @@
                 <td><%= index + 1 %></td>
                 <td> <strong><i class="fa-solid fa-puzzle-piece"></i> : </strong><%= category.name %></td>
                 <td> <strong><i class="fa-solid fa-tag"></i> : </strong><%= category.offerpercentage %></td>
-                <td><%= category.description %></td>
+                 <!-- <td><%= category.description %></td> -->
+       
+                 <td>
+                  <!-- Display the first 100 characters of the description -->
+                  <span class="short-description"><%= category.description.slice(0, 100) %></span>
+                
+                  <!-- Hidden element with the full description -->
+                  <span class="full-description" style="display: none;"><%= category.description %></span>
+                
+                  <!-- Read More link -->
+                  <a href="#" class="read-more-link" onclick="toggleDescription(event)">Read More</a>
+                </td>
+                
+
                 <td>
                   <% if (category.status=== "active") { %>
                   <span class="badge bg-success">Active</span>
@@ -114,4 +137,24 @@
  
 </div></div>
 </div>
+<script>
+  function toggleDescription(event) {
+    event.preventDefault();
+    var shortDescription = event.target.parentElement.querySelector('.short-description');
+    var fullDescription = event.target.parentElement.querySelector('.full-description');
+  
+    if (fullDescription.style.display === 'none') {
+      // If the full description is hidden, show it and hide the short description
+      fullDescription.style.display = 'inline';
+      shortDescription.style.display = 'none';
+      event.target.textContent = 'Read Less';
+    } else {
+      // If the full description is shown, hide it and show the short description
+      fullDescription.style.display = 'none';
+      shortDescription.style.display = 'inline';
+      event.target.textContent = 'Read More';
+    }
+  }
+  </script>
+  
 <%- include('../layout/partials/adminFooter') -%>
