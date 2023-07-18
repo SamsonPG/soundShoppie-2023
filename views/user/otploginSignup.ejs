@@ -1,76 +1,132 @@
 <%- include('../layout/partials/userHeader') -%>
 <div class="d-flex justify-content-center align-items-center flex-column mt-5">
-  <div
-    class="d-flex justify-content-center align-items-center flex-column mt-5"
-  >
-    <div class="add-product">
-      <form
-        class="card-body form"
-        id="otpForm"
-        action="/verifyOTPSignup"
-        method="post"
-        onsubmit="return validateSignUpForm6()"
-      >
-        <h3 class="card-title mb-2">Enter OTP</h3>
-        <div class="mb-3">
-          <label class="card-title">OTP Sent to:</label>
-          <p class="card-title text-bold" id="mobileNumber">
-            <em><%= mobile %></em>
-          </p>
-        </div>
-        <div class="mb-3">
-          <input
-            type="hidden"
-            id="mobile"
-            name="mobile"
-            value="<%= mobile %>"
-          />
-          <input type="hidden" id="name" name="name" value="<%= name %>" />
-          <input type="hidden" id="email" name="email" value="<%= email %>" />
-          <input
-            type="hidden"
-            id="password"
-            name="password"
-            value="<%= password %>"
-          />
-
-          <label for="otp" class="card-title">Enter OTP</label>
-          <input
-            type="number"
-            id="otp"
-            name="otp"
-            class="form-control card-title input"
-            autocomplete="off"
-            placeholder="Enter OTP"
-            required
-          />
-        </div>
-        <div class="mb-3"></div>
-        <% if (msg) { %>
-        <div id="msgs" class="alert alert-danger text-center"><%= msg %></div>
-        <% } %>
-        <button
-          type="submit"
-          class="btn btn-primary card-details-btn border-0"
-          style="width: 100%"
-        >
-          Login
-        </button>
-        <a class="mt-5" href="/signup"
-          >Problem with Signup? Signup with Classic way</a
-        >
-      </form>
-    </div>
-    <div class="add-product">
-      <div class="m-3">
-        <a href="/signup.">Have problem with OTP? Classic Sign Up! </a>
+  <div class="add-product">
+    <form
+      class="card-body form"
+      id="otpForm"
+      action="/verifyOTPSignup"
+      method="post"
+      onsubmit="return validateSignUpForm6()"
+    >
+      <h3 class="card-title mb-2">Enter OTP</h3>
+      <div class="mb-3">
+        <label class="card-title">OTP Sent to:</label>
+        <p class="card-title text-bold" id="mobileNumber">
+          <em><%= mobile %></em>
+        </p>
       </div>
+      <div class="mb-3">
+        <input type="hidden" id="mobile" name="mobile" value="<%= mobile %>" />
+        <input type="hidden" id="name" name="name" value="<%= name %>" />
+        <input type="hidden" id="email" name="email" value="<%= email %>" />
+        <input
+          type="hidden"
+          id="password"
+          name="password"
+          value="<%= password %>"
+        />
+
+        <label for="otp" class="card-title">Enter OTP</label>
+        <input
+          type="number"
+          id="otp"
+          name="otp"
+          class="form-control card-title input"
+          autocomplete="off"
+          placeholder="Enter OTP"
+          required
+        />
+      </div>
+      <div class="mb-3"></div>
+      <% if (msg) { %>
+      <div id="msgs" class="alert alert-danger text-center"><%= msg %></div>
+      <% } %>
+      <button
+        type="submit"
+        class="btn btn-primary card-details-btn border-0"
+        style="width: 100%"
+      >
+        Login
+      </button>
+      <p>
+        <i class="fa-solid fa-stopwatch" style="display: inline-block"></i>
+        <span id="timer" style="display: inline-block"></span>
+      </p>
+    </form>
+
+    <form class="m-0" id="signupForm" action="/sendOTPSignup" method="post">
+      <input type="hidden" id="mobile" name="mobile" value="<%= mobile %>" />
+      <input type="hidden" id="name" name="name" value="<%= name %>" />
+      <input type="hidden" id="email" name="email" value="<%= email %>" />
+      <input
+        type="hidden"
+        id="password"
+        name="password"
+        value="<%= password %>"
+      />
+      <button
+        type="submit"
+        id="resendotp"
+        class="btn btn-primary border-0"
+        style="
+          display: inline-block;
+          background-color: #c9bc43;
+          color: #fff;
+          border-radius: 50px;
+          text-decoration: none;
+          text-align: center;
+          transition: background-color 0.3s ease;
+          width: 80%;
+          display: none;
+        "
+        onclick="hideButton()"
+      >
+        Resend OTP
+      </button>
+    </form>
+  </div>
+  <div class="add-product">
+    <div class="m-3">
+      <a href="/signup.">Have problem with OTP? Classic Sign Up! </a>
     </div>
   </div>
 </div>
-<%- include('../layout/partials/userFooter') -%>
 
 <script>
+  // Function to start the timer when the page renders
+  function startTimerOnPageLoad() {
+    const submitBtn = document.getElementById("resendotp");
+    submitBtn.style.display = "none";
+
+    // Show the timer for 2 minutes (120 seconds)
+    const timer = document.getElementById("timer");
+    timer.style.display = "block";
+    const endTime = Date.now() + 120000; // 2 minutes in milliseconds
+
+    // Function to update the timer in a descending manner
+    function updateTimer() {
+      const currentTime = Date.now();
+      const remainingTime = endTime - currentTime;
+
+      if (remainingTime >= 0) {
+        const minutes = Math.floor(remainingTime / 60000);
+        const seconds = Math.floor((remainingTime % 60000) / 1000);
+        timer.innerText = `Resend in ${minutes}:${seconds
+          .toString()
+          .padStart(2, "0")}`;
+        setTimeout(updateTimer, 1000);
+      } else {
+        timer.style.display = "none";
+        submitBtn.style.display = "block";
+      }
+    }
+
+    // Start the timer
+    updateTimer();
+  }
+
+  // Call the function to start the timer on page load
+  startTimerOnPageLoad();
   function validateSignUpForm6() {
     const otpInput = document.getElementById("otp");
 
@@ -83,3 +139,5 @@
     return true;
   }
 </script>
+
+<%- include('../layout/partials/userFooter') -%>
