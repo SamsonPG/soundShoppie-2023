@@ -66,6 +66,7 @@
         </thead>
         <tbody>
           <% wishlist.products.forEach((item,index) => { %>
+            <% if (item.product) { %>
           <tr class="wishlist-item" data-id="<%= index %>">
             <td class="text-center"><div class="d-flex justify-content-center align-items-center">      <a
               href="/productDetails/<%= item.product._id %>"
@@ -122,7 +123,9 @@
                 <i class="fas fa-trash fa-lg mx-1"></i>
               </button>
             </td>
-          </tr>
+          </tr><% } else { %>
+            <p>Product not available</p>
+          <% } %>
           <% }) %>
         </tbody>
       </table>
