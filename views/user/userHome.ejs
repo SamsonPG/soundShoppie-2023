@@ -115,6 +115,19 @@
         devices by extension lead to a better life.
       </p>
     </div>
+    <div
+      class="d-flex justify-content-center align-items-center flex-column mb-5"
+    >
+      <p>Loving us more?... please add ourself to your fingertips...</p>
+      <div class="add-product-shortcut">
+        <button
+          id="addShortcutButton"
+          class="btn btn-primary card-details-btn border-0"
+        >
+          Add Website Shortcut
+        </button>
+      </div>
+    </div>
   </div>
   <div class="container">
     <div
@@ -304,5 +317,88 @@
     <span class="train-running1"><%= carousel.heading %></span>
   </h1>
 </div>
+<script src="/app.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((registration) => {
+          console.log("ServiceWorker registered successfully.");
+        })
+        .catch((error) => {
+          console.error("ServiceWorker registration failed:", error);
+        });
+    });
+  }
+</script>
+<script>
+  // Function to check if the app is running in standalone mode (installed as PWA)
+  function isStandaloneMode() {
+    return window.matchMedia("(display-mode: standalone)").matches;
+  }
 
+  let deferredPrompt;
+
+  // Function to show the custom Add to Home screen prompt
+  function showAddToHomeScreenPrompt() {
+    const alertContainer = document.createElement("div");
+    alertContainer.style.position = "fixed";
+    alertContainer.style.top = "50%";
+    alertContainer.style.left = "50%";
+    alertContainer.style.transform = "translate(-50%, -50%)";
+    alertContainer.style.padding = "20px";
+    alertContainer.style.backgroundColor = "#fff";
+    alertContainer.style.borderRadius = "5px";
+    alertContainer.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
+    alertContainer.style.display = "flex";
+    alertContainer.style.flexDirection = "column";
+    alertContainer.style.alignItems = "center";
+
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "Close";
+    closeButton.style.marginBottom = "10px";
+    closeButton.addEventListener("click", () => {
+      document.body.removeChild(alertContainer);
+    });
+
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add to Home Screen";
+    addButton.addEventListener("click", () => {
+      // Show the browser's native installation prompt
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === "accepted") {
+            console.log("User accepted the A2HS prompt");
+          } else {
+            console.log("User dismissed the A2HS prompt");
+          }
+          // Clear the deferredPrompt variable
+          deferredPrompt = null;
+        });
+      }
+
+      document.body.removeChild(alertContainer);
+    });
+
+    alertContainer.appendChild(closeButton);
+    alertContainer.appendChild(addButton);
+    document.body.appendChild(alertContainer);
+  }
+
+  // Check if the app is running in standalone mode (installed as PWA)
+  if (!isStandaloneMode()) {
+    // Save the event for later use
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    // Show the custom Add to Home screen prompt when the "Add Website Shortcut" button is clicked
+    document
+      .getElementById("addShortcutButton")
+      .addEventListener("click", showAddToHomeScreenPrompt);
+  }
+</script>
 <%-include('../layout/partials/userFooter')-%>

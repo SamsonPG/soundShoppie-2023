@@ -10,7 +10,7 @@ self.addEventListener("install", function (event) {
       return cache.addAll([
         "/", // Add the URL of your index.html file
         "/style.css", // Add the URLs of other important CSS files
-        "/public", // Add other URLs of static assets used in your app
+        "/public/**/*", // Add other URLs of static assets used in your app
       ]);
     })
   );

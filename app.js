@@ -19,6 +19,8 @@ const {
   clearCartAndMoveToWishlist,
 } = require("./controller/clearCartController");
 // const twilioRouter = require('./routes/twilio-sms')
+// Serve static files (including app.js, sw.js, and manifest.json) from the root directory
+app.use(express.static(__dirname));
 
 const jsonParser = bodyParser.json();
 app.use(jsonParser);

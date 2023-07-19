@@ -102,6 +102,7 @@ const renderCartPage = async (req, res) => {
       newWalletBalance: newWalletBalance,
       eligibleCoupons: eligibleCoupons,
       message: req.query.message,
+      title: "User Cart",
     });
   } catch (error) {
     res.redirect("/error");

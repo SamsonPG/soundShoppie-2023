@@ -1657,3 +1657,41 @@ button.switch-month:hover {
     overflow: hidden;
   }
 }
+
+/* .add-product-shortcut {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+
+  margin-bottom: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.add-product-shortcut .card-body {
+  padding: 30px;
+  align-items: center;
+}
+
+.add-product-shortcut .card-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+} */
+
+.add-product-shortcut .card-details-btn {
+  display: inline-block;
+  margin: 10px;
+  width: 100%;
+  background-color: #c9bc43;
+  color: #fff;
+  padding: 10px;
+  border-radius: 50px;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.add-product-shortcut .card-details-btn:hover {
+  background-color: #a79a31;
+}

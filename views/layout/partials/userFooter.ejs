@@ -504,47 +504,71 @@ $('#searchForm').submit(function(event) {
   highlightActiveMenuItem();
 </script>
 
+<script src="/app.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((registration) => {
+          console.log("ServiceWorker registered successfully.");
+        })
+        .catch((error) => {
+          console.error("ServiceWorker registration failed:", error);
+        });
+    });
+  }
+</script>
 <script>
   // Function to check if the app is running in standalone mode (installed as PWA)
   function isStandaloneMode() {
-    return window.matchMedia('(display-mode: standalone)').matches;
+    return window.matchMedia("(display-mode: standalone)").matches;
   }
 
   let deferredPrompt;
-
-  // Function to show the custom Add to Home screen prompt
   function showAddToHomeScreenPrompt() {
-    const alertContainer = document.createElement('div');
-    alertContainer.style.position = 'fixed';
-    alertContainer.style.top = '50%';
-    alertContainer.style.left = '50%';
-    alertContainer.style.transform = 'translate(-50%, -50%)';
-    alertContainer.style.padding = '20px';
-    alertContainer.style.backgroundColor = '#fff';
-    alertContainer.style.borderRadius = '5px';
-    alertContainer.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
-    alertContainer.style.display = 'flex';
-    alertContainer.style.flexDirection = 'column';
-    alertContainer.style.alignItems = 'center';
+    const alertContainer = document.createElement("div");
+    alertContainer.style.position = "fixed";
+    alertContainer.style.top = "50%";
+    alertContainer.style.left = "50%";
+    alertContainer.style.transform = "translate(-50%, -50%)";
+    alertContainer.style.padding = "40px";
+    alertContainer.style.backgroundColor = "#fff";
+    alertContainer.style.borderRadius = "5px";
+    alertContainer.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.3)";
+    alertContainer.style.display = "flex";
+    alertContainer.style.flexDirection = "column";
+    alertContainer.style.alignItems = "center";
 
-    const closeButton = document.createElement('button');
-    closeButton.textContent = 'Close';
-    closeButton.style.marginBottom = '10px';
-    closeButton.addEventListener('click', () => {
-      document.body.removeChild(alertContainer);
-    });
+    const addText = document.createElement("h3");
+    addText.textContent = "Add the App Shortcut";
+    addText.style.fontWeight = "bold";
+    addText.style.color = "#000";
+    addText.style.marginBottom = "20px";
+    const addButton = document.createElement("button");
+    addButton.textContent = "Add to Home Screen";
+    addButton.style.backgroundColor = "#c9bc43";
+    addButton.style.color = "#fff";
+    addButton.style.marginTop = "10px";
+    addButton.style.marginBottom = "10px";
+    addButton.style.borderRadius = "50px";
+    addButton.style.textDecoration = "none";
+    addButton.style.textAlign = "center";
+    addButton.style.transition = "background-color 0.3s ease";
+    addButton.style.width = "100%";
+    addButton.style.display = "inline-block"; // Display buttons side by side
+    addButton.style.padding = "10px 20px"; // Add padding inside the button
+    addButton.style.border = "none"; // Remove the black border
 
-    const addButton = document.createElement('button');
-    addButton.textContent = 'Add to Home Screen';
-    addButton.addEventListener('click', () => {
+    addButton.addEventListener("click", () => {
       // Show the browser's native installation prompt
       if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('User accepted the A2HS prompt');
+          if (choiceResult.outcome === "accepted") {
+            console.log("User accepted the A2HS prompt");
           } else {
-            console.log('User dismissed the A2HS prompt');
+            console.log("User dismissed the A2HS prompt");
           }
           // Clear the deferredPrompt variable
           deferredPrompt = null;
@@ -554,34 +578,43 @@ $('#searchForm').submit(function(event) {
       document.body.removeChild(alertContainer);
     });
 
-    alertContainer.appendChild(closeButton);
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "Close";
+    closeButton.style.backgroundColor = "#ff0000";
+    closeButton.style.color = "#fff";
+    closeButton.style.marginTop = "10px";
+    closeButton.style.marginBottom = "10px";
+    closeButton.style.borderRadius = "50px";
+    closeButton.style.textDecoration = "none";
+    closeButton.style.textAlign = "center";
+    closeButton.style.transition = "background-color 0.3s ease";
+    closeButton.style.width = "100%";
+    closeButton.style.display = "inline-block"; // Display buttons side by side
+    closeButton.style.padding = "10px 20px"; // Add padding inside the button
+    closeButton.style.border = "none"; // Remove the black border
+
+    closeButton.addEventListener("click", () => {
+      document.body.removeChild(alertContainer);
+    });
+
+    alertContainer.appendChild(addText);
     alertContainer.appendChild(addButton);
+    alertContainer.appendChild(closeButton);
     document.body.appendChild(alertContainer);
   }
 
   // Check if the app is running in standalone mode (installed as PWA)
   if (!isStandaloneMode()) {
     // Save the event for later use
-    window.addEventListener('beforeinstallprompt', (e) => {
+    window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
     });
 
     // Show the custom Add to Home screen prompt when the "Add Website Shortcut" button is clicked
-    document.getElementById('addShortcutButton').addEventListener('click', showAddToHomeScreenPrompt);
-  }
-
-  // Register the service worker
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('/sw.js').then(function(registration) {
-        // Registration was successful
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      }, function(err) {
-        // Registration failed
-        console.log('ServiceWorker registration failed: ', err);
-      });
-    });
+    document
+      .getElementById("addShortcutButton")
+      .addEventListener("click", showAddToHomeScreenPrompt);
   }
 </script>
 </body>

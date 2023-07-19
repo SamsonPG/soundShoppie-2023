@@ -23,7 +23,7 @@ const renderWishlistPage = async (req, res) => {
     res.render("user/wishlist", {
       wishlist: wishlist,
       wishlistLength: wishlistLength,
-
+      title: "User Wishlist",
       cart: cart,
       user: req.session.user,
 
