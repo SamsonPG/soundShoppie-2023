@@ -504,9 +504,86 @@ $('#searchForm').submit(function(event) {
   highlightActiveMenuItem();
 </script>
 
+<script>
+  // Function to check if the app is running in standalone mode (installed as PWA)
+  function isStandaloneMode() {
+    return window.matchMedia('(display-mode: standalone)').matches;
+  }
 
+  let deferredPrompt;
 
+  // Function to show the custom Add to Home screen prompt
+  function showAddToHomeScreenPrompt() {
+    const alertContainer = document.createElement('div');
+    alertContainer.style.position = 'fixed';
+    alertContainer.style.top = '50%';
+    alertContainer.style.left = '50%';
+    alertContainer.style.transform = 'translate(-50%, -50%)';
+    alertContainer.style.padding = '20px';
+    alertContainer.style.backgroundColor = '#fff';
+    alertContainer.style.borderRadius = '5px';
+    alertContainer.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
+    alertContainer.style.display = 'flex';
+    alertContainer.style.flexDirection = 'column';
+    alertContainer.style.alignItems = 'center';
 
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    closeButton.style.marginBottom = '10px';
+    closeButton.addEventListener('click', () => {
+      document.body.removeChild(alertContainer);
+    });
+
+    const addButton = document.createElement('button');
+    addButton.textContent = 'Add to Home Screen';
+    addButton.addEventListener('click', () => {
+      // Show the browser's native installation prompt
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('User accepted the A2HS prompt');
+          } else {
+            console.log('User dismissed the A2HS prompt');
+          }
+          // Clear the deferredPrompt variable
+          deferredPrompt = null;
+        });
+      }
+
+      document.body.removeChild(alertContainer);
+    });
+
+    alertContainer.appendChild(closeButton);
+    alertContainer.appendChild(addButton);
+    document.body.appendChild(alertContainer);
+  }
+
+  // Check if the app is running in standalone mode (installed as PWA)
+  if (!isStandaloneMode()) {
+    // Save the event for later use
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    // Show the custom Add to Home screen prompt when the "Add Website Shortcut" button is clicked
+    document.getElementById('addShortcutButton').addEventListener('click', showAddToHomeScreenPrompt);
+  }
+
+  // Register the service worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').then(function(registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }, function(err) {
+        // Registration failed
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+</script>
 </body>
 
 </html>

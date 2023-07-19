@@ -1,0 +1,21 @@
+{
+    "name": "soundShoppie",
+    "short_name": "soundShoppie",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#c9bc43",
+    "icons": [
+      {
+        "src": "/public/images/icon-192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/public/images/icon-512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }
+  
