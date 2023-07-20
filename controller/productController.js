@@ -596,7 +596,7 @@ const displayProductsByPrice = async (req, res) => {
 
       if (sortBy === "high-to-low") {
         products = await getProductsByPriceDescending();
-      } else if (sortBy === "low-to-high") {
+      } else {
         products = await getProductsByPriceAscending();
       }
 
