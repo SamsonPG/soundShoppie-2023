@@ -34,6 +34,7 @@ const {
   userLoginVerify,
 } = require("../middlewares/middlewares");
 const paypalController = require("../controller/paypalController");
+
 // Apply the middleware to all routes
 userRouter.use(refreshUserSession);
 
@@ -439,6 +440,7 @@ userRouter.get(
 
 userRouter.get(
   "/cart",
+
   refreshUserSession,
   userLoginVerify,
   cartController.renderCartPage
@@ -451,18 +453,21 @@ userRouter.get(
 );
 userRouter.get(
   "/cart/increment/:itemId",
+
   refreshUserSession,
   userLoginVerify,
   cartController.incrementCartItem
 );
 userRouter.get(
   "/cart/decrement/:itemId",
+
   refreshUserSession,
   userLoginVerify,
   cartController.decrementCartItem
 );
 userRouter.get(
   "/cart/delete/:itemId",
+
   refreshUserSession,
   userLoginVerify,
   cartController.deleteCartItem
@@ -488,6 +493,7 @@ userRouter.post(
 );
 userRouter.get(
   "/user/checkOut/:Id",
+
   refreshUserSession,
   userLoginVerify,
   orderController.renderCheckOutPage
@@ -501,6 +507,7 @@ userRouter.get(
 
 userRouter.post(
   "/user/placeOrder/:Id",
+
   refreshUserSession,
   userLoginVerify,
   orderController.renderPlaceOrderPage
@@ -508,6 +515,7 @@ userRouter.post(
 // Route for initiating the PayPal payment
 userRouter.post(
   "/user/order/paypal/pay/:Id",
+
   refreshUserSession,
   userLoginVerify,
   paypalController.payWithPayPal
@@ -515,6 +523,7 @@ userRouter.post(
 
 userRouter.get(
   "/success",
+
   refreshUserSession,
   userLoginVerify,
   async (req, res) => {
@@ -557,6 +566,7 @@ userRouter.get(
 // Add a new route for handling the cancel URL
 userRouter.get(
   "/cancel",
+
   refreshUserSession,
   userLoginVerify,
   async (req, res, next) => {
@@ -591,6 +601,7 @@ userRouter.get(
 
 userRouter.get(
   "/failed",
+
   refreshUserSession,
   userLoginVerify,
   async (req, res) => {
@@ -607,6 +618,7 @@ userRouter.get(
 // Route for initiating the Razorpay payment
 userRouter.post(
   "/user/order/razorpay/pay/:Id",
+
   refreshUserSession,
   userLoginVerify,
   razorpayController.payWithRazorpay
@@ -632,6 +644,7 @@ userRouter.post(
 );
 userRouter.post(
   "/change-password/:id",
+
   refreshUserSession,
   userLoginVerify,
   userProfileController.changePassword
@@ -650,6 +663,7 @@ userRouter.get(
 );
 userRouter.post(
   "/user/order/update/:orderId",
+
   refreshUserSession,
   userLoginVerify,
   orderController.userEditOrder
@@ -662,6 +676,7 @@ userRouter.get(
 );
 userRouter.post(
   "/apply-coupon",
+
   refreshUserSession,
   userLoginVerify,
   cartController.applyCoupon
