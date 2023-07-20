@@ -32,7 +32,10 @@ const sharpOptions = {
 };
 // Render Add Carousel Form
 const renderAddCarouselForm = (req, res) => {
-  res.render("admin/add_carousel", { message: req.session.message });
+  res.render("admin/add_carousel", {
+    message: req.session.message,
+    title: "Add Carousel",
+  });
 };
 
 // Render Edit Carousel Form
@@ -48,6 +51,7 @@ const renderEditCarouselForm = async (req, res) => {
     res.render("admin/edit_carousel", {
       carousel,
       message: req.session.message,
+      title: "Edit Carousel",
     });
   } catch (error) {
     req.session.message = {
@@ -65,6 +69,7 @@ const renderCarouselTable = async (req, res) => {
     res.render("admin/carousel_table", {
       carousels,
       message: req.session.message,
+      title: "Admin Carousel Panel",
     });
   } catch (error) {
     req.session.message = {

@@ -79,11 +79,11 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  res.render("error", { error: err, request: req });
+  res.render("error", { error: err, request: req, title: "Error Page" });
 });
 
 app.use("*", (req, res) => {
-  res.render("error", { error: "", request: req });
+  res.render("error", { error: "", request: req, title: "Error Page" });
 });
 
 cron.schedule("*/30 * * * *", () => {

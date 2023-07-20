@@ -186,7 +186,7 @@ const renderAddProductPage = async (req, res) => {
         message: req.session.message,
       });
     } else {
-      res.render("admin/admin_login", { title: "Login Page" });
+      res.render("admin/admin_login", { title: "Admin Login" });
     }
   } catch (error) {
     req.session.message = {
@@ -475,7 +475,7 @@ const renderProductPage = async (req, res) => {
       });
     }
   } catch (error) {
-    res.render("error", { error: "An error occurred." });
+    res.render("error", { error: "An error occurred.", title: "Error Page" });
   }
 };
 
@@ -495,7 +495,7 @@ const viewProductsPage = async (req, res) => {
       const cart = await Cart.findOne({ user: userId });
 
       res.render("user/viewProducts", {
-        title: "Landing Page",
+        title: "View Products",
         title2: categoryTitle,
         products,
         categories,
@@ -510,7 +510,7 @@ const viewProductsPage = async (req, res) => {
       categories = await Category.find(); // Fetch categories from the database
       const categoryTitle = "Landing";
       res.render("user/viewProducts", {
-        title: "Landing Page",
+        title: "View Products",
         title2: categoryTitle,
         products,
         categories,
@@ -519,7 +519,7 @@ const viewProductsPage = async (req, res) => {
       });
     }
   } catch (error) {
-    res.render("error", { error: "An error occurred." });
+    res.render("error", { error: "An error occurred.", title: "Error Page" });
   }
 };
 
@@ -530,7 +530,10 @@ const displayProductsByCategory = async (req, res) => {
     const categories = await Category.find().lean().exec();
 
     if (!category) {
-      return res.render("error", { error: "Category not found." });
+      return res.render("error", {
+        error: "Category not found.",
+        title: "Error Page",
+      });
     }
 
     const categoryName = category.name;
@@ -552,7 +555,7 @@ const displayProductsByCategory = async (req, res) => {
       const cart = await Cart.findOne({ user: userId });
       const categoryTitle = "Category Page";
       res.render("user/viewProducts", {
-        title: "Landing Page",
+        title: "View Products",
         title2: categoryTitle,
         products: filteredProducts,
         category,
@@ -565,7 +568,7 @@ const displayProductsByCategory = async (req, res) => {
     } else {
       const categoryTitle = "Category Page";
       res.render("user/viewProducts", {
-        title: "Landing Page",
+        title: "View Products",
         title2: categoryTitle,
         products: filteredProducts,
         category,
@@ -575,7 +578,7 @@ const displayProductsByCategory = async (req, res) => {
       });
     }
   } catch (error) {
-    res.render("error", { error: "An error occurred." });
+    res.render("error", { error: "An error occurred.", title: "Error Page" });
   }
 };
 
@@ -598,7 +601,7 @@ const displayProductsByPrice = async (req, res) => {
       }
 
       res.render("user/viewProducts", {
-        title: "Landing Page",
+        title: "View Products",
         title2: categoryTitle,
         products,
         categories,
@@ -615,7 +618,7 @@ const displayProductsByPrice = async (req, res) => {
       }
 
       res.render("user/viewProducts", {
-        title: "Landing Page",
+        title: "View Products",
         title2: categoryTitle,
         products,
         categories,
@@ -624,7 +627,7 @@ const displayProductsByPrice = async (req, res) => {
       });
     }
   } catch (error) {
-    res.render("error", { error: "An error occurred." });
+    res.render("error", { error: "An error occurred.", title: "Error Page" });
   }
 };
 
@@ -659,7 +662,7 @@ const displayProductsByPriceRange = async (req, res) => {
       }
 
       res.render("user/viewProducts", {
-        title: "Landing Page",
+        title: "View Products",
         title2: categoryTitle,
         products,
         categories,
@@ -678,7 +681,7 @@ const displayProductsByPriceRange = async (req, res) => {
       }
 
       res.render("user/viewProducts", {
-        title: "Landing Page",
+        title: "View Products",
         title2: categoryTitle,
         products,
         categories,
@@ -689,7 +692,7 @@ const displayProductsByPriceRange = async (req, res) => {
       });
     }
   } catch (error) {
-    res.render("error", { error: "An error occurred." });
+    res.render("error", { error: "An error occurred.", title: "Error Page" });
   }
 };
 
@@ -729,7 +732,7 @@ const displayProductsByName = async (req, res) => {
       const userId = req.session.user._id;
       const cart = await Cart.findOne({ user: userId }).lean();
       res.render("user/viewProducts", {
-        title: "Landing Page",
+        title: "View Products",
         title2: categoryTitle,
         products,
         categories,
@@ -750,7 +753,7 @@ const displayProductsByName = async (req, res) => {
       const categoryTitle = "Alphabetical Sorting";
       // const category = await Category.find().lean();
       res.render("user/viewProducts", {
-        title: "Landing Page",
+        title: "View Products",
         title2: categoryTitle,
         products,
         categories,
@@ -759,7 +762,7 @@ const displayProductsByName = async (req, res) => {
       });
     }
   } catch (error) {
-    res.render("error", { error: "An error occurred." });
+    res.render("error", { error: "An error occurred.", title: "Error Page" });
   }
 };
 

@@ -43,12 +43,18 @@ const sendOTP = async (req, res, next) => {
           to: `+91${mobile}`,
           channel: "sms",
         });
-      res.render("user/otplogin", { mobile });
+      res.render("user/otplogin", { mobile, title: "OTP Login Page" });
     } else {
-      return res.render("user/mobilelogin", { msg: "Please Signup New User" });
+      return res.render("user/mobilelogin", {
+        msg: "Please Signup New User",
+        title: "OTP Login Page",
+      });
     }
   } catch (error) {
-    return res.render("user/mobilelogin", { msg: "Failed to send OTP" });
+    return res.render("user/mobilelogin", {
+      msg: "Failed to send OTP",
+      title: "OTP Login Page",
+    });
   }
 };
 
@@ -98,10 +104,17 @@ const verifyOTP = async (req, res, next) => {
         carousel: carousel,
       });
     } else {
-      return res.render("user/mobilelogin", { msg: "Invalid OTP" });
+      return res.render("user/mobilelogin", {
+        msg: "Invalid OTP",
+        title: "OTP Login Page",
+      });
     }
   } catch (error) {
-    return res.render("user/otplogin", { mobile, msg: "Invalid OTP" });
+    return res.render("user/otplogin", {
+      mobile,
+      msg: "Invalid OTP",
+      title: "OTP Login Page",
+    });
   }
 };
 
@@ -143,11 +156,14 @@ const sendOTPSignup = async (req, res, next) => {
       name,
       email,
       password,
-
+      title: "OTP Signup ",
       msg: "",
     });
   } catch (error) {
-    return res.render("user/signupMobile", { msg: "Failed to send OTP" });
+    return res.render("user/signupMobile", {
+      msg: "Failed to send OTP",
+      title: "OTP Signup ",
+    });
   }
 };
 
@@ -215,10 +231,17 @@ const verifyOTPSignup = async (req, res, next) => {
       const errorMessage = verificationResult.error
         ? verificationResult.error.message
         : "Invalid OTP";
-      return res.render("user/signupMobile", { msg: "Invalid OTP" });
+      return res.render("user/signupMobile", {
+        msg: "Invalid OTP",
+        title: "Mobile Signup ",
+      });
     }
   } catch (error) {
-    return res.render("user/signupMobile", { mobile, msg: "Invalid OTP" });
+    return res.render("user/signupMobile", {
+      mobile,
+      msg: "Invalid OTP",
+      title: "Mobile Signup ",
+    });
   }
 };
 
@@ -250,6 +273,7 @@ const sendOTPForgotPassword = async (req, res, next) => {
   } catch (error) {
     return res.render("user/loginForgotPassword", {
       msg: "Failed to send OTP",
+      title: "Sign Up",
     });
   }
 };
@@ -269,10 +293,17 @@ const verifyOTPForgotPassword = async (req, res, next) => {
     if (verificationResult.status === "approved") {
       res.render("user/changePassword", { mobile, title: "Change Password" });
     } else {
-      return res.render("user/otpForgotPassword", { msg: "Invalid OTP" });
+      return res.render("user/otpForgotPassword", {
+        msg: "Invalid OTP",
+        title: "Change Password",
+      });
     }
   } catch (error) {
-    return res.render("user/otpForgotPassword", { mobile, msg: "Invalid OTP" });
+    return res.render("user/otpForgotPassword", {
+      mobile,
+      msg: "Invalid OTP",
+      title: "Change Password",
+    });
   }
 };
 const verifyChangePassword = async (req, res, next) => {
@@ -317,7 +348,11 @@ const verifyChangePassword = async (req, res, next) => {
       carousel: carousel,
     });
   } catch (error) {
-    return res.render("user/otpForgotPassword", { mobile, msg: "Invalid OTP" });
+    return res.render("user/otpForgotPassword", {
+      mobile,
+      msg: "Invalid OTP",
+      title: "Forgot Password",
+    });
   }
 };
 

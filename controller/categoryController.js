@@ -90,7 +90,7 @@ const renderAddCategoryPage = (req, res) => {
       message: req.session.message,
     });
   } else {
-    res.render("admin/admin_login", { title: "Login Page" });
+    res.render("admin/admin_login", { title: "Admin Login" });
   }
 };
 // Edit category

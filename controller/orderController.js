@@ -85,6 +85,7 @@ const renderCheckOutPage = async (req, res) => {
       wallet: wallet,
       walletAmount: walletAmount,
       newWalletBalance: newWalletBalance,
+      title: "User Checkout",
     });
   } catch (error) {
     req.session.message = {
@@ -209,7 +210,7 @@ const renderPlaceOrderPage = async (req, res, next) => {
     res.render("user/orderSuccess", {
       user: req.session.user,
       msg: req.session.msg,
-
+      title: "Order Success",
       cart: cart,
     }); // Redirect to a success page
   } catch (error) {
@@ -248,7 +249,7 @@ const renderAdminOrderTable = async (req, res, next) => {
     }
 
     res.render("admin/orders_table", {
-      title: "Order Details",
+      title: "Admin Order Details",
       orders: orders.map((order) => {
         order.cart.products = order.cart.products.map((product) => {
           if (!product.product) {
@@ -441,7 +442,7 @@ const renderSingleOrderPage = async (req, res, next) => {
     }
 
     res.render("admin/view_order", {
-      title: "Order Details",
+      title: "Admin View Order Details",
       order: order,
 
       admin: req.session.admin,

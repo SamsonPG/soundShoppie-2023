@@ -28,7 +28,7 @@ landingRouter.get("/", async (req, res) => {
       } else {
         // Continue with rendering the page using the retrieved carousel
         res.render("user/landingPage", {
-          title: "Landing Page",
+          title: "Home Page",
           products,
           categories,
           page,
@@ -38,7 +38,7 @@ landingRouter.get("/", async (req, res) => {
       }
     }
   } catch (error) {
-    res.render("error", { error: "An error occurred." });
+    res.render("error", { error: "An error occurred.", title: "Error Page" });
   }
 });
 

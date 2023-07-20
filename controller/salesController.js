@@ -85,7 +85,7 @@ const rendersalesReportTable = async (req, res, next) => {
     });
 
     res.render("admin/sales_report", {
-      title: "Sales Report",
+      title: "Admin Sales Report",
       orders,
       timeframe,
       totalSales,

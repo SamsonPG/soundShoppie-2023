@@ -68,7 +68,7 @@ const addressAdd = async (req, res) => {
       user: user,
       userId: userId,
       address: address,
-
+      title: "User Address",
       cart: cart,
     });
   } catch (error) {
@@ -227,7 +227,7 @@ const addUserAddress = async (req, res) => {
       user: user,
       userId: userId,
       address: address,
-
+      title: "User Address",
       cart: cart,
     });
   } catch (error) {
@@ -242,7 +242,7 @@ const addUserAddress = async (req, res) => {
       user: user,
       userId: userId,
       address: address,
-
+      title: "User Address",
       cart: cart,
     });
   }

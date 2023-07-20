@@ -139,7 +139,7 @@ userRouter.get("/userlogout", refreshUserSession, async (req, res) => {
     const categories = await Category.find(); // Fetch categories from the database
     const carousel = await Carousel.findOne({ carouselstatus: "active" });
     res.render("user/landingPage", {
-      title: "Landing Page",
+      title: "Home Page",
       products,
       categories,
       page,
@@ -147,7 +147,7 @@ userRouter.get("/userlogout", refreshUserSession, async (req, res) => {
       carousel: carousel,
     });
   } catch (error) {
-    res.render("error", { error: "An error occurred." });
+    res.render("error", { error: "An error occurred.", title: "Error Page" });
   }
 });
 
@@ -404,7 +404,7 @@ userRouter.get(
         });
       }
     } catch (error) {
-      res.render("error", { error: "An error occurred." });
+      res.render("error", { error: "An error occurred.", title: "Error Page" });
     }
   }
 );
@@ -539,6 +539,7 @@ userRouter.get(
 
       const cart = await Cart.findOne({ user: userId });
       res.render("user/orderSuccess", {
+        title: "User Order Success",
         user: req.session.user,
         msg: req.session.msg,
         cart: cart,
@@ -547,6 +548,7 @@ userRouter.get(
       // Handle the error and render an appropriate error page
       res.render("error", {
         error: "Failed to clear cart",
+        title: "Error Page",
       });
     }
   }
@@ -577,7 +579,7 @@ userRouter.get(
       res.render("user/orderCancelled", {
         user: req.session.user,
         msg: req.session.msg,
-
+        title: "User Order Cancelled",
         cart: cart,
       });
     } catch (error) {
@@ -597,7 +599,7 @@ userRouter.get(
     res.render("user/orderFailed", {
       user: req.session.user,
       msg: req.session.msg,
-
+      title: "User Order Failed",
       cart: cart,
     });
   }
