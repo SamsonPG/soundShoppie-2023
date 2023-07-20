@@ -656,9 +656,9 @@ const displayProductsByPriceRange = async (req, res) => {
       const cart = await Cart.findOne({ user: userId });
 
       if (sortBy === "high-to-low") {
-        products = await getProductsByPriceDescending(minPrice, maxPrice);
+        products = await getProductsByPriceDescendingRange(minPrice, maxPrice);
       } else if (sortBy === "low-to-high") {
-        products = await getProductsByPriceAscending(minPrice, maxPrice);
+        products = await getProductsByPriceAscendingRange(minPrice, maxPrice);
       }
 
       res.render("user/viewProducts", {
