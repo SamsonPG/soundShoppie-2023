@@ -1416,6 +1416,7 @@ button.switch-month:hover {
 } */
 .shadowed-image {
   /* filter: drop-shadow(0 0px 7px rgba(0, 0, 0, 0.222)); */
+  max-width: 400px;
   filter: drop-shadow(0 0px 7px rgba(167, 154, 49, 1));
 }
 
@@ -1461,7 +1462,6 @@ button.switch-month:hover {
   }
   .shadowed-image {
     max-width: 300px;
-    height: 100%;
   }
   .downArrow {
     bottom: 400px;
@@ -1503,7 +1503,9 @@ button.switch-month:hover {
     display: none;
   }
 }
-
+.shadowed-image {
+  max-width: 300px;
+}
 .scroll-container3 {
   /* overflow-x: hidden;
 
@@ -1695,3 +1697,4 @@ button.switch-month:hover {
 .add-product-shortcut .card-details-btn:hover {
   background-color: #a79a31;
 }
+/* Set a maximum width for the image container */
