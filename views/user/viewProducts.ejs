@@ -168,566 +168,566 @@
       
     </div>
   
+<div class="container"> <!-- End of Card Deck Layout -->
 
+  <div class="card-deck d-flex justify-content-center align-items-center">   
+    <% if (title2 === "Category Page") { %>
 
- <!-- End of Card Deck Layout -->
-
-      <div class="card-deck d-flex justify-content-center align-items-center">   
-        <% if (title2 === "Category Page") { %>
-   
-        <% if (locals.categories) {
-          if (products.length === 0) { %>
-            <p>No products available for the selected category.</p>
-        <% } else {%>
-          <div class="product-cards-container scroll-container3" > 
-             <div class="product-grid "> 
-                <% products.forEach((product, index) => { %> 
-          <div class="product-card m-2 ">
-            <!-- Product card content -->
-            <div class="image-container">         
-              <div>
-              <% if (product.category) { %> <% const category =
-              categories.find(cat => cat._id.toString() ===
-              product.category.toString()); %> <% if (category.offerpercentage > 0
-              && category.status === "active") { %>
-              <span class="badge rounded-pill badge-notification bg-danger ">
-                <div>
-                  <div class="m-1"><%= category.offerpercentage %> %</div>
-                  <div class="m-1">off</div>
-                </div></span
-              >
-              <% } %> <% } %>
-              </div>
-              <img class="card-img-top" src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>" alt="Product Image" />
-              <% if (product.stock === 0) { %>
-                <div class="overlay">
-                  <p class="overlay-text">Out of Stock</p>
-                </div>
-              <% } %>
-            </div>
-            <div class="card-body">  
-              <% if (product.title) { %>
-                <% const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
-                <h5 class="card-title"><%= productName %></h5>
-              <% } %>
-              <div class="card-price">
-                <% if (product.category) { %>
-                  <% const category = categories.find(cat => cat._id.toString() === product.category.toString()); %>
-                  <% if (category) { %>
-                    <% if (category.name.length > 10) { %>
-                      <span class="category-name truncate"><%= category.name %></span>
-                    <% } else { %>
-                      <%= category.name %>
-                    <% } %>
-                  <% } else { %>
-                    Category not found
-                  <% } %>
-                <% } %>
-              </div>
-              
-              <div>
-                <% if (product.stock>0) { %> <% if (category) { %> <% const
-                category = categories.find(cat => cat._id.toString() ===
-                product.category.toString()); %> <% if (category.offerpercentage > 0
-                && category.status === "active" && product.offerprice > 0 &&
-                product.status === "active") { %>
-                <div class="card-price">
-                  ₹<%= product.price - (product.price * (category.offerpercentage /
-                  100)) - product.offerprice %>
-                </div>
-                <del>₹<%= product.price %></del>
-                <div class="p-1"></div>
-                <% } %> <% } %> <% if (category) { %> <% const category =
-                categories.find(cat => cat._id.toString() ===
-                product.category.toString()); %> <% if (category.offerpercentage > 0
-                && category.status === "active" && product.status === "inactive") {
-                %>
-                <div class="card-price">
-                  ₹<%= product.price - (product.price * (category.offerpercentage /
-                  100)) %>
-                </div>
-                <del>₹<%= product.price %></del>
-                <div class="p-1"></div>
-    
-                <% } %> <% } %> <% if (category) { %> <% const category =
-                categories.find(cat => cat._id.toString() ===
-                product.category.toString()); %> <% if (product.offerprice > 0 &&
-                product.status === "active" && category.status === "inactive") { %>
-                <div class="card-price">
-                  ₹<%= product.price - product.offerprice %>
-                </div>
-                <del>₹<%= product.price %></del>
-                <div class="p-1"></div>
-    
-                <% } %> <% } %> <% if (category) { %> <% const category =
-                categories.find(cat => cat._id.toString() ===
-                product.category.toString()); %> <% if (category.status ===
-                "inactive" && product.status === "inactive") { %>
-                <div class="card-price">₹<%= product.price %></div>
-                <div class="p-3"></div>
-    
-                <% } %> <% } %> <% } %>
-              </div>
-              <div>
-                <% if (category) { %> <% const category =
-                categories.find(cat => cat._id.toString() ===
-                product.category.toString()); %> <%if(product.stock === 0 ){%>
-                <div class="card-price">₹<%= product.price %></div>
-                <div class="p-3"></div>
-                <% } %><%if(product.offerprice === 0 && product.status ===
-                "active"){%>
-                <div class="card-price">₹<%= product.price %></div>
-                <div class="p-3"></div>
-                <% } %><%if( category.offerpercentage===0 && category.status ===
-                "active"){%>
-                <div class="card-price">₹<%= product.price %></div>
-                <div class="p-3"></div>
-                <% } %><% } %>
-              </div>
-    
-          
-              <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
-            </div>
+    <% if (locals.categories) {
+      if (products.length === 0) { %>
+        <p>No products available for the selected category.</p>
+    <% } else {%>
+      <div class="product-cards-container scroll-container3" > 
+         <div class="product-grid "> 
+            <% products.forEach((product, index) => { %> 
+      <div class="product-card m-2 ">
+        <!-- Product card content -->
+        <div class="image-container">         
+          <div>
+          <% if (product.category) { %> <% const category =
+          categories.find(cat => cat._id.toString() ===
+          product.category.toString()); %> <% if (category.offerpercentage > 0
+          && category.status === "active") { %>
+          <span class="badge rounded-pill badge-notification bg-danger ">
+            <div>
+              <div class="m-1"><%= category.offerpercentage %> %</div>
+              <div class="m-1">off</div>
+            </div></span
+          >
+          <% } %> <% } %>
           </div>
-      <% }); %>
-     </div>
-    </div>
-      
-        <% }%> <% }%>  <% }%>
-      </div>
-  
- <!-- End of Card Deck Layout -->
-
-      <div class="card-deck d-flex justify-content-center align-items-center">   
-      <% if(title2 === "Landing") {%><div class="product-cards-container scroll-container3" >
-          <div class="product-grid">
-                 <% products.forEach((product, index) => { %>
-        <div class="product-card m-2">
-          <!-- Product card content -->
-          <div class="image-container">
-                    <div>
-            <% if (product.category) { %> <% const category =
+          <img class="card-img-top" src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>" alt="Product Image" />
+          <% if (product.stock === 0) { %>
+            <div class="overlay">
+              <p class="overlay-text">Out of Stock</p>
+            </div>
+          <% } %>
+        </div>
+        <div class="card-body">  
+          <% if (product.title) { %>
+            <% const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
+            <h5 class="card-title"><%= productName %></h5>
+          <% } %>
+          <div class="card-price">
+            <% if (product.category) { %>
+              <% const category = categories.find(cat => cat._id.toString() === product.category.toString()); %>
+              <% if (category) { %>
+                <% if (category.name.length > 10) { %>
+                  <span class="category-name truncate"><%= category.name %></span>
+                <% } else { %>
+                  <%= category.name %>
+                <% } %>
+              <% } else { %>
+                Category not found
+              <% } %>
+            <% } %>
+          </div>
+          
+          <div>
+            <% if (product.stock>0) { %> <% if (category) { %> <% const
+            category = categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (category.offerpercentage > 0
+            && category.status === "active" && product.offerprice > 0 &&
+            product.status === "active") { %>
+            <div class="card-price">
+              ₹<%= product.price - (product.price * (category.offerpercentage /
+              100)) - product.offerprice %>
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+            <% } %> <% } %> <% if (category) { %> <% const category =
             categories.find(cat => cat._id.toString() ===
             product.category.toString()); %> <% if (category.offerpercentage > 0
-            && category.status === "active") { %>
-            <span class="badge rounded-pill badge-notification bg-danger ">
-              <div>
-                <div class="m-1"><%= category.offerpercentage %> %</div>
-                <div class="m-1">off</div>
-              </div></span
-            >
-            <% } %> <% } %>
-            </div>
-            <img class="card-img-top" src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>" alt="Product Image" />
-            <% if (product.stock === 0) { %>
-              <div class="overlay">
-                <p class="overlay-text">Out of Stock</p>
-              </div>
-            <% } %>
-          </div>
-          <div class="card-body">
-            <% if (product.title) { %>
-              <% const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
-              <h5 class="card-title"><%= productName %></h5>
-            <% } %>
+            && category.status === "active" && product.status === "inactive") {
+            %>
             <div class="card-price">
-              <% if (product.category) { %>
-                <% const category = categories.find(cat => cat._id.toString() === product.category.toString()); %>
-                <% if (category) { %>
-                  <% if (category.name.length > 10) { %>
-                    <span class="category-name truncate"><%= category.name %></span>
-                  <% } else { %>
-                    <%= category.name %>
-                  <% } %>
-                <% } else { %>
-                  Category not found
-                <% } %>
-              <% } %>
+              ₹<%= product.price - (product.price * (category.offerpercentage /
+              100)) %>
             </div>
-        
-            <div>
-              <% if (product.stock>0) { %> <% if (product.category) { %> <% const
-              category = categories.find(cat => cat._id.toString() ===
-              product.category.toString()); %> <% if (category.offerpercentage > 0
-              && category.status === "active" && product.offerprice > 0 &&
-              product.status === "active") { %>
-              <div class="card-price">
-                ₹<%= product.price - (product.price * (category.offerpercentage /
-                100)) - product.offerprice %>
-              </div>
-              <del>₹<%= product.price %></del>
-              <div class="p-1"></div>
-              <% } %> <% } %> <% if (product.category) { %> <% const category =
-              categories.find(cat => cat._id.toString() ===
-              product.category.toString()); %> <% if (category.offerpercentage > 0
-              && category.status === "active" && product.status === "inactive") {
-              %>
-              <div class="card-price">
-                ₹<%= product.price - (product.price * (category.offerpercentage /
-                100)) %>
-              </div>
-              <del>₹<%= product.price %></del>
-              <div class="p-1"></div>
-  
-              <% } %> <% } %> <% if (product.category) { %> <% const category =
-              categories.find(cat => cat._id.toString() ===
-              product.category.toString()); %> <% if (product.offerprice > 0 &&
-              product.status === "active" && category.status === "inactive") { %>
-              <div class="card-price">
-                ₹<%= product.price - product.offerprice %>
-              </div>
-              <del>₹<%= product.price %></del>
-              <div class="p-1"></div>
-  
-              <% } %> <% } %> <% if (product.category) { %> <% const category =
-              categories.find(cat => cat._id.toString() ===
-              product.category.toString()); %> <% if (category.status ===
-              "inactive" && product.status === "inactive") { %>
-              <div class="card-price">₹<%= product.price %></div>
-              <div class="p-3"></div>
-  
-              <% } %> <% } %> <% } %>
-            </div>
-            <div>
-              <% if (product.category) { %> <% const category =
-              categories.find(cat => cat._id.toString() ===
-              product.category.toString()); %> <%if(product.stock === 0 ){%>
-              <div class="card-price">₹<%= product.price %></div>
-              <div class="p-3"></div>
-              <% } %><%if(product.offerprice === 0 && product.status ===
-              "active"){%>
-              <div class="card-price">₹<%= product.price %></div>
-              <div class="p-3"></div>
-              <% } %><%if( category.offerpercentage===0 && category.status ===
-              "active"){%>
-              <div class="card-price">₹<%= product.price %></div>
-              <div class="p-3"></div>
-              <% } %><% } %>
-            </div>
-  
-            <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
-          </div>
-        </div>
-    <% }); %>
-  </div>
-</div>
-   
-      <% } %>
-    </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
 
-      <!-- End of Card Deck Layout -->
-      <div class="card-deck d-flex justify-content-center align-items-center">
-        <% if (title2 === "Sort By Price Page") { %><div class="product-cards-container scroll-container3" >  <div class="product-grid">   <% products.forEach((product, index) => { %>
-          <div class="product-card m-2">
-            <!-- Product card content -->
-            <div class="image-container">            <div>
-              <% if (product.category.offerpercentage > 0
-              && product.category.status === "active") { %>
-              <span class="badge rounded-pill badge-notification bg-danger ">
+            <% } %> <% } %> <% if (category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (product.offerprice > 0 &&
+            product.status === "active" && category.status === "inactive") { %>
+            <div class="card-price">
+              ₹<%= product.price - product.offerprice %>
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+
+            <% } %> <% } %> <% if (category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <% if (category.status ===
+            "inactive" && product.status === "inactive") { %>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+
+            <% } %> <% } %> <% } %>
+          </div>
+          <div>
+            <% if (category) { %> <% const category =
+            categories.find(cat => cat._id.toString() ===
+            product.category.toString()); %> <%if(product.stock === 0 ){%>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+            <% } %><%if(product.offerprice === 0 && product.status ===
+            "active"){%>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+            <% } %><%if( category.offerpercentage===0 && category.status ===
+            "active"){%>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+            <% } %><% } %>
+          </div>
+
+      
+          <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
+        </div>
+      </div>
+  <% }); %>
+ </div>
+</div>
+  
+    <% }%> <% }%>  <% }%>
+  </div>
+
+<!-- End of Card Deck Layout -->
+
+  <div class="card-deck d-flex justify-content-center align-items-center">   
+  <% if(title2 === "Landing") {%><div class="product-cards-container scroll-container3" >
+      <div class="product-grid">
+             <% products.forEach((product, index) => { %>
+    <div class="product-card m-2">
+      <!-- Product card content -->
+      <div class="image-container">
+                <div>
+        <% if (product.category) { %> <% const category =
+        categories.find(cat => cat._id.toString() ===
+        product.category.toString()); %> <% if (category.offerpercentage > 0
+        && category.status === "active") { %>
+        <span class="badge rounded-pill badge-notification bg-danger ">
+          <div>
+            <div class="m-1"><%= category.offerpercentage %> %</div>
+            <div class="m-1">off</div>
+          </div></span
+        >
+        <% } %> <% } %>
+        </div>
+        <img class="card-img-top" src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>" alt="Product Image" />
+        <% if (product.stock === 0) { %>
+          <div class="overlay">
+            <p class="overlay-text">Out of Stock</p>
+          </div>
+        <% } %>
+      </div>
+      <div class="card-body">
+        <% if (product.title) { %>
+          <% const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
+          <h5 class="card-title"><%= productName %></h5>
+        <% } %>
+        <div class="card-price">
+          <% if (product.category) { %>
+            <% const category = categories.find(cat => cat._id.toString() === product.category.toString()); %>
+            <% if (category) { %>
+              <% if (category.name.length > 10) { %>
+                <span class="category-name truncate"><%= category.name %></span>
+              <% } else { %>
+                <%= category.name %>
+              <% } %>
+            <% } else { %>
+              Category not found
+            <% } %>
+          <% } %>
+        </div>
+    
+        <div>
+          <% if (product.stock>0) { %> <% if (product.category) { %> <% const
+          category = categories.find(cat => cat._id.toString() ===
+          product.category.toString()); %> <% if (category.offerpercentage > 0
+          && category.status === "active" && product.offerprice > 0 &&
+          product.status === "active") { %>
+          <div class="card-price">
+            ₹<%= product.price - (product.price * (category.offerpercentage /
+            100)) - product.offerprice %>
+          </div>
+          <del>₹<%= product.price %></del>
+          <div class="p-1"></div>
+          <% } %> <% } %> <% if (product.category) { %> <% const category =
+          categories.find(cat => cat._id.toString() ===
+          product.category.toString()); %> <% if (category.offerpercentage > 0
+          && category.status === "active" && product.status === "inactive") {
+          %>
+          <div class="card-price">
+            ₹<%= product.price - (product.price * (category.offerpercentage /
+            100)) %>
+          </div>
+          <del>₹<%= product.price %></del>
+          <div class="p-1"></div>
+
+          <% } %> <% } %> <% if (product.category) { %> <% const category =
+          categories.find(cat => cat._id.toString() ===
+          product.category.toString()); %> <% if (product.offerprice > 0 &&
+          product.status === "active" && category.status === "inactive") { %>
+          <div class="card-price">
+            ₹<%= product.price - product.offerprice %>
+          </div>
+          <del>₹<%= product.price %></del>
+          <div class="p-1"></div>
+
+          <% } %> <% } %> <% if (product.category) { %> <% const category =
+          categories.find(cat => cat._id.toString() ===
+          product.category.toString()); %> <% if (category.status ===
+          "inactive" && product.status === "inactive") { %>
+          <div class="card-price">₹<%= product.price %></div>
+          <div class="p-3"></div>
+
+          <% } %> <% } %> <% } %>
+        </div>
+        <div>
+          <% if (product.category) { %> <% const category =
+          categories.find(cat => cat._id.toString() ===
+          product.category.toString()); %> <%if(product.stock === 0 ){%>
+          <div class="card-price">₹<%= product.price %></div>
+          <div class="p-3"></div>
+          <% } %><%if(product.offerprice === 0 && product.status ===
+          "active"){%>
+          <div class="card-price">₹<%= product.price %></div>
+          <div class="p-3"></div>
+          <% } %><%if( category.offerpercentage===0 && category.status ===
+          "active"){%>
+          <div class="card-price">₹<%= product.price %></div>
+          <div class="p-3"></div>
+          <% } %><% } %>
+        </div>
+
+        <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
+      </div>
+    </div>
+<% }); %>
+</div>
+</div>
+
+  <% } %>
+</div>
+
+  <!-- End of Card Deck Layout -->
+  <div class="card-deck d-flex justify-content-center align-items-center">
+    <% if (title2 === "Sort By Price Page") { %><div class="product-cards-container scroll-container3" >  <div class="product-grid">   <% products.forEach((product, index) => { %>
+      <div class="product-card m-2">
+        <!-- Product card content -->
+        <div class="image-container">            <div>
+          <% if (product.category.offerpercentage > 0
+          && product.category.status === "active") { %>
+          <span class="badge rounded-pill badge-notification bg-danger ">
+            <div>
+              <div class="m-1"><%= product.category.offerpercentage %> %</div>
+              <div class="m-1">off</div>
+            </div></span
+          >
+          <% } %> 
+          </div>
+          <img class="card-img-top" src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>" alt="Product Image" />
+          <% if (product.stock === 0) { %>
+            <div class="overlay">
+              <p class="overlay-text">Out of Stock</p>
+            </div>
+          <% } %>
+        </div>
+        <div class="card-body">
+          <% if (product.title) { %>
+            <% const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
+            <h5 class="card-title"><%= productName %></h5>
+          <% } %>
+          <div class="card-price">
+            <% if (product.category) { %>
+              <% const categoryName = product.category.name; %>
+              <% if (categoryName.length > 10) { %> <!-- Adjust the limit as needed -->
+                <span class="category-name truncate"><%= categoryName %></span>
+              <% } else { %>
+                <%= categoryName %>
+              <% } %>
+            <% } %>
+          </div>
+          <div class="card-rating">
+            <% for (let i = 0; i < 5; i++) { %>
+              <% if (i < product.rating) { %>
+                <span class="fa fa-star"></span>
+              <% } else { %>
+                <span class="fa fa-star-o"></span>
+              <% } %>
+            <% } %>
+          </div>
+          <div>
+            <% if (product.stock>0) { %> <% if (product.category) { %>  <% if (product.category.offerpercentage > 0
+            && product.category.status === "active" && product.offerprice > 0 &&
+            product.status === "active") { %>
+            <div class="card-price">
+              ₹<%= product.price - (product.price * (product.category.offerpercentage /
+              100)) - product.offerprice %>
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+            <% } %> <% } %> <% if (product.category) { %> <% if (product.category.offerpercentage > 0
+            && product.category.status === "active" && product.status === "inactive") {
+            %>
+            <div class="card-price">
+              ₹<%= product.price - (product.price * (product.category.offerpercentage /
+              100)) %>
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+
+            <% } %> <% } %> <% if (product.category) { %>  <% if (product.offerprice > 0 &&
+            product.status === "active" && product.category.status === "inactive") { %>
+            <div class="card-price">
+              ₹<%= product.price - product.offerprice %>
+            </div>
+            <del>₹<%= product.price %></del>
+            <div class="p-1"></div>
+
+            <% } %> <% } %> <% if (product.category) { %> <% if (product.category.status ===
+            "inactive" && product.status === "inactive") { %>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+
+            <% } %> <% } %> <% } %>
+          </div>
+          <div>
+            <% if (product.category) { %>  <%if(product.stock === 0 ){%>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+            <% } %><%if(product.offerprice === 0 && product.status ===
+            "active"){%>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+            <% } %><%if( product.category.offerpercentage===0 && product.category.status ===
+            "active"){%>
+            <div class="card-price">₹<%= product.price %></div>
+            <div class="p-3"></div>
+            <% } %><% } %>
+          </div>
+
+          <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
+        </div>
+      </div>
+    <% }); %></div></div>
+   
+    <% } %>
+  </div>
+  
+<!-- End of Card Deck Layout -->
+
+ <div class="card-deck d-flex justify-content-center align-items-center">
+   <% if (title2 === "Alphabetical Sorting") { %>
+    <div class="product-cards-container scroll-container3" >  <div class="product-grid">         <% products.forEach((product, index) => { %>
+    <div class="product-card m-2">
+      <!-- Product card content -->
+      <div class="image-container">            <div>
+        <% if (product.category.offerpercentage > 0
+        && product.category.status === "active") { %>
+        <span class="badge rounded-pill badge-notification bg-danger ">
+          <div>
+            <div class="m-1"><%= product.category.offerpercentage %> %</div>
+            <div class="m-1">off</div>
+          </div></span
+        >
+        <% } %> 
+        </div>
+        <img class="card-img-top" src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>" alt="Product Image" />
+        <% if (product.stock === 0) { %>
+          <div class="overlay">
+            <p class="overlay-text">Out of Stock</p>
+          </div>
+        <% } %>
+      </div>
+      <div class="card-body">
+        <% if (product.title) { %>
+          <% const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
+          <h5 class="card-title"><%= productName %></h5>
+        <% } %>
+        <div class="card-price">
+          <% if (product.category) { %>
+            <% const categoryName = product.category.name; %>
+            <% if (categoryName.length > 10) { %> <!-- Adjust the limit as needed -->
+              <span class="category-name truncate"><%= categoryName %></span>
+            <% } else { %>
+              <%= categoryName %>
+            <% } %>
+          <% } %>
+        </div>
+        <div class="card-rating">
+          <% for (let i = 0; i < 5; i++) { %>
+            <% if (i < product.rating) { %>
+              <span class="fa fa-star"></span>
+            <% } else { %>
+              <span class="fa fa-star-o"></span>
+            <% } %>
+          <% } %>
+        </div>
+        <div>
+          <% if (product.stock>0) { %> <% if (product.category) { %>  <% if (product.category.offerpercentage > 0
+          && product.category.status === "active" && product.offerprice > 0 &&
+          product.status === "active") { %>
+          <div class="card-price">
+            ₹<%= product.price - (product.price * (product.category.offerpercentage /
+            100)) - product.offerprice %>
+          </div>
+          <del>₹<%= product.price %></del>
+          <div class="p-1"></div>
+          <% } %> <% } %> <% if (product.category) { %> <% if (product.category.offerpercentage > 0
+          && product.category.status === "active" && product.status === "inactive") {
+          %>
+          <div class="card-price">
+            ₹<%= product.price - (product.price * (product.category.offerpercentage /
+            100)) %>
+          </div>
+          <del>₹<%= product.price %></del>
+          <div class="p-1"></div>
+
+          <% } %> <% } %> <% if (product.category) { %>  <% if (product.offerprice > 0 &&
+          product.status === "active" && product.category.status === "inactive") { %>
+          <div class="card-price">
+            ₹<%= product.price - product.offerprice %>
+          </div>
+          <del>₹<%= product.price %></del>
+          <div class="p-1"></div>
+
+          <% } %> <% } %> <% if (product.category) { %> <% if (product.category.status ===
+          "inactive" && product.status === "inactive") { %>
+          <div class="card-price">₹<%= product.price %></div>
+          <div class="p-3"></div>
+
+          <% } %> <% } %> <% } %>
+        </div>
+        <div>
+          <% if (product.category) { %>  <%if(product.stock === 0 ){%>
+          <div class="card-price">₹<%= product.price %></div>
+          <div class="p-3"></div>
+          <% } %><%if(product.offerprice === 0 && product.status ===
+          "active"){%>
+          <div class="card-price">₹<%= product.price %></div>
+          <div class="p-3"></div>
+          <% } %><%if( product.category.offerpercentage===0 && product.category.status ===
+          "active"){%>
+          <div class="card-price">₹<%= product.price %></div>
+          <div class="p-3"></div>
+          <% } %><% } %>
+        </div>
+
+        <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
+      </div>
+    </div>
+  <% }); %></div></div>
+
+   <% } %>
+ </div>
+ <!-- End of Card Deck Layout -->
+ <div class="card-deck d-flex justify-content-center align-items-center">
+  <% if (title2 === "Sort By Price Range") { %>  
+    <% if (products.length === 0) { %>
+      <p>No products available for the selected price range.</p>
+    <% } else { %>  <div class="product-cards-container scroll-container3" >  <div class="product-grid"><% products.forEach((product, index) => { %>   
+      <div class="product-card m-2">
+        <!-- Product card content -->
+        <div class="image-container">
+          <div>
+            <% if (product.category.offerpercentage > 0 && product.category.status === "active") { %>
+              <span class="badge rounded-pill badge-notification bg-danger">
                 <div>
                   <div class="m-1"><%= product.category.offerpercentage %> %</div>
                   <div class="m-1">off</div>
-                </div></span
-              >
-              <% } %> 
-              </div>
-              <img class="card-img-top" src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>" alt="Product Image" />
-              <% if (product.stock === 0) { %>
-                <div class="overlay">
-                  <p class="overlay-text">Out of Stock</p>
                 </div>
-              <% } %>
-            </div>
-            <div class="card-body">
-              <% if (product.title) { %>
-                <% const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
-                <h5 class="card-title"><%= productName %></h5>
-              <% } %>
-              <div class="card-price">
-                <% if (product.category) { %>
-                  <% const categoryName = product.category.name; %>
-                  <% if (categoryName.length > 10) { %> <!-- Adjust the limit as needed -->
-                    <span class="category-name truncate"><%= categoryName %></span>
-                  <% } else { %>
-                    <%= categoryName %>
-                  <% } %>
-                <% } %>
-              </div>
-              <div class="card-rating">
-                <% for (let i = 0; i < 5; i++) { %>
-                  <% if (i < product.rating) { %>
-                    <span class="fa fa-star"></span>
-                  <% } else { %>
-                    <span class="fa fa-star-o"></span>
-                  <% } %>
-                <% } %>
-              </div>
-              <div>
-                <% if (product.stock>0) { %> <% if (product.category) { %>  <% if (product.category.offerpercentage > 0
-                && product.category.status === "active" && product.offerprice > 0 &&
-                product.status === "active") { %>
-                <div class="card-price">
-                  ₹<%= product.price - (product.price * (product.category.offerpercentage /
-                  100)) - product.offerprice %>
-                </div>
-                <del>₹<%= product.price %></del>
-                <div class="p-1"></div>
-                <% } %> <% } %> <% if (product.category) { %> <% if (product.category.offerpercentage > 0
-                && product.category.status === "active" && product.status === "inactive") {
-                %>
-                <div class="card-price">
-                  ₹<%= product.price - (product.price * (product.category.offerpercentage /
-                  100)) %>
-                </div>
-                <del>₹<%= product.price %></del>
-                <div class="p-1"></div>
-    
-                <% } %> <% } %> <% if (product.category) { %>  <% if (product.offerprice > 0 &&
-                product.status === "active" && product.category.status === "inactive") { %>
-                <div class="card-price">
-                  ₹<%= product.price - product.offerprice %>
-                </div>
-                <del>₹<%= product.price %></del>
-                <div class="p-1"></div>
-    
-                <% } %> <% } %> <% if (product.category) { %> <% if (product.category.status ===
-                "inactive" && product.status === "inactive") { %>
-                <div class="card-price">₹<%= product.price %></div>
-                <div class="p-3"></div>
-    
-                <% } %> <% } %> <% } %>
-              </div>
-              <div>
-                <% if (product.category) { %>  <%if(product.stock === 0 ){%>
-                <div class="card-price">₹<%= product.price %></div>
-                <div class="p-3"></div>
-                <% } %><%if(product.offerprice === 0 && product.status ===
-                "active"){%>
-                <div class="card-price">₹<%= product.price %></div>
-                <div class="p-3"></div>
-                <% } %><%if( product.category.offerpercentage===0 && product.category.status ===
-                "active"){%>
-                <div class="card-price">₹<%= product.price %></div>
-                <div class="p-3"></div>
-                <% } %><% } %>
-              </div>
-    
-              <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
-            </div>
-          </div>
-        <% }); %></div></div>
-       
-        <% } %>
-      </div>
-      
- <!-- End of Card Deck Layout -->
-  
-     <div class="card-deck d-flex justify-content-center align-items-center">
-       <% if (title2 === "Alphabetical Sorting") { %>
-        <div class="product-cards-container scroll-container3" >  <div class="product-grid">         <% products.forEach((product, index) => { %>
-        <div class="product-card m-2">
-          <!-- Product card content -->
-          <div class="image-container">            <div>
-            <% if (product.category.offerpercentage > 0
-            && product.category.status === "active") { %>
-            <span class="badge rounded-pill badge-notification bg-danger ">
-              <div>
-                <div class="m-1"><%= product.category.offerpercentage %> %</div>
-                <div class="m-1">off</div>
-              </div></span
-            >
+              </span>
             <% } %> 
-            </div>
-            <img class="card-img-top" src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>" alt="Product Image" />
-            <% if (product.stock === 0) { %>
-              <div class="overlay">
-                <p class="overlay-text">Out of Stock</p>
-              </div>
-            <% } %>
           </div>
-          <div class="card-body">
-            <% if (product.title) { %>
-              <% const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
-              <h5 class="card-title"><%= productName %></h5>
-            <% } %>
-            <div class="card-price">
-              <% if (product.category) { %>
-                <% const categoryName = product.category.name; %>
-                <% if (categoryName.length > 10) { %> <!-- Adjust the limit as needed -->
-                  <span class="category-name truncate"><%= categoryName %></span>
-                <% } else { %>
-                  <%= categoryName %>
-                <% } %>
-              <% } %>
+          <img class="card-img-top" src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>" alt="Product Image" />
+          <% if (product.stock === 0) { %>
+            <div class="overlay">
+              <p class="overlay-text">Out of Stock</p>
             </div>
-            <div class="card-rating">
-              <% for (let i = 0; i < 5; i++) { %>
-                <% if (i < product.rating) { %>
-                  <span class="fa fa-star"></span>
-                <% } else { %>
-                  <span class="fa fa-star-o"></span>
-                <% } %>
-              <% } %>
-            </div>
-            <div>
-              <% if (product.stock>0) { %> <% if (product.category) { %>  <% if (product.category.offerpercentage > 0
-              && product.category.status === "active" && product.offerprice > 0 &&
-              product.status === "active") { %>
-              <div class="card-price">
-                ₹<%= product.price - (product.price * (product.category.offerpercentage /
-                100)) - product.offerprice %>
-              </div>
-              <del>₹<%= product.price %></del>
-              <div class="p-1"></div>
-              <% } %> <% } %> <% if (product.category) { %> <% if (product.category.offerpercentage > 0
-              && product.category.status === "active" && product.status === "inactive") {
-              %>
-              <div class="card-price">
-                ₹<%= product.price - (product.price * (product.category.offerpercentage /
-                100)) %>
-              </div>
-              <del>₹<%= product.price %></del>
-              <div class="p-1"></div>
-  
-              <% } %> <% } %> <% if (product.category) { %>  <% if (product.offerprice > 0 &&
-              product.status === "active" && product.category.status === "inactive") { %>
-              <div class="card-price">
-                ₹<%= product.price - product.offerprice %>
-              </div>
-              <del>₹<%= product.price %></del>
-              <div class="p-1"></div>
-  
-              <% } %> <% } %> <% if (product.category) { %> <% if (product.category.status ===
-              "inactive" && product.status === "inactive") { %>
-              <div class="card-price">₹<%= product.price %></div>
-              <div class="p-3"></div>
-  
-              <% } %> <% } %> <% } %>
-            </div>
-            <div>
-              <% if (product.category) { %>  <%if(product.stock === 0 ){%>
-              <div class="card-price">₹<%= product.price %></div>
-              <div class="p-3"></div>
-              <% } %><%if(product.offerprice === 0 && product.status ===
-              "active"){%>
-              <div class="card-price">₹<%= product.price %></div>
-              <div class="p-3"></div>
-              <% } %><%if( product.category.offerpercentage===0 && product.category.status ===
-              "active"){%>
-              <div class="card-price">₹<%= product.price %></div>
-              <div class="p-3"></div>
-              <% } %><% } %>
-            </div>
-  
-            <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
-          </div>
+          <% } %>
         </div>
-      <% }); %></div></div>
-
-       <% } %>
-     </div>
-     <!-- End of Card Deck Layout -->
-     <div class="card-deck d-flex justify-content-center align-items-center">
-      <% if (title2 === "Sort By Price Range") { %>  
-        <% if (products.length === 0) { %>
-          <p>No products available for the selected price range.</p>
-        <% } else { %>  <div class="product-cards-container scroll-container3" >  <div class="product-grid"><% products.forEach((product, index) => { %>   
-          <div class="product-card m-2">
-            <!-- Product card content -->
-            <div class="image-container">
-              <div>
-                <% if (product.category.offerpercentage > 0 && product.category.status === "active") { %>
-                  <span class="badge rounded-pill badge-notification bg-danger">
-                    <div>
-                      <div class="m-1"><%= product.category.offerpercentage %> %</div>
-                      <div class="m-1">off</div>
-                    </div>
-                  </span>
-                <% } %> 
-              </div>
-              <img class="card-img-top" src="/uploads/product/<%= product.images && product.images.length > 0 ? product.images[0] : 'default-product.jpg' %>" alt="Product Image" />
-              <% if (product.stock === 0) { %>
-                <div class="overlay">
-                  <p class="overlay-text">Out of Stock</p>
-                </div>
+        <div class="card-body">
+          <% if (product.title) { %>
+            <% const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
+            <h5 class="card-title"><%= productName %></h5>
+          <% } %><div class="card-price">
+            <% if (product.category) { %>
+              <% const categoryName = product.category.name; %>
+              <% if (categoryName.length > 10) { %> <!-- Adjust the limit as needed -->
+                <span class="category-name truncate"><%= categoryName %></span>
+              <% } else { %>
+                <%= categoryName %>
               <% } %>
-            </div>
-            <div class="card-body">
-              <% if (product.title) { %>
-                <% const productName = product.title.length > 7 ? product.title.substring(0, 7) + '...' : product.title; %>
-                <h5 class="card-title"><%= productName %></h5>
-              <% } %><div class="card-price">
-                <% if (product.category) { %>
-                  <% const categoryName = product.category.name; %>
-                  <% if (categoryName.length > 10) { %> <!-- Adjust the limit as needed -->
-                    <span class="category-name truncate"><%= categoryName %></span>
-                  <% } else { %>
-                    <%= categoryName %>
-                  <% } %>
-                <% } %>
-              </div>
-       
-              <div class="card-rating">
-                <% for (let i = 0; i < 5; i++) { %>
-                  <% if (i < product.rating) { %>
-                    <span class="fa fa-star"></span>
-                  <% } else { %>
-                    <span class="fa fa-star-o"></span>
-                  <% } %>
-                <% } %>
-              </div>
-              <div>
-                <% if (product.stock > 0) { %>
-                  <% if (product.category) { %>
-                    <% if (product.category.offerpercentage > 0 && product.category.status === "active" && product.offerprice > 0 && product.status === "active") { %>
-                      <div class="card-price">
-                        ₹<%= product.price - (product.price * (product.category.offerpercentage / 100)) - product.offerprice %>
-                      </div>
-                      <del>₹<%= product.price %></del>
-                      <div class="p-1"></div>
-                    <% } else if (product.category.offerpercentage > 0 && product.category.status === "active" && product.status === "inactive") { %>
-                      <div class="card-price">
-                        ₹<%= product.price - (product.price * (product.category.offerpercentage / 100)) %>
-                      </div>
-                      <del>₹<%= product.price %></del>
-                      <div class="p-1"></div>
-                    <% } else if (product.offerprice > 0 && product.status === "active" && product.category.status === "inactive") { %>
-                      <div class="card-price">
-                        ₹<%= product.price - product.offerprice %>
-                      </div>
-                      <del>₹<%= product.price %></del>
-                      <div class="p-1"></div>
-                    <% } else if (product.category.status === "inactive" && product.status === "inactive") { %>
-                      <div class="card-price">₹<%= product.price %></div>
-                      <div class="p-3"></div>
-                    <% } %>
-                  <% } %>
-                <% } else { %>
-                  <% if (product.category) { %>
-                    <% if (product.stock === 0) { %>
-                      <div class="card-price">₹<%= product.price %></div>
-                      <div class="p-3"></div>
-                    <% } else if (product.offerprice === 0 && product.status === "active") { %>
-                      <div class="card-price">₹<%= product.price %></div>
-                      <div class="p-3"></div>
-                    <% } else if (product.category.offerpercentage === 0 && product.category.status === "active") { %>
-                      <div class="card-price">₹<%= product.price %></div>
-                      <div class="p-3"></div>
-                    <% } %>
-                  <% } %>
-                <% } %>
-              </div>
-              <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
-            </div>
+            <% } %>
           </div>
-        <% }); %></div>
-          
-       </div>
-        <% } %>
-      <% } %>
-    </div>
-    
-<!-- End of Card Deck Layout -->
+   
+          <div class="card-rating">
+            <% for (let i = 0; i < 5; i++) { %>
+              <% if (i < product.rating) { %>
+                <span class="fa fa-star"></span>
+              <% } else { %>
+                <span class="fa fa-star-o"></span>
+              <% } %>
+            <% } %>
+          </div>
+          <div>
+            <% if (product.stock > 0) { %>
+              <% if (product.category) { %>
+                <% if (product.category.offerpercentage > 0 && product.category.status === "active" && product.offerprice > 0 && product.status === "active") { %>
+                  <div class="card-price">
+                    ₹<%= product.price - (product.price * (product.category.offerpercentage / 100)) - product.offerprice %>
+                  </div>
+                  <del>₹<%= product.price %></del>
+                  <div class="p-1"></div>
+                <% } else if (product.category.offerpercentage > 0 && product.category.status === "active" && product.status === "inactive") { %>
+                  <div class="card-price">
+                    ₹<%= product.price - (product.price * (product.category.offerpercentage / 100)) %>
+                  </div>
+                  <del>₹<%= product.price %></del>
+                  <div class="p-1"></div>
+                <% } else if (product.offerprice > 0 && product.status === "active" && product.category.status === "inactive") { %>
+                  <div class="card-price">
+                    ₹<%= product.price - product.offerprice %>
+                  </div>
+                  <del>₹<%= product.price %></del>
+                  <div class="p-1"></div>
+                <% } else if (product.category.status === "inactive" && product.status === "inactive") { %>
+                  <div class="card-price">₹<%= product.price %></div>
+                  <div class="p-3"></div>
+                <% } %>
+              <% } %>
+            <% } else { %>
+              <% if (product.category) { %>
+                <% if (product.stock === 0) { %>
+                  <div class="card-price">₹<%= product.price %></div>
+                  <div class="p-3"></div>
+                <% } else if (product.offerprice === 0 && product.status === "active") { %>
+                  <div class="card-price">₹<%= product.price %></div>
+                  <div class="p-3"></div>
+                <% } else if (product.category.offerpercentage === 0 && product.category.status === "active") { %>
+                  <div class="card-price">₹<%= product.price %></div>
+                  <div class="p-3"></div>
+                <% } %>
+              <% } %>
+            <% } %>
+          </div>
+          <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
+        </div>
+      </div>
+    <% }); %></div>
+      
+   </div>
+    <% } %>
+  <% } %>
+</div>
+
+<!-- End of Card Deck Layout --></div>
+
+
     <script>
     function handleSortChange(value) {
       if (value === "low-to-high") {
