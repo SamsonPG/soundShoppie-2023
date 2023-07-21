@@ -52,7 +52,7 @@ body {
 
 .my-container input {
   border-radius: 2rem;
-  padding: 2px 20px;
+  /* padding: 2px 20px; */
 }
 .navbar-inner {
   background: transparent;
