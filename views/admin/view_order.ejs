@@ -240,9 +240,15 @@
               
               <p class="text-black float-start">
                 <span class="text-black me-3">Total Amount</span
-                ><span style="font-size: 24px"> ₹<%= order.cart.deductedTotalAmount !== undefined ?
-                  order.cart.deductedTotalAmount.toFixed(2) : 'N/A' %></span
                 >
+                <!-- <span style="font-size: 24px"> ₹<%= order.cart.deductedTotalAmount !== undefined ?
+                  order.cart.deductedTotalAmount.toFixed(2) : 'N/A' %></span
+                > -->
+                <span style="font-size: 24px">
+                  ₹<%= order.cart.deductedTotalAmount !== undefined && order.cart.deductedTotalAmount !== 0
+                    ? order.cart.deductedTotalAmount.toFixed(2)
+                    : order.cart.totalAmount.toFixed(2) %>
+                </span>
               </p>
             </div>
           </div>
