@@ -108,7 +108,7 @@
       <a class="btn border-0" id="menu-btn"><i class="fa-solid fa-bars"></i></a>
     </nav>
     <!--End Top Nav -->
-    <div class="container">
+    <!-- <div class="container"> -->
       <!-- Start of Card Deck Layout -->
    
       <h2 class="text-center mt-5 mb-4 mb-md-0">
@@ -131,7 +131,7 @@
           </p>
         </div>
       </div>
-       <div class=" add-product-sort mb-3">
+       <div class=" add-product-sort mb-3 ml-1 mr-1">
         <div class="row justify-content-between m-1">
           <div class="col-md-6 d-flex align-items-center">
             <label class="d-block text-center me-2 card-title">Sort by Price:</label>
@@ -171,10 +171,14 @@
         <% if (locals.categories) {
           if (products.length === 0) { %>
             <p>No products available for the selected category.</p>
-        <% } else {%><div class="product-cards-container scroll-container3" >  <div class="product-grid">   <% products.forEach((product, index) => { %>
-          <div class="product-card m-2">
+        <% } else {%>
+          <div class="product-cards-container scroll-container3" > 
+             <div class="product-grid "> 
+                <% products.forEach((product, index) => { %> 
+          <div class="product-card m-2 ">
             <!-- Product card content -->
-            <div class="image-container">         <div>
+            <div class="image-container">         
+              <div>
               <% if (product.category) { %> <% const category =
               categories.find(cat => cat._id.toString() ===
               product.category.toString()); %> <% if (category.offerpercentage > 0
@@ -278,7 +282,9 @@
               <a href="/productDetails/<%= product._id %>" class="card-details-btn">Product Details</a>
             </div>
           </div>
-      <% }); %> </div></div>
+      <% }); %>
+     </div>
+    </div>
       
         <% }%> <% }%>  <% }%>
       </div>
@@ -879,7 +885,7 @@
           });
       }
     </script>
-    </div>
+    <!-- </d|iv> -->
   <!-- </d|iv> -->
 
   <%- include('../layout/partials/userFooter') -%>
