@@ -527,6 +527,16 @@ $('#searchForm').submit(function(event) {
 
   let deferredPrompt;
   function showAddToHomeScreenPrompt() {
+      // Create overlay element
+  const overlay = document.createElement("div");
+  overlay.style.position = "fixed";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100%";
+  overlay.style.height = "100%";
+  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.6)"; // Dark background
+  overlay.style.zIndex = "9999"; // Higher z-index than the alert container
+
     const alertContainer = document.createElement("div");
     alertContainer.style.position = "fixed";
     alertContainer.style.top = "50%";
@@ -539,6 +549,7 @@ $('#searchForm').submit(function(event) {
     alertContainer.style.display = "flex";
     alertContainer.style.flexDirection = "column";
     alertContainer.style.alignItems = "center";
+    alertContainer.style.zIndex = "10000"; // Higher z-index than the overlay
 
     const addText = document.createElement("h3");
     addText.textContent = "Add the App Shortcut";
@@ -592,9 +603,13 @@ $('#searchForm').submit(function(event) {
     closeButton.style.display = "inline-block"; // Display buttons side by side
     closeButton.style.padding = "10px 20px"; // Add padding inside the button
     closeButton.style.border = "none"; // Remove the black border
-
+  // Append the overlay and alert container to the document body
+  document.body.appendChild(overlay);
+  document.body.appendChild(alertContainer);
     closeButton.addEventListener("click", () => {
-      document.body.removeChild(alertContainer);
+       // Remove the overlay and alert container when the Close button is clicked
+    document.body.removeChild(overlay);
+    document.body.removeChild(alertContainer);
     });
 
     alertContainer.appendChild(addText);
