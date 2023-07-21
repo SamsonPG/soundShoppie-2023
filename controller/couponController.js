@@ -67,7 +67,16 @@ const createCoupon = async (req, res) => {
       };
       return res.redirect("/admin/add_coupon");
     }
+    // Check if the coupon code already exists in the database
 
+    const existingCoupon = await Coupons.findOne({ code });
+    if (existingCoupon) {
+      req.session.message = {
+        type: "danger",
+        message: "Coupon code already exists. Please use a different code.",
+      };
+      return res.redirect("/admin/coupons");
+    }
     const coupon = new Coupons({
       code,
       startingDate,
@@ -146,7 +155,15 @@ const updateCoupon = async (req, res) => {
       };
       return res.redirect("/admin/coupons");
     }
-
+    // Check if the updated coupon code already exists in the database
+    const existingCoupon = await Coupons.findOne({ code: req.body.code });
+    if (existingCoupon && existingCoupon._id.toString() !== id) {
+      req.session.message = {
+        type: "danger",
+        message: "Coupon code already exists. Please use a different code.",
+      };
+      return res.redirect("/admin/coupons");
+    }
     coupon.code = req.body.code;
     coupon.startingDate = req.body.startingDate;
     coupon.expiryDate = req.body.expiryDate;
