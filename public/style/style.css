@@ -1544,9 +1544,9 @@ button.switch-month:hover {
   grid-template-columns: repeat(4, 1fr); /* Display 4 columns */
 
   /* Media query for smaller screens */
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(1, 1fr); /* Display 3 columns */
-  }
+  /* @media (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+  } */
   /* Media query for smaller screens */
   @media (max-width: 1000px) {
     grid-template-columns: repeat(2, 1fr); /* Display 3 columns */
@@ -1556,6 +1556,30 @@ button.switch-month:hover {
     grid-template-columns: repeat(1, 1fr); /* Display 2 columns */
   }
 }
+.product-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Adjust as needed */
+
+  /* Optional: Set a maximum width for the items to prevent stretching */
+  /* max-width: 300px; */
+}
+
+/* Adjust the width of items based on the number of columns you want */
+.product-item {
+  width: calc(25% - 14px); /* Display 4 items per row by default */
+
+  /* Media query for smaller screens */
+  @media (max-width: 768px) {
+    width: calc(33.33% - 14px); /* Display 3 items per row */
+  }
+
+  /* Media query for even smaller screens */
+  @media (max-width: 576px) {
+    width: calc(50% - 14px); /* Display 2 items per row */
+  }
+}
+
 @media (min-width: 1000px) {
   .navbaruserprofile {
     display: none;
