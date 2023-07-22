@@ -629,7 +629,9 @@
   <% if (title2 === "Sort By Price Range") { %>  
     <% if (products.length === 0) { %>
       <p>No products available for the selected price range.</p>
-    <% } else { %>  <div class="product-cards-container scroll-container3" >  <div class="product-grid"><% products.forEach((product, index) => { %>   
+    <% } else { %>  
+      <div class="product-cards-container scroll-container3" > 
+         <div class="product-grid"><% products.forEach((product, index) => { %>   
       <div class="product-card m-2">
         <!-- Product card content -->
         <div class="image-container">
