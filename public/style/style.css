@@ -1557,12 +1557,11 @@ button.switch-month:hover {
   }
 }
 .product-grid {
-  /* display: flex;
+  display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; */
-  display: grid;
-  grid-gap: 14px; /* Adjust the spacing between products as needed */
-
+  /* justify-content: space-between; */
+  /* Apply a gap of 14px between items using margin */
+  margin: -7px;
   /* Optional: Set a maximum width for the items to prevent stretching */
   /* max-width: 300px; */
 }
@@ -1570,7 +1569,8 @@ button.switch-month:hover {
 /* Adjust the width of items based on the number of columns you want */
 .product-item {
   width: calc(25% - 14px); /* Display 4 items per row by default */
-
+  /* Add margin to create the gap between items */
+  margin: 7px;
   /* Media query for smaller screens */
   @media (max-width: 768px) {
     width: calc(33.33% - 14px); /* Display 3 items per row */
