@@ -43,7 +43,7 @@ body {
   position: relative;
   width: 100%;
   max-width: 250px;
-  min-width: 249px;
+  /* min-width: 249px; */
   padding-bottom: 30px;
   margin-bottom: 30px;
   border-radius: 20px;
