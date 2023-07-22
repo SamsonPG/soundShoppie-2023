@@ -43,7 +43,7 @@ body {
   position: relative;
   width: 100%;
   max-width: 250px;
-  /* min-width: 249px; */
+  min-width: 249px;
   padding-bottom: 30px;
   margin-bottom: 30px;
   border-radius: 20px;
@@ -1557,9 +1557,11 @@ button.switch-month:hover {
   }
 }
 .product-grid {
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
-  justify-content: space-between; /* Adjust as needed */
+  justify-content: space-between; */
+  display: grid;
+  grid-gap: 14px; /* Adjust the spacing between products as needed */
 
   /* Optional: Set a maximum width for the items to prevent stretching */
   /* max-width: 300px; */
