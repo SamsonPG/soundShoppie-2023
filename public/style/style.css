@@ -1479,20 +1479,6 @@ button.switch-month:hover {
     display: none;
   }
 }
-.carousel-fade-image {
-  /* opacity: 0;
-  transform: scale(0.8);
-  transition: opacity ease-in-out, transform 0.1s ease-in-out; */
-  opacity: 1;
-  transition: none;
-}
-
-.carousel-item.active .carousel-fade-image {
-  /* opacity: 1;
-  transform: scale(1); */
-  opacity: 1;
-  transition: none;
-}
 
 @media (max-width: 1000px) {
   .carousel-fade-image {
