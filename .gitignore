@@ -1,3 +1,6 @@
 node_modules/
 .env
 uploads/
+uploads/user
+uploads/product
+uploads/carousel
