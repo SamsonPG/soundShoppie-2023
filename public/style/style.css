@@ -1728,3 +1728,6 @@ button.switch-month:hover {
   background-color: #a79a31;
 }
 /* Set a maximum width for the image container */
+.my-container {
+  overflow-x: hidden;
+}
