@@ -810,7 +810,7 @@
         }
       });
     </script> -->
-     <script>
+     <!-- <script>
   var menu_btn = document.querySelector("#menu-btn");
   var sidebar = document.querySelector("#sidebar");
   var container = document.querySelector(".my-container");
@@ -843,7 +843,47 @@
       }
     }
   });
-</script> 
+</script>  -->
+<script>
+  var menu_btn = document.querySelector("#menu-btn");
+  var sidebar = document.querySelector("#sidebar");
+  var container = document.querySelector(".my-container");
+
+  menu_btn.addEventListener("click", toggleSidebar);
+
+  function toggleSidebar() {
+    sidebar.classList.toggle("active-nav");
+    container.classList.toggle("active-cont");
+
+    // Toggle the overflow-x property of the body to prevent horizontal scroll
+    document.body.style.overflowX = sidebar.classList.contains("active-nav") ? "hidden" : "auto";
+  }
+
+  // Check the screen width on page load and hide the sidebar on mobile screens
+  window.addEventListener("load", function() {
+    if (window.innerWidth < 1000) {
+      sidebar.classList.remove("active-nav");
+      container.classList.remove("active-cont");
+    }
+  });
+
+  // Listen for window resize and hide/show the sidebar based on screen width
+  window.addEventListener("resize", function() {
+    if (window.innerWidth < 1000) {
+      sidebar.classList.remove("active-nav");
+      container.classList.remove("active-cont");
+      document.body.style.overflowX = "auto"; // Reset overflow-x to default when the sidebar is hidden
+    } else {
+      // Check if the sidebar was expanded before hiding it on resize
+      if (sidebar.classList.contains("active-nav")) {
+        sidebar.classList.add("active-nav");
+        container.classList.add("active-cont");
+        document.body.style.overflowX = "hidden"; // Prevent horizontal scroll when the sidebar is active
+      }
+    }
+  });
+</script>
+
     <script>
       $(document).ready(function () {
         $("#price-range-slider").slider({

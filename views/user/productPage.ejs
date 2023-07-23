@@ -499,7 +499,7 @@ crossorigin="anonymous"
     }
   });
 </script> -->
- <script>
+<script>
   var menu_btn = document.querySelector("#menu-btn");
   var sidebar = document.querySelector("#sidebar");
   var container = document.querySelector(".my-container");
@@ -509,6 +509,9 @@ crossorigin="anonymous"
   function toggleSidebar() {
     sidebar.classList.toggle("active-nav");
     container.classList.toggle("active-cont");
+
+    // Toggle the overflow-x property of the body to prevent horizontal scroll
+    document.body.style.overflowX = sidebar.classList.contains("active-nav") ? "hidden" : "auto";
   }
 
   // Check the screen width on page load and hide the sidebar on mobile screens
@@ -524,71 +527,18 @@ crossorigin="anonymous"
     if (window.innerWidth < 1000) {
       sidebar.classList.remove("active-nav");
       container.classList.remove("active-cont");
+      document.body.style.overflowX = "auto"; // Reset overflow-x to default when the sidebar is hidden
     } else {
       // Check if the sidebar was expanded before hiding it on resize
       if (sidebar.classList.contains("active-nav")) {
         sidebar.classList.add("active-nav");
         container.classList.add("active-cont");
+        document.body.style.overflowX = "hidden"; // Prevent horizontal scroll when the sidebar is active
       }
     }
   });
-</script> 
-<!-- <script>
-  var menu_btn = document.querySelector("#menu-btn");
-  var sidebar = document.querySelector("#sidebar");
-  var container = document.querySelector(".my-container");
+</script>
 
-  menu_btn.addEventListener("click", toggleSidebar);
-
-  function toggleSidebar() {
-    sidebar.classList.toggle("active-nav");
-    container.classList.toggle("active-cont");
-  }
-
-  // Check the screen width on page load and hide the sidebar on mobile screens
-  window.addEventListener("load", function() {
-    if (window.innerWidth < 1000) {
-      sidebar.classList.remove("active-nav");
-      container.classList.remove("active-cont");
-    }
-  });
-
-  // Listen for touch start event to track initial touch position
-  window.addEventListener("touchstart", function(e) {
-    startX = e.touches[0].clientX;
-  });
-
-  // Listen for touch end event to determine swipe direction and prevent default touch behavior
-  window.addEventListener("touchend", function(e) {
-    e.preventDefault(); // Prevent default touch behavior
-    var currentX = e.changedTouches[0].clientX;
-    var diffX = currentX - startX;
-
-    if (diffX > 50) {
-      // Swipe from left to right (open sidebar)
-      sidebar.classList.add("active-nav");
-      container.classList.add("active-cont");
-    } else if (diffX < -50) {
-      // Swipe from right to left (close sidebar)
-      sidebar.classList.remove("active-nav");
-      container.classList.remove("active-cont");
-    }
-  });
-
-  // Listen for window resize and hide/show the sidebar based on screen width
-  window.addEventListener("resize", function() {
-    if (window.innerWidth < 1000) {
-      sidebar.classList.remove("active-nav");
-      container.classList.remove("active-cont");
-    } else {
-      // Check if the sidebar was expanded before hiding it on resize
-      if (sidebar.classList.contains("active-nav")) {
-        sidebar.classList.add("active-nav");
-        container.classList.add("active-cont");
-      }
-    }
-  });
-</script> -->
 
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script>function changeImage(element) {
