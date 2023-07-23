@@ -42,7 +42,17 @@
       font-weight: bold;
       color: #333;
     }
-  </style>
+  </style><style>
+  /* Add CSS to set sticky positioning for the sorting options */
+  .add-product-sort.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: #ffffff;
+  }
+</style>
+
   <!-- Side-Nav -->
 </head><body>
   <div
@@ -883,5 +893,27 @@
       }
     </script>
 
+<script>
+  var prevScrollpos = window.pageYOffset;
+
+  // Function to handle sticky behavior
+  function handleSticky() {
+    var currentScrollPos = window.pageYOffset;
+    var addProductSort = document.querySelector(".add-product-sort");
+
+    if (prevScrollpos > currentScrollPos) {
+      // Scrolling up, make the sorting options sticky
+      addProductSort.classList.add("sticky");
+    } else {
+      // Scrolling down, remove sticky positioning
+      addProductSort.classList.remove("sticky");
+    }
+
+    prevScrollpos = currentScrollPos;
+  }
+
+  // Listen for scroll events
+  window.addEventListener("scroll", handleSticky);
+</script>
 
   <%- include('../layout/partials/userFooter') -%>
