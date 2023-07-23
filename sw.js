@@ -1,7 +1,7 @@
 // sw.js (Service Worker)
 
 // Cache version for the landing page
-const landingPageCacheVersion = "v1";
+const landingPageCacheVersion = "v2";
 
 // Cache static assets during installation for the landing page
 self.addEventListener("install", function (event) {
