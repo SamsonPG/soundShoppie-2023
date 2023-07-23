@@ -90,6 +90,14 @@
     window.history.back();
   }
 </script>
+<style>
+  /* Add a media query to hide the sidebar on screens below 1000 pixels */
+  @media (max-width: 1000px) {
+    #sidebar {
+      display: none;
+    }
+  }
+  </style>
     <header>
 
       
@@ -170,7 +178,7 @@
         </div>
       </nav>
       
-      <script>
+      <!-- <script>
         // Check the screen width on page load and collapse the navbar on mobile screens
         window.addEventListener("load", function() {
           if (window.innerWidth < 768) {
@@ -182,8 +190,9 @@
             navbarCollapse.classList.remove("show");
           }
         });
-      </script>
-      
+      </script> -->
+  
+        
 
     </header>
     <!-- Optional JavaScript -->
