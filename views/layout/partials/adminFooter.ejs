@@ -160,7 +160,6 @@ html2pdf()
     } else {
       // Check if the sidebar was expanded before hiding it on resize
       if (sidebar.classList.contains("active-nav")) {
-        sidebar.classList.add("active-nav");
         container.classList.add("active-cont");
         document.body.style.overflowX = "hidden"; // Prevent horizontal scroll when the sidebar is active
       }
@@ -169,7 +168,7 @@ html2pdf()
   
   window.addEventListener("load", checkScreenWidth);
   window.addEventListener("resize", checkScreenWidth);
-  </script>
+</script>
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.1/nouislider.min.js"></script><div>
   <footer class="text-center text-white footer fixed-bottom" style="background-color: #c9bc43; position: relative; z-index: 0; ">

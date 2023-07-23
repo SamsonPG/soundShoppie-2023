@@ -93,11 +93,14 @@
 <style>
   /* Add a media query to hide the sidebar on screens below 1000 pixels */
   @media (max-width: 1000px) {
-    #sidebar {
+    .side-navbar.active-nav {
+      display: none;
+    }.hamburger-menu{
       display: none;
     }
   }
-  </style>
+</style>
+
     <header>
 
       
@@ -377,7 +380,7 @@
   <!-- Main Wrapper -->
   <div class=" my-container active-cont">
     <!-- Top Nav -->
-    <nav class="navbar navbar-fixed-top navbar-default px-5 mb-4"style="z-index: 1000;">
+    <nav class="navbar hamburger-menu navbar-fixed-top navbar-default px-5 mb-4"style="z-index: 1000;">
       <a class="btn border-0" id="menu-btn"><i class="fa-solid fa-bars"></i></a>
     </nav>
     <!--End Top Nav -->
