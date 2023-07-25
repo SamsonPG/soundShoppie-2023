@@ -43,7 +43,7 @@ body {
   position: relative;
   width: 100%;
   max-width: 250px;
-  /* min-width: 249px; */
+  min-width: 250px;
   padding-bottom: 30px;
   margin-bottom: 30px;
   border-radius: 20px;
@@ -1701,13 +1701,4 @@ button.switch-month:hover {
 /* Set a maximum width for the image container */
 .my-container {
   overflow-x: hidden;
-}
-/* Media query for mobile screen */
-@media (max-width: 767px) {
-  .product-card {
-    /* Set width to 48% to fit two cards side by side */
-    width: 48%;
-    /* Set max-width to none to allow automatic scaling down */
-    max-width: none;
-  }
 }
