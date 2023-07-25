@@ -1526,26 +1526,7 @@ button.switch-month:hover {
 .scroll-container3::-webkit-scrollbar-thumb:hover {
   background: #a89d35; /* Set a different color when hovering */
 }
-.product-grid {
-  display: grid;
-  grid-gap: 14px; /* Adjust the spacing between products as needed */
 
-  /* Default configuration for larger screens */
-  grid-template-columns: repeat(4, 1fr); /* Display 4 columns */
-
-  /* Media query for smaller screens */
-  /* @media (max-width: 768px) {
-    grid-template-columns: repeat(1, 1fr);
-  } */
-  /* Media query for smaller screens */
-  @media (max-width: 1000px) {
-    grid-template-columns: repeat(2, 1fr); /* Display 3 columns */
-  }
-  /* Media query for even smaller screens */
-  @media (max-width: 576px) {
-    grid-template-columns: repeat(1, 1fr); /* Display 2 columns */
-  }
-}
 .product-grid {
   display: flex;
   flex-wrap: wrap;
@@ -1720,4 +1701,13 @@ button.switch-month:hover {
 /* Set a maximum width for the image container */
 .my-container {
   overflow-x: hidden;
+}
+/* Media query for mobile screen */
+@media (max-width: 767px) {
+  .product-card {
+    /* Set width to 48% to fit two cards side by side */
+    width: 48%;
+    /* Set max-width to none to allow automatic scaling down */
+    max-width: none;
+  }
 }
