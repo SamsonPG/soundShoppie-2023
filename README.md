@@ -1,3 +1,7 @@
+
+
+![sound shoppie on web](https://github.com/SamsonPG/soundShoppie-2023/assets/121846435/7f0e808a-a57a-4c60-92c0-1ee986785e74)
+
 # soundShoppie
 An Ecommerce website using MondoDB, Express, Nodejs
 Headphones Shop Website
