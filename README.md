@@ -3,7 +3,9 @@
 ![sound shoppie on web](https://github.com/SamsonPG/soundShoppie-2023/assets/121846435/7f0e808a-a57a-4c60-92c0-1ee986785e74)
 
 # soundShoppie
-An Ecommerce website using MondoDB, Express, Nodejs
+An Ecommerce website using MongoDB, Express, Nodejs
+
+> **How this was built:** my first project, made during Brototype's MERN training in 2023. Most of the code was generated from my prompts to ChatGPT and assembled by me; I'm now learning to write code by hand. Where this README says "I implemented", read "I built it with ChatGPT".
 Headphones Shop Website
 Welcome to my Headphones Shop Website! This project is my first and independent endeavor to create a user-friendly platform for all your headphone needs. I have incorporated various features and technologies to ensure a seamless shopping experience and prioritize the security of your transactions. Let's explore the key aspects of my website:
 
